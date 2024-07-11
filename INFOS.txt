@@ -1,0 +1,271 @@
+	### MINISHELL ###
+
+TODO:
+ - Divide project into pieces to work on
+ - Create branches ?! (HOW?)
+ - Write tests to check functionality
+ - 
+
+## REQUIREMENTS:
+• Display a prompt when waiting for a new command.
+• Have a working history.
+• Search and launch the right executable (based on the PATH variable or using a
+	relative or an absolute path).
+• Avoid using more than one global variable to indicate a received signal. Consider
+	the implications: this approach ensures that your signal handler will not access your
+	main data structures. This global variable cannot provide any other information or 
+	data access than the number of a received signal.
+• Not interpret unclosed quotes or special characters which are not required by the
+	subject such as \ (backslash) or ; (semicolon).
+• Handle ’ (single quote) which should prevent the shell from interpreting the meta-
+	characters in the quoted sequence.
+• Handle " (double quote) which should prevent the shell from interpreting the meta-
+	characters in the quoted sequence except for $ (dollar sign).
+• Implement redirections:
+	◦ < should redirect input.
+	◦ > should redirect output.
+	◦ << should be given a delimiter, then read the input until a line containing the
+		delimiter is seen. However, it doesn’t have to update the history!
+	◦ >> should redirect output in append mode.
+• Implement pipes (| character). The output of each command in the pipeline is
+	connected to the input of the next command via a pipe.
+• Handle environment variables ($ followed by a sequence of characters) which
+	should expand to their values.
+• Handle $? which should expand to the exit status of the most recently executed
+	foreground pipeline.
+• Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
+• In interactive mode:
+	◦ ctrl-C displays a new prompt on a new line.
+	◦ ctrl-D exits the shell.
+	◦ ctrl-\ does nothing.
+• Your shell must implement the following builtins:
+	◦ echo with option -n
+	◦ cd with only a relative or absolute path
+	◦ pwd with no options
+	◦ export with no options
+	◦ unset with no options
+	◦ env with no options or arguments
+	◦ exit with no options
+
+## BONUS:
+• && and || with parenthesis for priorities.
+• Wildcards * should work for the current working directory.
+
+
+### INFORMATIONS ###
+
+## LINKS:
+https://www.youtube.com/watch?v=LKCVKw9CzFo		--> 100+ Linux Things you Need to Know
+
+## ALLOWED FUNCTIONS:
+readline
+    Function: Reads a line from the input and returns it.
+    Usage: Commonly used in command-line interfaces to get user input.
+
+rl_clear_history
+    Function: Clears the history of input lines.
+    Usage: Useful for resetting the state of input history.
+
+rl_on_new_line
+    Function: Notifies the readline library that a new line is being started.
+    Usage: Used internally by readline to manage input state.
+
+rl_replace_line
+    Function: Replaces the current input line with a new one.
+    Usage: Useful for implementing custom input behaviors.
+
+rl_redisplay
+    Function: Redisplays the current input line.
+    Usage: Useful when you need to refresh the displayed input line, such as after handling a signal.
+
+add_history
+    Function: Adds a line to the history list.
+    Usage: Used to remember user input lines for later retrieval.
+
+printf
+    Function: Prints formatted output to the standard output.
+    Usage: Widely used for displaying messages and formatted data.
+
+malloc
+    Function: Allocates memory dynamically.
+    Usage: Used for memory management in programs.
+
+free
+    Function: Frees dynamically allocated memory.
+    Usage: Used to release memory allocated by malloc.
+
+write
+    Function: Writes data to a file descriptor.
+    Usage: Low-level I/O operation for writing data.
+
+access
+    Function: Checks a user's permissions for a file.
+    Usage: Used to verify file accessibility.
+
+open
+    Function: Opens a file and returns a file descriptor.
+    Usage: Used to open files for reading, writing, or both.
+
+read
+    Function: Reads data from a file descriptor.
+    Usage: Low-level I/O operation for reading data.
+
+close
+    Function: Closes a file descriptor.
+    Usage: Used to release resources associated with an open file.
+
+fork
+    Function: Creates a new process by duplicating the calling process.
+    Usage: Used to create child processes.
+
+wait
+    Function: Waits for a child process to change state.
+    Usage: Used to synchronize parent and child processes.
+
+waitpid
+    Function: Waits for a specific child process to change state.
+    Usage: More control over which child process to wait for.
+
+wait3
+    Function: Waits for a child process to change state and returns resource usage information.
+    Usage: Similar to wait, but provides more information.
+
+wait4
+    Function: Waits for a specific child process and returns resource usage information.
+    Usage: Combines features of waitpid and wait3.
+
+signal
+    Function: Sets a signal handler for a specific signal.
+    Usage: Used to handle asynchronous events.
+
+sigaction
+    Function: Examines and changes a signal action.
+    Usage: Provides a more robust way to handle signals compared to signal.
+
+sigemptyset
+    Function: Initializes a signal set to exclude all signals.
+    Usage: Used in signal handling to define signal sets.
+
+sigaddset
+    Function: Adds a signal to a signal set.
+    Usage: Used to modify signal sets.
+
+kill
+    Function: Sends a signal to a process or group of processes.
+    Usage: Used to terminate processes or send custom signals.
+
+exit
+    Function: Causes the process to terminate.
+    Usage: Used to end a program.
+
+getcwd
+    Function: Gets the current working directory.
+    Usage: Useful for obtaining the current directory path.
+
+chdir
+    Function: Changes the current working directory.
+    Usage: Used to navigate the file system.
+
+stat
+    Function: Gets the status of a file.
+    Usage: Provides detailed information about a file.
+
+lstat
+    Function: Similar to stat, but does not follow symbolic links.
+    Usage: Used to get information about links themselves.
+
+fstat
+    Function: Gets the status of an open file.
+    Usage: Similar to stat, but for open file descriptors.
+
+unlink
+    Function: Deletes a name from the filesystem.
+    Usage: Used to remove files.
+
+execve
+    Function: Executes a program.
+    Usage: Replaces the current process image with a new one.
+
+dup
+    Function: Duplicates a file descriptor.
+    Usage: Used to create a copy of a file descriptor.
+
+dup2
+    Function: Duplicates a file descriptor to a specific value.
+    Usage: More control over file descriptor duplication.
+
+pipe
+    Function: Creates a unidirectional data channel.
+    Usage: Used for inter-process communication.
+
+opendir
+    Function: Opens a directory stream.
+    Usage: Used to read directory contents.
+
+readdir
+    Function: Reads a directory entry.
+    Usage: Iterates over directory entries.
+
+closedir
+    Function: Closes a directory stream.
+    Usage: Releases resources associated with directory operations.
+
+strerror
+    Function: Returns a string describing the error code.
+    Usage: Provides human-readable error messages.
+
+perror
+    Function: Prints a descriptive error message.
+    Usage: Useful for debugging and error reporting.
+
+isatty
+    Function: Tests whether a file descriptor refers to a terminal.
+    Usage: Used to check if the output is to a terminal.
+
+ttyname
+    Function: Returns the name of the terminal device.
+    Usage: Provides the terminal device name.
+
+ttyslot
+    Function: Returns the index of the terminal in the /etc/ttys file.
+    Usage: Used in terminal management.
+
+ioctl
+    Function: Performs device-specific input/output operations.
+    Usage: Used for controlling hardware devices.
+
+getenv
+    Function: Gets an environment variable.
+    Usage: Used to access environment settings.
+
+tcsetattr
+    Function: Sets terminal attributes.
+    Usage: Used to configure terminal settings.
+
+tcgetattr
+    Function: Gets terminal attributes.
+    Usage: Used to retrieve current terminal settings.
+
+tgetent
+    Function: Gets terminal entry from termcap database.
+    Usage: Used for terminal handling.
+
+tgetflag
+    Function: Gets a boolean entry from the termcap database.
+    Usage: Used to query terminal capabilities.
+
+tgetnum
+    Function: Gets a numeric entry from the termcap database.
+    Usage: Used to get terminal-related numeric values.
+
+tgetstr
+    Function: Gets a string entry from the termcap database.
+    Usage: Used to get terminal control strings.
+
+tgoto
+    Function: Computes cursor movement string.
+    Usage: Used for cursor positioning on terminals.
+
+tputs
+    Function: Outputs a string with padding information.
+    Usage: Used to send control strings to the terminal.
