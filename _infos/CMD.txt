@@ -1,0 +1,4 @@
+Useful commands to use:
+
+set  -> getting the variables
+similar to: printenv
