@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/07/12 18:14:29 by bschneid         ###   ########.fr       */
+/*   Created: 2024/04/17 16:32:40 by bschneid          #+#    #+#             */
+/*   Updated: 2024/06/15 16:14:59 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../include/libft.h"
 
-int	main(void)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	t_info	info;
-	char	*input;
+	size_t	src_len;
+	size_t	dst_len;
 
-	while (1)
+	src_len = 0;
+	while (src[src_len])
+		src_len++;
+	dst_len = 0;
+	while (*dst && size)
 	{
-		input = readline("\033[1;32mminishell > \033[0m");
-		if (!input)
-			break ;
-		else
-		{
-			printf("INPUT: %s\n", input);
-			add_history(input);
-			evaluate(input, &info);
-			free(input);
-		}
+		dst++;
+		dst_len++;
+		size--;
 	}
-	printf("Shell ended!\n");
-	return (0);
+	while (*src && size > 1)
+	{
+		*(dst++) = *(src++);
+		size--;
+	}
+	if (size == 1 || *src == 0)
+		*dst = '\0';
+	return (src_len + dst_len);
 }

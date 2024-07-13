@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/07/12 18:14:29 by bschneid         ###   ########.fr       */
+/*   Created: 2024/04/22 22:23:41 by bschneid          #+#    #+#             */
+/*   Updated: 2024/06/15 16:15:43 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../include/libft.h"
 
-int	main(void)
+// Adds the node ’new’ at the end of the list.
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_info	info;
-	char	*input;
-
-	while (1)
-	{
-		input = readline("\033[1;32mminishell > \033[0m");
-		if (!input)
-			break ;
-		else
-		{
-			printf("INPUT: %s\n", input);
-			add_history(input);
-			evaluate(input, &info);
-			free(input);
-		}
-	}
-	printf("Shell ended!\n");
-	return (0);
+	if (!(*lst))
+		*lst = new;
+	else if (lst && new)
+		ft_lstlast(*lst)->next = new;
 }

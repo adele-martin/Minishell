@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/07/12 18:14:29 by bschneid         ###   ########.fr       */
+/*   Created: 2024/04/22 19:55:51 by bschneid          #+#    #+#             */
+/*   Updated: 2024/06/15 16:14:35 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../include/libft.h"
 
-int	main(void)
+static	void	fd_rec_write(int n, int fd)
 {
-	t_info	info;
-	char	*input;
+	char	tmp;
 
-	while (1)
-	{
-		input = readline("\033[1;32mminishell > \033[0m");
-		if (!input)
-			break ;
-		else
-		{
-			printf("INPUT: %s\n", input);
-			add_history(input);
-			evaluate(input, &info);
-			free(input);
-		}
-	}
-	printf("Shell ended!\n");
-	return (0);
+	if (n < -9 || n > 9)
+		fd_rec_write(n / 10, fd);
+	if (n < 0)
+		tmp = '0' - n % 10;
+	else
+		tmp = '0' + n % 10;
+	write(fd, &tmp, 1);
+}
+
+// Outputs the integer ’n’ to the given file descriptor.
+void	ft_putnbr_fd(int n, int fd)
+{
+	if (n < 0)
+		write(fd, "-", 1);
+	fd_rec_write(n, fd);
 }

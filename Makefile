@@ -12,6 +12,7 @@
 
 NAME = minishell
 HEADER = header/minishell.h
+LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
 SOURCES = main.c evaluation.c
@@ -24,14 +25,19 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	cc $(FLAGS) -c $< -o $@
 
-$(NAME): $(OBJECTS) $(HEADER)
-	cc $(FLAGS) $(OBJECTS) -o $@ -lreadline
+$(NAME): $(OBJECTS) $(HEADER) $(LIBFT)
+	cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -lft
+
+$(LIBFT):
+	$(MAKE) -C src/Libft_extended -f Makefile all
+	$(MAKE) -C src/Libft_extended -f Makefile clean
 
 clean:
 	rm -rf $(OBJ_DIR)
 
 fclean:	clean
 	rm -f $(NAME)
+	rm -f $(LIBFT)
 
 re:	fclean all
 

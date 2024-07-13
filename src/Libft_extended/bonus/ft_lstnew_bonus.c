@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/07/12 18:14:29 by bschneid         ###   ########.fr       */
+/*   Created: 2024/04/22 20:23:49 by bschneid          #+#    #+#             */
+/*   Updated: 2024/06/15 16:16:02 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../include/libft.h"
 
-int	main(void)
+// Allocates (with malloc(3)) and returns a new node.
+// The member variable ’content’ is initialized with the value of the parameter 
+// ’content’. The variable ’next’ is initialized to NULL.
+t_list	*ft_lstnew(void *content)
 {
-	t_info	info;
-	char	*input;
+	t_list	*out;
 
-	while (1)
-	{
-		input = readline("\033[1;32mminishell > \033[0m");
-		if (!input)
-			break ;
-		else
-		{
-			printf("INPUT: %s\n", input);
-			add_history(input);
-			evaluate(input, &info);
-			free(input);
-		}
-	}
-	printf("Shell ended!\n");
-	return (0);
+	out = (t_list *)malloc(sizeof(t_list));
+	if (!out)
+		return (0);
+	out->content = content;
+	out->next = NULL;
+	return (out);
 }

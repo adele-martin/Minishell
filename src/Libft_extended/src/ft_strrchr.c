@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/07/12 18:14:29 by bschneid         ###   ########.fr       */
+/*   Created: 2024/04/17 18:29:36 by bschneid          #+#    #+#             */
+/*   Updated: 2024/05/27 15:56:14 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
-
-int	main(void)
+char	*ft_strrchr(const char *string, int c)
 {
-	t_info	info;
-	char	*input;
+	char	*search;
+	char	match;
 
-	while (1)
+	match = (char)c;
+	search = (char *)string;
+	while (*search)
+		search++;
+	if (!match)
+		return (search);
+	while (search-- > string)
 	{
-		input = readline("\033[1;32mminishell > \033[0m");
-		if (!input)
-			break ;
-		else
-		{
-			printf("INPUT: %s\n", input);
-			add_history(input);
-			evaluate(input, &info);
-			free(input);
-		}
+		if (*search == match)
+			return (search);
 	}
-	printf("Shell ended!\n");
 	return (0);
 }

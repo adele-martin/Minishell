@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/07/12 18:14:29 by bschneid         ###   ########.fr       */
+/*   Created: 2024/04/22 19:17:16 by bschneid          #+#    #+#             */
+/*   Updated: 2024/06/15 16:14:54 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../include/libft.h"
 
-int	main(void)
+// Applies the function ’f’ on each character of the string passed as argument, 
+// passing its index as first argument. Each character is passed by address to 
+// ’f’ to be modified if necessary.
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	t_info	info;
-	char	*input;
+	size_t	index;
 
-	while (1)
+	index = 0;
+	while (*s)
 	{
-		input = readline("\033[1;32mminishell > \033[0m");
-		if (!input)
-			break ;
-		else
-		{
-			printf("INPUT: %s\n", input);
-			add_history(input);
-			evaluate(input, &info);
-			free(input);
-		}
+		(*f)(index, s);
+		s++;
+		index++;
 	}
-	printf("Shell ended!\n");
-	return (0);
 }

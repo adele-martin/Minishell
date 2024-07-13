@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/07/12 18:14:29 by bschneid         ###   ########.fr       */
+/*   Created: 2024/04/17 18:40:58 by bschneid          #+#    #+#             */
+/*   Updated: 2024/06/15 16:15:11 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../include/libft.h"
 
-int	main(void)
+int	ft_strncmp(const char *string1, const char *string2, size_t count)
 {
-	t_info	info;
-	char	*input;
-
-	while (1)
+	while ((*string1 || *string2) && count--)
 	{
-		input = readline("\033[1;32mminishell > \033[0m");
-		if (!input)
-			break ;
-		else
-		{
-			printf("INPUT: %s\n", input);
-			add_history(input);
-			evaluate(input, &info);
-			free(input);
-		}
+		if (*string1 != *string2)
+			return ((unsigned char)*string1 - (unsigned char)*string2);
+		string1++;
+		string2++;
 	}
-	printf("Shell ended!\n");
 	return (0);
 }
