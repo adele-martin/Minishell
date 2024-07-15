@@ -19,9 +19,12 @@ int	evaluate(char *input, t_info *info)
 	char	**cmd_argv;
 	char	**bin_paths;
 	char	*filepath;
+	int		status;
 	pid_t	pid;
 
 	printf("Trying to evaluate your given command: %s\n", input);
+	if (!*input)
+		return (0);
 	cmd_argv = ft_split(input, ' ');
 	path_str = getenv("PATH");
     if (path_str == NULL)
@@ -52,8 +55,9 @@ int	evaluate(char *input, t_info *info)
 		free(filepath);
 		bin_paths++;
 	}
+	waitpid(-1, &status, 0);
 	// lexer(input);
 	// parser(input);
 
-	return (0);
+	return (status);
 }
