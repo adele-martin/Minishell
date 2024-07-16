@@ -28,6 +28,7 @@
 # include <readline/history.h>	// add_history
 # include <readline/readline.h>	// readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay
 # include "../src/Libft_extended/include/libft.h"
+# include <dirent.h>			// for directory operations
 
 typedef enum s_action {
 	WORD1,

@@ -29,7 +29,7 @@ $(NAME): $(OBJECTS) $(HEADER) $(LIBFT)
 	cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -lft
 
 $(LIBFT):
-	$(MAKE) -C src/Libft_extended -f Makefile all
+	$(MAKE) -C src/Libft_extended -f Makefile bonus
 	$(MAKE) -C src/Libft_extended -f Makefile clean
 
 clean:
