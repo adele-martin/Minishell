@@ -1,69 +1,156 @@
 
 
 #include "../header/minishell.h"
+typedef enum {
+    TOKEN_COMMAND,
+    TOKEN_ARGUMENT,
+    TOKEN_LEFT_PAREN,
+    TOKEN_RIGHT_PAREN,
+    TOKEN_AND,
+    TOKEN_OR,
+    TOKEN_UNKNOWN
+} TokenType;
 
-t_list	*get_files_list()
-{
-	t_list			*files_list;
-	t_list			*file_node;
-	char			*file_str;
-	DIR				*dir;
-	struct dirent	*entry;
+typedef struct {
+    TokenType type;
+    char* value;
+} Token;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-	files_list = NULL;
-	dir = opendir(".");
-	if (!dir)
-		return 0;
-	entry = readdir(dir);
-	while (entry) // Read and print each entry in the directory
-	{
-		if (*entry->d_name != '.')
-		{
-			file_str = ft_strdup(entry->d_name);
-			if (!file_str)
-				return (0);
-			file_node = ft_lstnew(file_str);
-			if (!file_node)
-				return (free(file_str), NULL);
-			ft_lstadd_back(&files_list, file_node);
-		}
-		entry = readdir(dir);
-	}
-	closedir(dir);	// Close the directory
-	return (files_list);
+Token* tokenize(const char* input, int* token_count) {
+    int capacity = 10;
+    Token* tokens = malloc(capacity * sizeof(Token));
+    *token_count = 0;
+
+    const char* current = input;
+    while (*current != '\0') {
+        // Skip whitespace
+        while (isspace(*current)) {
+            current++;
+        }
+
+        if (*current == '\0') {
+            break;
+        }
+
+        // Ensure there is enough space for new tokens
+        if (*token_count >= capacity) {
+            capacity *= 2;
+            tokens = realloc(tokens, capacity * sizeof(Token));
+        }
+
+        // Handle brackets
+        if (*current == '(') {
+            tokens[*token_count].type = TOKEN_LEFT_PAREN;
+            tokens[*token_count].value = strndup(current, 1);
+            (*token_count)++;
+            current++;
+            continue;
+        } else if (*current == ')') {
+            tokens[*token_count].type = TOKEN_RIGHT_PAREN;
+            tokens[*token_count].value = strndup(current, 1);
+            (*token_count)++;
+            current++;
+            continue;
+        }
+
+        // Handle logical operators
+        if (strncmp(current, "&&", 2) == 0) {
+            tokens[*token_count].type = TOKEN_AND;
+            tokens[*token_count].value = strndup(current, 2);
+            (*token_count)++;
+            current += 2;
+            continue;
+        } else if (strncmp(current, "||", 2) == 0) {
+            tokens[*token_count].type = TOKEN_OR;
+            tokens[*token_count].value = strndup(current, 2);
+            (*token_count)++;
+            current += 2;
+            continue;
+        }
+
+        // Handle commands and arguments
+        const char* start = current;
+        while (*current != '\0' && !isspace(*current) && *current != '(' && *current != ')' &&
+               strncmp(current, "&&", 2) != 0 && strncmp(current, "||", 2) != 0) {
+            current++;
+        }
+
+        tokens[*token_count].type = (start == input || tokens[*token_count - 1].type == TOKEN_AND || 
+                                     tokens[*token_count - 1].type == TOKEN_OR || 
+                                     tokens[*token_count - 1].type == TOKEN_LEFT_PAREN) ? 
+                                     TOKEN_COMMAND : TOKEN_ARGUMENT;
+        tokens[*token_count].value = strndup(start, current - start);
+        (*token_count)++;
+    }
+
+    return tokens;
+}
+int main() {
+    const char* input = "echo (hello && echo world) || (echo bye)";
+    int token_count;
+    Token* tokens = tokenize(input, &token_count);
+
+    for (int i = 0; i < token_count; i++) {
+        printf("Token %d: Type %d, Value %s\n", i, tokens[i].type, tokens[i].value);
+        free(tokens[i].value);
+    }
+
+    free(tokens);
+    return 0;
 }
 
-// compile with:  cc src/lexing.c -L./src/Libft_extended -lft
-int main()
-{
-	t_list	*files_list;
-
-	files_list = get_files_list();
-	printf("The list has %i entries:\n", ft_lstsize(files_list));
-	while (files_list)
-	{
-		printf("path: %s\n", files_list->content);
-		files_list = files_list->next;
-	}
-    return EXIT_SUCCESS;
-}
 
 
+// t_list	read_tokens(char *input)
+// {
+// 	t_list	*token_list;
+// }
 /*
+CARE PRECEDENCE OF OPERATORS!
+
+1. Redirections (<, >, >>, <>, <&. >& and >>-, as well as here-docs
+	<<delimiter and here-strings <<<word) are roughly the same as 
+	command-line arguments, and can appear anywhere in a simple command, 
+	including before the command word. Effectively, they bind most tightly, 
+	as with postfix operators in most languages.
+2. Pipes (|) are the strongest binary operator. They associate to the left.
+3. Finally come the short-circuiting booleans (&& and ||). 
+	Unlike many languages, these have the same precedence. 
+	They also associate to the left.
+
+
+
+control operator: A token that performs a control function. 
+	It is a newline or one of the following: 
+	‘||’, ‘&&’, ‘&’, ‘;’, ‘;;’, ‘;&’, ‘;;&’, ‘|’, ‘|&’, ‘(’, or ‘)’.
+metacharacter: A character that, when unquoted, separates words. 
+	A metacharacter is a space, tab, newline, or one of the following characters: 
+	‘|’, ‘&’, ‘;’, ‘(’, ‘)’, ‘<’, or ‘>’. 
+token: A sequence of characters considered a single unit by the shell. 
+	It is either a word or an operator.
+word: A sequence of characters treated as a unit by the shell.
+	Words may not include unquoted metacharacters. 
+
+
 Important for lexing:
 	- parenthesis for priority				()
 	- single quotes (no interpretation)		''
 	- double quotes (only $-interpretation)	""
 	- dollar sign (environment variables)	$
 	- exit status of foreground pipeline	$?
-	- output to next input -> pipes 		|
+	- wildcards in curr. working directory	*
+
 	- redirect input 						<
 	- redirect output 						>
 	- read input until delimiter 			<<
 	- redirect output in append mode 		>>
+	- output to next input -> pipes 		|
 	- AND-execution							&&
 	- OR-execution							||
-	- wildcards in curr. working directory	*
 
 Not interpret unclosed quotes or special characters which are not required by the
 subject such as \ (backslash) or ; (semicolon).
@@ -92,17 +179,4 @@ literally. Double quotes leave $ (dollar sign), ` (backquote) as special,
 and \ (backslash) as special when followed by certain other characters. 
 And ! will be treated specially
 */
-/*
-WILDCARD:
-ls *
-expands to
-ls header _infos/ Makefile minishell obj README.md src
 
-in the directory:
-header  _infos  Makefile  minishell  obj  README.md  src
-
-Idea to create wildcard: 
-1. Use opendir and readdir to open and read the directory specified by the token.
-2. Match the wildcard pattern with the entries in the directory.
-3. Append matching filenames to the arg list.
-*/

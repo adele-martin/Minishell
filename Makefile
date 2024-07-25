@@ -32,6 +32,12 @@ $(LIBFT):
 	$(MAKE) -C src/Libft_extended -f Makefile bonus
 	$(MAKE) -C src/Libft_extended -f Makefile clean
 
+tokenize: src/tokenize.c
+	cc $(FLAGS) src/tokenize.c -o $@ -lreadline -L./src/Libft_extended -lft
+
+input: src/input_tokens.c
+	cc $(FLAGS) src/input_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
+
 clean:
 	rm -rf $(OBJ_DIR)
 
