@@ -15,7 +15,7 @@ HEADER = header/minishell.h
 LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
-SOURCES = main.c evaluation.c
+SOURCES = main.c evaluation.c split_tokens.c
 OBJECTS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
 FLAGS = -Wall -Werror -Wextra -g3
 
@@ -35,8 +35,8 @@ $(LIBFT):
 tokenize: src/tokenize.c
 	cc $(FLAGS) src/tokenize.c -o $@ -lreadline -L./src/Libft_extended -lft
 
-input: src/input_tokens.c
-	cc $(FLAGS) src/input_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
+split: src/split_tokens.c
+	cc $(FLAGS) src/split_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
 
 clean:
 	rm -rf $(OBJ_DIR)

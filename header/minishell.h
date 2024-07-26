@@ -51,6 +51,8 @@ typedef struct s_info
 }	t_info;
 
 // FUNCTIONS:
+// TOKENIZE:
+char	**split_tokens(char *str);
 // EVALUATION:
 int	evaluate(char *input, t_info *info);
 // FILE 2:

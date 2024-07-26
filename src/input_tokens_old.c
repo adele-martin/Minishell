@@ -20,51 +20,6 @@ char	is_operator(char *str)
 	return (0);		
 }
 
-
-size_t	count_tokens(char *str)
-{
-	size_t	amount;
-	char	in_single;
-	char	in_double;
-	
-	amount = 0;
-	in_single = 0;
-	in_double = 0;
-	while (*str)
-	{
-		if (is_operator(str))					// cases with operators
-		{
-			amount++;
-			str += is_operator(str);
-		}
-		else if (*str == ' ')
-			str++;
-		else									// inside token-string
-		{
-			amount++;
-			while (*str)
-			{
-				if (in_single || in_double)
-				{
-					if (in_single && *str == '\'')
-						in_single = 0;
-					else if (in_double && *str == '"')
-						in_double = 0;
-				}
-				else if (*str == '\'')
-					in_single = 1;
-				else if (*str == '"')
-					in_double = 1;
-				else if (is_operator(str))
-					break ;
-				str++;
-			}
-		}
-	}
-	return (amount);
-}
-		// "(echo start&&(echo 'continue ||echo fallback1 )'|grep check)&&echo end1 > out1.txt || echo end2 > out2.txt && cat < input.txt >> out3.txt"
-
 size_t	add_len(char *str)
 {
 	size_t	add_len;
@@ -158,9 +113,6 @@ char	*clean_input(char *str)
 int	main(int argc, char **argv)
 {
 	if (argc == 2)
-	{
-		printf("Count: %lu\n", count_tokens(argv[1]));
 		printf("%s", clean_input(argv[1]));
-	}
 	return (0);
 }
