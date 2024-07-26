@@ -152,18 +152,18 @@ static	char	write_all_tokens(char *str, char **tokens_out, size_t tokens)
 }
 
 
-int	main(int argc, char **argv)
-{
-	char	**splited;
+// int	main(int argc, char **argv)
+// {
+// 	char	**splited;
 
-	if (argc == 2)
-	{
-		splited = split_tokens(argv[1]);
-		while (*splited)
-		{
-			printf("TOKEN: %s\n", *splited);
-			splited++;
-		}
-	}
-	return (0);
-}
+// 	if (argc == 2)
+// 	{
+// 		splited = split_tokens(argv[1]);
+// 		while (*splited)
+// 		{
+// 			printf("TOKEN: %s\n", *splited);
+// 			splited++;
+// 		}
+// 	}
+// 	return (0);
+// }
