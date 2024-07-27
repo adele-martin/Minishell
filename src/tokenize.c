@@ -10,125 +10,94 @@ t_ast	*create_node(char *value)
 	node = (t_ast*)malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
-	node->value = ft_strdup(value); // Duplicate the string to store it in the node
-	if (!node->value)
-	{
-		free(node);
-		return (NULL);
-	}
+	node->value = value;
 	node->left = NULL;
 	node->right = NULL;
 	return node;
 }
 
-t_ast	*parsePrimary(char **tokens, int *index, int numTokens);
-t_ast	*parsePipe(char **tokens, int *index, int numTokens);
-t_ast	*parseLogical(char **tokens, int *index, int numTokens);
-t_ast	*parseCommand(char **tokens, int *index, int numTokens);
-
-// Parse basic commands and redirections
-t_ast	*parsePrimary(char **tokens, int *index, int numTokens)
+// returns 1 on right usage of parenthesis, else 0
+char	check_parenthesis(char **token_start, char **token_end)
 {
-	if (*index >= numTokens) return NULL;
+	int		par;
 
-	if (ft_strncmp(tokens[*index], "(", 1) == 0)
+	par = 0;
+	while (token_start <= token_end)
 	{
-		// Handle subexpression in parentheses
-		(*index)++;
-		t_ast *subExprNode = parseCommand(tokens, index, numTokens);
-		if (*index < numTokens && ft_strncmp(tokens[*index], ")", 1) == 0)
-			(*index)++;
-		else
-		{
-			// Error: unmatched parenthesis
-			printf("Error: unmatched parenthesis\n");
-			return NULL;
-		}
-		return subExprNode;
+		if (ft_strncmp(*token_start, "(", 1) == 0)
+			par++;
+		else if (ft_strncmp(*token_start, ")", 1) == 0)
+			par--;
+		if (par < 0)
+			return (0);
+		token_start++;
 	}
-
-	t_ast *commandNode = create_node(tokens[*index]);
-	(*index)++;
-
-	// Handle arguments or redirections following the command
-	while (*index < numTokens) {
-		char *token = tokens[*index];
-
-		if (ft_strncmp(token, ">", 1) == 0 || ft_strncmp(token, ">>", 2) == 0 ||
-			ft_strncmp(token, "<", 1) == 0 || ft_strncmp(token, "<<", 2) == 0)
-		{
-			t_ast *operatorNode = create_node(token);
-			(*index)++;
-			if (*index < numTokens)
-			{
-				operatorNode->right = create_node(tokens[*index]);
-				(*index)++;
-			}
-			operatorNode->left = commandNode;
-			commandNode = operatorNode;
-		}
-		else if (ft_strncmp(token, "|", 1) == 0 || ft_strncmp(token, "||", 2) == 0 ||
-				ft_strncmp(token, "&&", 2) == 0 || ft_strncmp(token, "(", 1) == 0 || ft_strncmp(token, ")", 1) == 0) {
-			break;
-		}
-		else
-		{
-			size_t newSize = strlen(commandNode->value) + strlen(token) + 2;
-			char *newValue = (char *)malloc(newSize);
-			snprintf(newValue, newSize, "%s %s", commandNode->value, token);
-			free(commandNode->value);
-			commandNode->value = newValue;
-			(*index)++;
-		}
-	}
-	return commandNode;
+	if (par)
+		return (0);
+	return (1);
 }
 
-// Parse pipes
-t_ast	*parsePipe(char **tokens, int *index, int numTokens)
+t_ast	*create_ast(char **token_start, char **token_end)
 {
-	t_ast *leftNode = parsePrimary(tokens, index, numTokens);
+	t_ast	*node;
+	char	**token_search;
+	char	par;
 
-	while (*index < numTokens)
+	par = 0;
+	if (token_start > token_end)
+		return (NULL);
+	else if (token_start == token_end)
+		return (create_node(*token_start));
+	token_search = token_start;
+	while (token_search <= token_end)
 	{
-		if (ft_strncmp(tokens[*index], "|", 1) == 0)
+		if (ft_strncmp(*token_search, "(", 1) == 0)
+			par++;
+		else if (ft_strncmp(*token_search, ")", 1) == 0)
+			par--;
+		else if (!par && (!ft_strncmp(*token_search, "&&", 2) || !ft_strncmp(*token_search, "||", 2)))
 		{
-			t_ast *operatorNode = create_node(tokens[*index]);
-			(*index)++;
-			operatorNode->left = leftNode;
-			operatorNode->right = parsePrimary(tokens, index, numTokens);
-			leftNode = operatorNode;
+			node = create_node(*token_search);
+			node->left = create_ast(token_start, token_search - 1);
+			node->right = create_ast(token_search + 1, token_end);
+			return (node);
 		}
-		else
-			break;
+		token_search++;
 	}
-	return leftNode;
-}
-
-// Parse logical operators
-t_ast	*parseLogical(char **tokens, int *index, int numTokens)
-{
-	t_ast *leftNode = parsePipe(tokens, index, numTokens);
-
-	while (*index < numTokens)
+	token_search = token_start;
+	while (token_search <= token_end)
 	{
-		if (ft_strncmp(tokens[*index], "&&", 2) == 0 || ft_strncmp(tokens[*index], "||", 2) == 0)
+		if (ft_strncmp(*token_search, "(", 1) == 0)
+			par++;
+		else if (ft_strncmp(*token_search, ")", 1) == 0)
+			par--;
+		else if (!par && !ft_strncmp(*token_search, "|", 1))
 		{
-			t_ast *operatorNode = create_node(tokens[*index]);
-			(*index)++;
-			operatorNode->left = leftNode;
-			operatorNode->right = parsePipe(tokens, index, numTokens);
-			leftNode = operatorNode;
+			node = create_node(*token_search);
+			node->left = create_ast(token_start, token_search - 1);
+			node->right = create_ast(token_search + 1, token_end);
+			return (node);
 		}
-		else
-			break;
+		token_search++;
 	}
-	return leftNode;
-}
-
-// Parse commands and subcommands within parentheses
-t_ast* parseCommand(char **tokens, int *index, int numTokens) {
-	return parseLogical(tokens, index, numTokens);
+	token_search = token_start;
+	while (token_search <= token_end)
+	{
+		if (ft_strncmp(*token_search, "(", 1) == 0)
+			par++;
+		else if (ft_strncmp(*token_search, ")", 1) == 0)
+			par--;
+		else if (!par && (!ft_strncmp(*token_search, ">", 1) || !ft_strncmp(*token_search, ">>", 2) || 
+				!ft_strncmp(*token_search, "<", 1) || !ft_strncmp(*token_search, "<<", 2)))
+		{
+			node = create_node(*token_search);
+			node->left = create_ast(token_start, token_search - 1);
+			node->right = create_ast(token_search + 1, token_end);
+			return (node);
+		}
+		token_search++;
+	}
+	return (create_ast(token_start + 1, token_end - 1));
 }
 
 // Print the AST structure
@@ -143,11 +112,11 @@ void printAST(t_ast *node, int level) {
 	}
 }
 
-// Main function
 int main(int argc, char **argv)
 {
 	char command[] = "(echo start&&(echo continue||echo fallback1)|grep check>here.txt)&&echo end1>out1.txt>out2.txt||echo end2>out2.txt&&cat < input.txt>> out3.txt";
 	char	**tokens;
+	char	**end_tokens;
 	int		numTokens = 0;
 
 	if (argc == 1)
@@ -162,8 +131,14 @@ int main(int argc, char **argv)
 		printf("\nINPUT: %s\n\n", argv[1]);
 	printf("There are %i tokens!\nBut you cannot see parenthesis ()\n", numTokens);
 
-	int index = 0;
-	t_ast *astRoot = parseCommand(tokens, &index, numTokens); // Parse the tokens to build the AST
+	end_tokens = tokens;
+	while (*end_tokens)
+		end_tokens++;
+	end_tokens--;
+	if (!check_parenthesis(tokens, end_tokens))
+		printf("\nPARENTHESIS ERROR !!!\n\n");
+	printf("Creating AST ...\n");
+	t_ast *astRoot = create_ast(tokens, end_tokens); // Parse the tokens to build the AST
 
 	printf("\t---> AST Structure:\n");
 	printAST(astRoot, 0); // Print the AST structure
