@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/02 11:51:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:59:25 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef struct s_ast t_ast;
 
 // struct for the Abstract syntax tree nodes
 struct s_ast {
-    char	*value;	// command, operator, filename
-    t_ast	*left;	// Left child node
-    t_ast	*right;	// Right child node
+	char	*value;	// command, operator, filename
+	t_ast	*left;	// Left child node
+	t_ast	*right;	// Right child node
 };
 
 typedef enum s_action {
