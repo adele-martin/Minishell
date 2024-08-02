@@ -34,19 +34,19 @@ t_list	*get_files_list()
 }
 
 // compile with:  cc src/lexing.c -L./src/Libft_extended -lft
-int main()
-{
-	t_list	*files_list;
+// int main()
+// {
+// 	t_list	*files_list;
 
-	files_list = get_files_list();
-	printf("The list has %i entries:\n", ft_lstsize(files_list));
-	while (files_list)
-	{
-		printf("path: %s\n", files_list->content);
-		files_list = files_list->next;
-	}
-    return EXIT_SUCCESS;
-}
+// 	files_list = get_files_list();
+// 	printf("The list has %i entries:\n", ft_lstsize(files_list));
+// 	while (files_list)
+// 	{
+// 		printf("path: %s\n", files_list->content);
+// 		files_list = files_list->next;
+// 	}
+//     return EXIT_SUCCESS;
+// }
 
 /*
 WILDCARD:

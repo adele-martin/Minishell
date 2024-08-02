@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/07/12 18:14:46 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:51:13 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,14 @@ typedef struct s_info
 }	t_info;
 
 // FUNCTIONS:
-// TOKENIZE:
+
+// SPLIT_TOKENS:
 char	**split_tokens(char *str);
+// TOKENIZE:
+t_ast	*create_ast(char **token_start, char **token_end);\
+void	print_ast(t_ast *root);
 // EVALUATION:
-int	evaluate(char *input, t_info *info);
+int		evaluate(char *input, t_info *info);
 // FILE 2:
 
 #endif
