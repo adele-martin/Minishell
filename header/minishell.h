@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/02 11:51:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:14:31 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ struct s_ast {
     t_ast	*left;	// Left child node
     t_ast	*right;	// Right child node
 };
+
+/*
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
+*/
+
 
 typedef enum s_action {
 	WORD1,
