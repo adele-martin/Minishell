@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/05 17:27:21 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:57:08 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,14 @@ int	main(int argc, char **argv, char **envp)
 	// t_ast	*astRoot;
 	(void)argc;
 	(void)argv;
-	/*
 
-	t_list	*list_env;
-
-	list_env = NULL;
-	store_env(&list_env, *envp);
-	*/
-	int i = 0;
-	while (envp[i])
-	{
-		printf("%s\n", envp[0]);
-		i++;
-	}
+	store_env(envp);
+	// int i = 0;
+	// while (envp[i])
+	// {
+	// 	printf("%s\n", envp[0]);
+	// 	i++;
+	// }
 	// while (1)
 	// {
 	// 	input = readline("\033[1;32mminishell > \033[0m");
