@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/05 14:14:31 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:09:03 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,10 @@ void	print_ast(t_ast *root);
 // EVALUATION:
 int		evaluate(char *input, t_info *info);
 // FILE 2:
+
+//ENVIRON_VAR
+void store_env(t_list	**list_env, char **envp);
+void append_node(t_list	**head, char *variable);
+t_list *create_newnode(char *variable);
 
 #endif
