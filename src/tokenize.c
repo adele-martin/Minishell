@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:19 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/02 15:16:21 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/05 18:32:14 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_ast	*create_ast(char **token_start, char **token_end)
 		}
 		token_search++;
 	}
+	
 	token_search = token_start;
 	while (token_search <= token_end)
 	{
@@ -107,6 +108,7 @@ t_ast	*create_ast(char **token_start, char **token_end)
 		}
 		token_search++;
 	}
+	
 	return (create_ast(token_start + 1, token_end - 1));
 }
 

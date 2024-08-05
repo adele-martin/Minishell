@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/02 16:26:10 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:01:55 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	main(void)
 {
 	// t_info	info;
 	char	*input;
-	char	*copy;
 	char	**tokens;
 	char	**end_tokens;
 	t_ast	*astRoot;
@@ -29,8 +28,7 @@ int	main(void)
 		else
 		{
 			printf("INPUT: %s\n", input);
-			copy = ft_strdup(input);
-			add_history(copy);
+			add_history(input);
 			tokens = split_tokens(input);
 			// evaluate(input, &info);
 

@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/02 18:33:31 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:52:39 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ It can even get more complex, for example in "INPUT: echo start > test.txt > Tes
             Test.txt
             TTest.txt
 
+*/
+/*
+for every cmd there is a child process and basically a fd-in and fd-out
+
+if there is a pipe, we redirect the output of the left child to the input of the right child
+
+if there is a redirection, we redirect the output of the left child to the file specified in the redirection
+if there are many redirections, it only gets to the last one!
 */
 
 // not really sure what this function does and not right!
