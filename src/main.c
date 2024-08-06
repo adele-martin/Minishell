@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/06 12:11:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:55:44 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,18 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	store_envs(envp);
-	// int i = 0;
+	char **list = envs_list(envp);
+	variables_list("USER_ZDOTDIR=HEY", list);
+	int i = 0;
+
+
 	// while (envp[i])
 	// {
-	// 	printf("%s\n", envp[0]);
+	// 	printf("%s\n", envp[i]);
 	// 	i++;
 	// }
+
+
 	// while (1)
 	// {
 	// 	input = readline("\033[1;32mminishell > \033[0m");
