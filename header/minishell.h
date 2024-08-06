@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/02 11:51:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:33:41 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef struct s_ast t_ast;
 
 // struct for the Abstract syntax tree nodes
 struct s_ast {
-    char	*value;	// command, operator, filename
-    t_ast	*left;	// Left child node
-    t_ast	*right;	// Right child node
+	char	*value;	// command, operator, filename
+	t_ast	*left;	// Left child node
+	t_ast	*right;	// Right child node
 };
 
 typedef enum s_action {
@@ -59,6 +59,17 @@ t_ast	*create_ast(char **token_start, char **token_end);\
 void	print_ast(t_ast *root);
 // EVALUATION:
 int		evaluate(char *input, t_info *info);
-// FILE 2:
+// REDIRECTIONS:
+int		redirect(char *operator, char *word);
+int		redirect_output(char *filename);
+int		append_output(char *filename);
+int		redirect_input(char *filename);
+int		heredoc(char *delimiter);
+// EXECUTION:
+int		execute(char *input);
+// PARSING:
+int		parse_ast(t_ast *node);
+// UTILS:
+char	is_redirection(char *str);
 
 #endif

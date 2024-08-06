@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/02 15:16:19 by bschneid          #+#    #+#             */
+/*   Updated: 2024/08/06 15:37:53 by bschneid         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../header/minishell.h"
 
@@ -80,6 +90,7 @@ t_ast	*create_ast(char **token_start, char **token_end)
 		}
 		token_search++;
 	}
+	
 	token_search = token_start;
 	while (token_search <= token_end)
 	{
@@ -97,6 +108,7 @@ t_ast	*create_ast(char **token_start, char **token_end)
 		}
 		token_search++;
 	}
+	
 	return (create_ast(token_start + 1, token_end - 1));
 }
 
