@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/06 13:32:51 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:38:19 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,6 @@ struct s_ast {
 INPUT: (echo start&&(echo continue||echo fallback1)|grep check>here.txt)&&echo end1>
 			out1.txt>out2.txt||echo end2>out2.txt&&cat < input.txt>> out3.txt
 &&
-    &&
-        echo start
-        |
-            ||
-                echo continue
-                echo fallback1
-            >
-                grep check
-                here.txt
-    ||
-        >
-            echo end1
-            >
-                out1.txt
-                out2.txt
-        &&
-            >
-                echo end2
-                out2.txt
-            <
-                cat
-                >>
-                    input.txt
-                    out3.txt
-
 */
 // return 0 on success, 1/? on failure
 int	parse_ast(t_ast *node)
@@ -85,8 +60,8 @@ int	parse_ast(t_ast *node)
 	{
 		// fd[0] is the read end
 		// fd[1] is the write end
-		int fd[2];
-		int	id1, id2;
+		int 	fd[2];
+		pid_t	id1, id2;
 		
 		if (pipe(fd) == -1)
 			return (1);
@@ -99,6 +74,7 @@ int	parse_ast(t_ast *node)
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 			parse_ast(node->left);
+			return (0);
 		}
 		else
 		{
@@ -111,6 +87,7 @@ int	parse_ast(t_ast *node)
 				dup2(fd[0], STDIN_FILENO);
 				close(fd[0]);
 				parse_ast(node->right);
+				return (0);
 			}
 		}
 		close(fd[0]);
@@ -118,11 +95,10 @@ int	parse_ast(t_ast *node)
 		waitpid(id1, NULL, 0);
 		waitpid(id2, NULL, 0);
 	}
-	//ft_strncmp(node->value, ">", 2) == 0
 	else if (is_redirection(node->value))
 	{
 		tmp_node = node;
-		while (is_redirection(node->right->value))
+		while (is_redirection(tmp_node->right->value))
 		{
 			redirect(tmp_node->value, tmp_node->right->left->value);	
 			tmp_node = tmp_node->right;
@@ -132,6 +108,16 @@ int	parse_ast(t_ast *node)
 	}
 	else
 	{
-		// fork and execute the command
+		pid_t	id;
+		id = fork();
+		if (id == -1)
+			return (1);
+		if (id == 0)
+		{
+			execute(node->value);
+		}
+		else
+			waitpid(id, NULL, 0);
 	}
+	return (0);
 }

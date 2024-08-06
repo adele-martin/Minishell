@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/06 13:32:55 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:33:41 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,13 @@ void	print_ast(t_ast *root);
 // EVALUATION:
 int		evaluate(char *input, t_info *info);
 // REDIRECTIONS:
-int		redirect(t_ast *node);
+int		redirect(char *operator, char *word);
 int		redirect_output(char *filename);
 int		append_output(char *filename);
 int		redirect_input(char *filename);
 int		heredoc(char *delimiter);
 // EXECUTION:
+int		execute(char *input);
 // PARSING:
 int		parse_ast(t_ast *node);
 // UTILS:

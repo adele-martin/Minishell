@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/06 13:32:56 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:37:58 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,21 @@ int	redirect_output(char *filename)
 {
 	int	fd;
 
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0755);
 	if (fd < 0)
 	{
 		perror("open");
 		exit(1);
 	}
-	dup2(fd, STDOUT_FILENO);
+	// ft_printf("Opened file %s with fd %d\n", filename, fd);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{
+		perror("dup2");
+		exit(1);
+	}
+	// ft_printf("DUPPED...\n");
 	close(fd);
+	// ft_printf("Redirected output to %s\n", filename);
 	return (0);
 }
 
