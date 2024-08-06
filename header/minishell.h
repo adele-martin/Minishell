@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/05 17:56:57 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:16:41 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,10 @@ struct s_ast {
     t_ast	*right;	// Right child node
 };
 
-/*
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
-*/
-
+typedef struct {
+    char **keys;
+    char **values;
+} EnvVars;
 
 typedef enum s_action {
 	WORD1,
@@ -71,6 +67,7 @@ int		evaluate(char *input, t_info *info);
 // FILE 2:
 
 //ENVIRON_VAR
-void store_env(char **envp);
+// void store_envs(char **envp);
+void store_envs(char **envp);
 
 #endif
