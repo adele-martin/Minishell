@@ -6,6 +6,81 @@ TODO:
  - Write tests to check functionality
  - 
 
+/*
+CARE PRECEDENCE OF OPERATORS!
+
+1. Redirections (<, >, >>, <>, <&. >& and >>-, as well as here-docs
+	<<delimiter and here-strings <<<word) are roughly the same as 
+	command-line arguments, and can appear anywhere in a simple command, 
+	including before the command word. Effectively, they bind most tightly, 
+	as with postfix operators in most languages.
+2. Pipes (|) are the strongest binary operator. They associate to the left.
+3. Finally come the short-circuiting booleans (&& and ||). 
+	Unlike many languages, these have the same precedence. 
+	They also associate to the left.
+
+
+
+control operator: A token that performs a control function. 
+	It is a newline or one of the following: 
+	‘||’, ‘&&’, ‘&’, ‘;’, ‘;;’, ‘;&’, ‘;;&’, ‘|’, ‘|&’, ‘(’, or ‘)’.
+metacharacter: A character that, when unquoted, separates words. 
+	A metacharacter is a space, tab, newline, or one of the following characters: 
+	‘|’, ‘&’, ‘;’, ‘(’, ‘)’, ‘<’, or ‘>’. 
+token: A sequence of characters considered a single unit by the shell. 
+	It is either a word or an operator.
+word: A sequence of characters treated as a unit by the shell.
+	Words may not include unquoted metacharacters. 
+
+
+Important for lexing:
+	- parenthesis for priority				()
+	- single quotes (no interpretation)		''
+	- double quotes (only $-interpretation)	""
+	- dollar sign (environment variables)	$
+	- exit status of foreground pipeline	$?
+	- wildcards in curr. working directory	*
+
+	- redirect input 						<
+	- redirect output 						>
+	- read input until delimiter 			<<
+	- redirect output in append mode 		>>
+	- output to next input -> pipes 		|
+	- AND-execution							&&
+	- OR-execution							||
+
+Not interpret unclosed quotes or special characters which are not required by the
+subject such as \ (backslash) or ; (semicolon).
+*/
+/*
+Usage of many > , for example in "echo start > test.txt > Test.txt":
+>
+    echo start
+    >
+        test.txt
+        Test.txt
+outer pipe:
+	1. The call "echo start" would write to STOUT
+	2. We have to redirect the output inside a temporary file
+	3. We have to put the content of the temporary file to both test.txt and Test.txt
+
+It can even get more complex, for example in "INPUT: echo start > test.txt > Test.txt > TTest.txt":
+>
+    echo start
+    >
+        test.txt
+        >
+            Test.txt
+            TTest.txt
+
+for every cmd there is a child process and basically a fd-in and fd-out
+
+if there is a pipe, we redirect the output of the left child to the input of the right child
+
+if there is a redirection, we redirect the output of the left child to the file specified in the redirection
+if there are many redirections, it only gets to the last one!
+*/
+
 ## REQUIREMENTS:
 • Display a prompt when waiting for a new command.
 • Have a working history.

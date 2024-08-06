@@ -56,6 +56,3 @@ int	main(void)
 	printf("Shell ended!\n");
 	return (0);
 }
-
-// example command:
-// (echo start&&(echo continue||echo fallback1)|grep check>here.txt)&&echo end1>out1.txt>out2.txt||echo end2>out2.txt&&cat < input.txt>> out3.txt

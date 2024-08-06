@@ -12,16 +12,6 @@
 
 #include "../header/minishell.h"
 
-/*
-struct s_ast {
-	char	*value;	// command, operator, filename
-	t_ast	*left;	// Left child node
-	t_ast	*right;	// Right child node
-};
-INPUT: (echo start&&(echo continue||echo fallback1)|grep check>here.txt)&&echo end1>
-			out1.txt>out2.txt||echo end2>out2.txt&&cat < input.txt>> out3.txt
-&&
-*/
 // return 0 on success, 1/? on failure
 int	parse_ast(t_ast *node)
 {
