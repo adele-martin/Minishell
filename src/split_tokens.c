@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:33 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/05 21:02:45 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:01:26 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	**split_tokens(char *str)
 	return (tokens_out);
 }
 
+// returns 1 if >, >>, <, <<; else 0
 char	is_redirection(char *str)
 {
 	if (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1))

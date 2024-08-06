@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/05 11:52:39 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:32:56 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,99 @@ if there is a pipe, we redirect the output of the left child to the input of the
 if there is a redirection, we redirect the output of the left child to the file specified in the redirection
 if there are many redirections, it only gets to the last one!
 */
-
 // not really sure what this function does and not right!
-redirect(t_ast *node)
+int	redirect(char *operator, char *word)
 {
-	if (!node)
-		return ;
-	if (node->left && !ft_strncmp(node->left->value, ">", 2))
-		redirect_output(node->left->right->value);
-	else if (node->left && !ft_strncmp(node->left->value, ">>", 3))
-		redirect_output_append(node->left->right->value);
-	else if (node->left && !ft_strncmp(node->left->value, "<", 2))
-		redirect_input(node->left->right->value);
-	else if (node->left && !ft_strncmp(node->left->value, "<<", 3))
-		redirect_input_heredoc(node->left->right->value);
-	else
-		redirect(node->left);
-	redirect(node->right);
+	if (!ft_strncmp(operator, ">", 2)) 
+		return (redirect_output(word));
+	else if (!ft_strncmp(operator, ">>", 3))
+		return (append_output(word));
+	else if (!ft_strncmp(operator, "<", 2))
+		return (redirect_input(word));
+	else if (!ft_strncmp(operator, "<<", 3))
+		return (heredoc(word));
+	return (1);
+}
+
+
+// for > operator
+int	redirect_output(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror("open");
+		exit(1);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
+}
+
+// for >> operator
+int	append_output(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+	{
+		perror("open");
+		exit(1);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
+}
+
+// for < operator
+int	redirect_input(char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("open");
+		exit(1);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (0);
+}
+
+// for << operator
+int	heredoc(char *delimiter)
+{
+	char	*line;
+	int	fd;
+
+	fd = open("heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror("open");
+		exit(1);
+	}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break ;
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
+			break ;
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+	}
+	close(fd);
+	fd = open("heredoc.txt", O_RDONLY);
+	if (fd < 0)
+	{
+		perror("open");
+		exit(1);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (0);
 }

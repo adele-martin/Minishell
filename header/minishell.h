@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/02 16:59:25 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:32:55 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ t_ast	*create_ast(char **token_start, char **token_end);\
 void	print_ast(t_ast *root);
 // EVALUATION:
 int		evaluate(char *input, t_info *info);
-// FILE 2:
+// REDIRECTIONS:
+int		redirect(t_ast *node);
+int		redirect_output(char *filename);
+int		append_output(char *filename);
+int		redirect_input(char *filename);
+int		heredoc(char *delimiter);
+// EXECUTION:
+// PARSING:
+int		parse_ast(t_ast *node);
+// UTILS:
+char	is_redirection(char *str);
 
 #endif

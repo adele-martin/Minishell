@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/05 21:01:55 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:32:54 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	main(void)
 
 	while (1)
 	{
-		input = readline("\033[1;32mminishell > \033[0m");
+		// input = readline("\033[1;32mminishell > \033[0m");
+		input = readline("minishell > ");
 		if (!input)
 			break ;
 		else
