@@ -61,14 +61,14 @@ int	parse_ast(t_ast *node)
 		// fd[0] is the read end
 		// fd[1] is the write end
 		int 	fd[2];
-		pid_t	id1, id2;
+		pid_t	id;
 		
 		if (pipe(fd) == -1)
 			return (1);
-		id1 = fork();
-		if (id1 == -1)
+		id = fork();
+		if (id == -1)
 			return (1);
-		if (id1 == 0)
+		if (id == 0)
 		{
 			close(fd[0]);
 			dup2(fd[1], STDOUT_FILENO);
@@ -78,23 +78,54 @@ int	parse_ast(t_ast *node)
 		}
 		else
 		{
-			id2 = fork();
-			if (id2 == -1)
-				return (1);
-			if (id2 == 0)
-			{
-				close(fd[1]);
-				dup2(fd[0], STDIN_FILENO);
-				close(fd[0]);
-				parse_ast(node->right);
-				return (0);
-			}
+			close(fd[1]);
+			dup2(fd[0], STDIN_FILENO);
+			close(fd[0]);
+			parse_ast(node->right);
+			return (0);
 		}
 		close(fd[0]);
 		close(fd[1]);
-		waitpid(id1, NULL, 0);
-		waitpid(id2, NULL, 0);
+		waitpid(id, NULL, 0);
 	}
+	// {
+	// 	// fd[0] is the read end
+	// 	// fd[1] is the write end
+	// 	int 	fd[2];
+	// 	pid_t	id1, id2;
+		
+	// 	if (pipe(fd) == -1)
+	// 		return (1);
+	// 	id1 = fork();
+	// 	if (id1 == -1)
+	// 		return (1);
+	// 	if (id1 == 0)
+	// 	{
+	// 		close(fd[0]);
+	// 		dup2(fd[1], STDOUT_FILENO);
+	// 		close(fd[1]);
+	// 		parse_ast(node->left);
+	// 		return (0);
+	// 	}
+	// 	else
+	// 	{
+	// 		id2 = fork();
+	// 		if (id2 == -1)
+	// 			return (1);
+	// 		if (id2 == 0)
+	// 		{
+	// 			close(fd[1]);
+	// 			dup2(fd[0], STDIN_FILENO);
+	// 			close(fd[0]);
+	// 			parse_ast(node->right);
+	// 			return (0);
+	// 		}
+	// 	}
+	// 	close(fd[0]);
+	// 	close(fd[1]);
+	// 	waitpid(id1, NULL, 0);
+	// 	waitpid(id2, NULL, 0);
+	// }
 	else if (is_redirection(node->value))
 	{
 		tmp_node = node;
@@ -107,17 +138,20 @@ int	parse_ast(t_ast *node)
 		parse_ast(node->left);
 	}
 	else
-	{
-		pid_t	id;
-		id = fork();
-		if (id == -1)
-			return (1);
-		if (id == 0)
-		{
-			execute(node->value);
-		}
-		else
-			waitpid(id, NULL, 0);
-	}
+		return (execute(node->value));
+	// {
+	// 	pid_t	id;
+	// 	id = fork();
+	// 	if (id == -1)
+	// 		return (1);
+	// 	if (id == 0)
+	// 	{
+	// 		ft_printf("Run the cmd: %s\n", node->value);
+	// 		execute(node->value);
+	// 		exit (0);
+	// 	}
+	// 	else
+	// 		waitpid(id, NULL, 0);
+	// }
 	return (0);
 }

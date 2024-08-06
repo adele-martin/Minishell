@@ -39,8 +39,6 @@ It can even get more complex, for example in "INPUT: echo start > test.txt > Tes
             Test.txt
             TTest.txt
 
-*/
-/*
 for every cmd there is a child process and basically a fd-in and fd-out
 
 if there is a pipe, we redirect the output of the left child to the input of the right child
@@ -124,7 +122,7 @@ int	heredoc(char *delimiter)
 	char	*line;
 	int	fd;
 
-	fd = open("heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open("src/heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		perror("open");
@@ -141,7 +139,7 @@ int	heredoc(char *delimiter)
 		write(fd, "\n", 1);
 	}
 	close(fd);
-	fd = open("heredoc.txt", O_RDONLY);
+	fd = open("src/heredoc.txt", O_RDONLY);
 	if (fd < 0)
 	{
 		perror("open");

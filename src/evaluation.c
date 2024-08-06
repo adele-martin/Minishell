@@ -69,7 +69,7 @@ int	execute(char *input)
 	char	**bin_paths;
 	char	*filepath;
 	int		status;
-	pid_t	pid;
+	// pid_t	pid;
 
 	if (!*input)
 		return (0);
@@ -88,20 +88,21 @@ int	execute(char *input)
 		filepath = ft_strjoin(filepath, cmd_argv[0]);
 		if (access(filepath, X_OK) == 0)
 		{
+			execve(filepath, cmd_argv, NULL);
 			// printf("Found binary at: %s\n", filepath);
-			pid = fork();
-			if (!pid)
-			{
-				int val = execve(filepath, cmd_argv, NULL);
-				if (val == -1)
-					perror("ERROR");
-				exit(1);
-			}
-			else
-				break ;
+			// pid = fork();
+			// if (!pid)
+			// {
+			// 	int val = execve(filepath, cmd_argv, NULL);
+			// 	if (val == -1)
+			// 		perror("ERROR");
+			// 	exit (1);
+			// }
+			// else
+			// 	break ;
 		}
 		bin_paths++;
 	}
 	waitpid(-1, &status, 0);
-	return (status);
+	exit (status);
 }
