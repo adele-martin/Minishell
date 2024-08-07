@@ -68,12 +68,21 @@ int	execute(char *input)
 	char	**cmd_argv;
 	char	**bin_paths;
 	char	*filepath;
-	int		status;
+	char	file_exists;
+	// int		status;
 	// pid_t	pid;
 
 	if (!*input)
 		return (0);
 	cmd_argv = ft_split(input, ' ');
+	if (**cmd_argv == '.')
+	{
+		if (access(cmd_argv[0], X_OK))
+			ft_printf("%s: No execution rights!\n", cmd_argv[0]);
+		else
+			execve(cmd_argv[0], cmd_argv, NULL);
+		exit (2);
+	}
 	path_str = getenv("PATH");
 	if (path_str == NULL)
 	{
@@ -81,11 +90,14 @@ int	execute(char *input)
 		exit(EXIT_FAILURE);
 	}
 	bin_paths = ft_split(path_str, ':');
+	file_exists = 0;
 	while (*bin_paths)
 	{
 		// printf("Searching in: %s\n", *bin_paths);
 		filepath = ft_strjoin(*bin_paths, "/");
 		filepath = ft_strjoin(filepath, cmd_argv[0]);
+		if (access(filepath, F_OK) == 0)
+			file_exists = 1;
 		if (access(filepath, X_OK) == 0)
 		{
 			execve(filepath, cmd_argv, NULL);
@@ -103,6 +115,10 @@ int	execute(char *input)
 		}
 		bin_paths++;
 	}
-	waitpid(-1, &status, 0);
-	exit (status);
+	if (file_exists)
+		ft_printf("%s: No execution rights!\n", cmd_argv[0]);
+	else
+		ft_printf("%s: CMD not found!\n", cmd_argv[0]);
+	// waitpid(-1, &status, 0);
+	exit (2); //status
 }
