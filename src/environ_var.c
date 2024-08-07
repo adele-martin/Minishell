@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/06 17:57:59 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:19:23 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,43 +41,36 @@ char	**variables_list(char *variable, char **list_envs)
 	{
 		j = 0;
 		while (list_envs[i][j] != '=')
-		{
-		j++;
-		if (ft_strncmp(list_envs[j - i], variable, ft_strlen(variable)) == 0)
+			j++;
+		if (ft_strncmp(list_envs[i], variable, j) == 0)
 		{
 			list_envs[i] = (char *)malloc(sizeof(char) * ft_strlen(variable) + 1);
-			strcpy(list_envs[i], variable);
+			list_envs[i] = variable;
+			break;
 		}
-		}
-		i++;
-	}
-	i = 0;
-	while (list_envs[i])
-	{
-		printf("%s\n", list_envs[i]);
 		i++;
 	}
 	return (list_envs);
 }
 
-void update_envs(char *input, char **list_envs)
-{
-	int i;
-	int j;
-	int input_len;
+// void update_envs(char *input, char **list_envs)
+// {
+// 	int i;
+// 	int j;
+// 	int input_len;
 
-	i = 0;
-	j = 0;
-	input_len = ft_strlen(input);
-	while (list_envs[i])
-	{
-		while (list_envs[i][j])
-		{
-			if (ft_strncmp(list_envs[i], input, input_len) == 0)
-			j++;
-		}
-	}
-}
+// 	i = 0;
+// 	j = 0;
+// 	input_len = ft_strlen(input);
+// 	while (list_envs[i])
+// 	{
+// 		while (list_envs[i][j])
+// 		{
+// 			if (ft_strncmp(list_envs[i], input, input_len) == 0)
+// 			j++;
+// 		}
+// 	}
+// }
 
 
 
