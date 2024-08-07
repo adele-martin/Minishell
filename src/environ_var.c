@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/07 18:42:49 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:00:24 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,7 @@ char	**update_list(char *variable, char **list)
 		i++;
 	}
 	if (!found)
-	{
-		i++;
 		list[i] = ft_strdup(variable);
-		list[i + 1] = "\0";
-	}
-	i = 0;
-	while (list[i])
-	{
-		printf("%s\n", list[i]);
-		i++;
-	}
 	return (list);
 }
 
