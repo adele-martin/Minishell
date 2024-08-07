@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/07 15:46:02 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:34:01 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	char **list_envs = envs_list(envp);
-	list_envs = update_list("ZDOTDIR=hey", list_envs);
+	list_envs = update_list("chicken", list_envs);
 
-	int i = 0;
-	while (list_envs[i])
-	{
-		printf("%s\n", list_envs[i]);
-		i++;
-	}
+	// int i = 0;
+	// while (list_envs[i])
+	// {
+	// 	printf("%s\n", list_envs[i]);
+	// 	i++;
+	// }
 
 	// while (1)
 	// {
