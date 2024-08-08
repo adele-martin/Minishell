@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/07 19:00:24 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:28:47 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	**envs_list(char **envp)
 	while (envp[i])
 	{
 		list_envs[i] = ft_strdup(envp[i]);
+		if (!list_envs[i])
+			return NULL;
 		i++;
 	}
 	while (i < 400)
@@ -54,25 +56,29 @@ char	**update_list(char *variable, char **list)
 			found = 1;
 			free(list[i]);
 			list[i] = ft_strdup(variable);
+			if (!list[i])
+				return NULL; //Add a shield function
 			break;
 		}
 		i++;
 	}
 	if (!found)
 		list[i] = ft_strdup(variable);
+	// i = 0;
+	// while (list[i])
+	// {
+	// 	printf("%s",list[i]);
+	// 	i++;
+	// }
 	return (list);
 }
 
-// char	**update_list(char *variable, char **list)
-// {
-// 	char	**list;
-// 	int	i;
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		list_envs[i] = ft_strdup(envp[i]);
-// 		i++;
-// 	}
-// 	return (list_envs);
-// }
-// }
+	// char **list_envs = envs_list(envp);
+	// list_envs = update_list("chicken=soup", list_envs);
+
+	// int i = 0;
+	// while (list_envs[i])
+	// {
+	// 	printf("%s\n", list_envs[i]);
+	// 	i++;
+	// }
