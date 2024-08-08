@@ -6,11 +6,17 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/06 15:38:06 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:12:27 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+// * (asterisk) this can represent any number of characters (including zero, 
+	// in other words, zero or more characters). If you specified a "cd*" it 
+	// would use "cda", "cdrom", "cdrecord" and anything that starts with “cd”
+	// also including “cd” itself. "m*l" could by mill, mull, ml, and anything 
+	// that starts with an m and ends with an l.
 
 t_list	*get_files_list()
 {

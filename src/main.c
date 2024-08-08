@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/06 17:38:40 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:44:44 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,10 @@ int	main(void)
 	char	**tokens;
 	char	**end_tokens;
 	t_ast	*astRoot;
-	// int		fd_in_cpy;
-	// int		fd_out_cpy;
 	pid_t	id;
 
-	// fd_in_cpy = dup(0);
-	// fd_out_cpy = dup(1);
 	while (1)
 	{
-		// dup2(fd_in_cpy, 0);
-		// dup2(fd_out_cpy, 1);
 		input = readline("minishell > ");
 		if (!input)
 			break ;
@@ -46,11 +40,11 @@ int	main(void)
 					end_tokens++;
 				end_tokens--;
 				astRoot = create_ast(tokens, end_tokens); // Parse the tokens to build the AST
-				// print_ast(astRoot);
 				parse_ast(astRoot); // Parse the AST to execute the commands
 			}
 			else
 				waitpid(id, NULL, 0);
+			free(input);
 		}
 	}
 	printf("Shell ended!\n");
