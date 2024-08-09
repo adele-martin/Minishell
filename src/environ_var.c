@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/09 14:19:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:14:47 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,50 @@ char	**update_list(char *variable, char **list)
 	}
 	if (!found)
 		list[i] = ft_strdup(variable);
+	return (list);
+}
+
+char	**delete_var(char *variable, char **list)
+{
+	int	i;
+	int	j;
+
+	j = 0;
 	i = 0;
 	while (list[i])
 	{
-		printf("%s\n",list[i]);
+		j = 0;
+		while (list[i][j] != '=')
+			j++;
+		if (ft_strncmp(list[i], variable, j) == 0)
+		{
+			free(list[i]);
+			while (list[i + 1])
+			{
+				list[i] = list[i + 1];
+				i++;
+			}
+			list[i] = NULL;
+			break;
+		}
 		i++;
 	}
 	return (list);
 }
+
+// void expand_variable(char *string)
+// {
+// while (argv[i][j])
+// 		{
+// 			if (argv[i][j] == '$')
+// 			{
+// 				while (argv[i][j] != ' ')
+// 				{
+// 					variable[j] = argv[i][j];
+// 					j++;
+// 				}
+// 			}
+// }
 
 	// char **list_envs = envs_list(envp);
 	// list_envs = update_list("chicken=soup", list_envs);

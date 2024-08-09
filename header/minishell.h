@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 14:17:49 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:16:16 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,12 @@ int		evaluate(char *input, t_info *info);
 // void store_envs(char **envp);
 char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
+char	**delete_var(char *variable, char **list);
 
 //BUILT-INS
 void builtin_export(char **argv, int argc, char **list_envs);
 void	builtin_echo(char **argv, int argc);
+void builtin_env(char **argv, int argc, char **list_envs);
+void builtin_unset(char **argv, char **list_envs);
 
 #endif
