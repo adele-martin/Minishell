@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/08 15:29:49 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:15:54 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	main(int argc, char **argv, char **envp)
 	// char	**tokens;
 	// char	**end_tokens;
 	// t_ast	*astRoot;
-	(void)envp;
-	// (void)argv;
-
-	builtin_echo(argv, argc);
+	// (void)envp;
+	// (void)argc;
+	char **list_envs = envs_list(envp);
+	builtin_export(argv, argc, list_envs);
 
 	// while (1)
 	// {

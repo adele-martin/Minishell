@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/09 14:05:27 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:21:13 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,29 @@
 
 #include "../header/minishell.h"
 
+// void	builtin_echo(char **argv, int argc)
+// {
+// 	int	i;
+// 	int option_n;
 
-void	builtin_echo(char **argv, int argc)
-{
-	int	i;
-	int option_n;
-
-	option_n = 0;
-	if (argc > 2 && ft_strncmp(argv[2], "-n", 2) == 0)
-	{
-		option_n = 1;
-		i = 3;
-	}
-	else
-		i = 2;
-	while (argv[i])
-	{
-		ft_putstr_fd(argv[i], 1);
-		if (argv[i + 1])
-			write(1, " ", 1);
-		i++;
-	}
-	if (!option_n)
-		write(1, "\n", 1);
-}
-
-
+// 	option_n = 0;
+// 	if (argc > 1 && ft_strncmp(argv[1], "-n", 2) == 0)
+// 	{
+// 		option_n = 1;
+// 		i = 2;
+// 	}
+// 	else
+// 		i = 1;
+// 	while (argv[i])
+// 	{
+// 		ft_putstr_fd(argv[i], 1);
+// 		if (argv[i + 1])
+// 			write(1, " ", 1);
+// 		i++;
+// 	}
+// 	if (!option_n)
+// 		write(1, "\n", 1);
+// }
 
 // void expansion()
 // {
@@ -56,16 +53,21 @@ void	builtin_echo(char **argv, int argc)
 // 			}
 // }
 
-// void builtin_export(char **argv, char **list_envs)
-// {
-// 	int	i;
+void builtin_env(char **argv, int argc, char **list_envs)
+{
 
-// 	i = 1;
-// 	while (argv[i])
-// 	{
-// 		update_list(argv[i], list_envs);
-// 	}
-// }
+}
+
+void builtin_export(char **argv, int argc, char **list_envs)
+{
+	int	i;
+
+	i = 1;
+	if (argc >= 1)
+	{
+		update_list(argv[i], list_envs);
+	}
+}
 
 // void wildcard_function()
 // {

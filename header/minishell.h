@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/08 15:30:06 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:17:49 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
 
 //BUILT-INS
-void builtin_export(char **argv, char **list_envs);
+void builtin_export(char **argv, int argc, char **list_envs);
 void	builtin_echo(char **argv, int argc);
 
 #endif
