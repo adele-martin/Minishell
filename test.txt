@@ -1,0 +1,15 @@
+# 	cc $(FLAGS) src/split_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
+# 	cc $(FLAGS) src/tokenize.c src/split_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
+#                                                                              #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#                                                     +:+ +:+         +:+      #
+#                                                 +#+#+#+#+#+   +#+            #
+#    By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+         #
+#    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
+#    Makefile                                           :+:      :+:    :+:    #
+#    Updated: 2024/08/06 16:36:17 by bschneid         ###   ########.fr        #
+# **************************************************************************** #
+# **************************************************************************** #
+# split: src/split_tokens.c
+# tokenize: src/tokenize.c src/split_tokens.c

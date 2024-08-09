@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/06 16:33:41 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:19:16 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ struct s_ast {
 	t_ast	*left;	// Left child node
 	t_ast	*right;	// Right child node
 };
+
+// struct for linked lists from Libft:
+// typedef struct s_list
+// {
+// 	void			*content;
+// 	struct s_list	*next;
+// }	t_list;
 
 typedef enum s_action {
 	WORD1,

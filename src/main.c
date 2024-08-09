@@ -6,13 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/08 12:44:44 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:19:00 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	main(void)
+// TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
+int	main(int argc, char **argv, char **envp)
 {
 	// t_info	info;
 	char	*input;
@@ -21,6 +22,12 @@ int	main(void)
 	t_ast	*astRoot;
 	pid_t	id;
 
+	if (argc != 1)
+	{
+		errno = EINVAL;
+		perror("main");
+		exit (EXIT_FAILURE);
+	}
 	while (1)
 	{
 		input = readline("minishell > ");
@@ -48,5 +55,5 @@ int	main(void)
 		}
 	}
 	printf("Shell ended!\n");
-	return (0);
+	return (EXIT_SUCCESS);
 }

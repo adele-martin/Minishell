@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/08 13:12:27 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:13:50 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,76 @@ t_list	*get_files_list()
 	return (files_list);
 }
 
-// compile with:  cc src/lexing.c -L./src/Libft_extended -lft
-// int main()
-// {
-// 	t_list	*files_list;
+char	hits_wildcard(char *wildcard, char *str)
+{
+	if (!*wildcard && !*str)
+		return (1);
+	else if (!*wildcard)
+		return (0);
+	if (*wildcard == '*')
+	{
+		if (!*str)
+			return (hits_wildcard(wildcard + 1, str));
+		else if (!*(wildcard + 1))
+			return (1);
+		else if (*(wildcard + 1) == '*')
+			return (hits_wildcard(wildcard + 1, str));
+		else if (*(wildcard + 1) != *str)
+			return (hits_wildcard(wildcard, str + 1));
+		else if (*(wildcard + 1) == *str)
+			return (hits_wildcard(wildcard + 1, str) || hits_wildcard(wildcard, str + 1));
+	}
+	if (*wildcard == *str)
+		return (hits_wildcard(wildcard + 1, str + 1));
+	return (0);
+}
 
-// 	files_list = get_files_list();
-// 	printf("The list has %i entries:\n", ft_lstsize(files_list));
-// 	while (files_list)
-// 	{
-// 		printf("path: %s\n", files_list->content);
-// 		files_list = files_list->next;
-// 	}
-//     return EXIT_SUCCESS;
-// }
+// compile with:  cc src/wildcard.c -L./src/Libft_extended -lft
+int main(int argc, char **argv)
+{
+	t_list	*files_list;
+	t_list	*searcher;
+	t_list	**writer;
+
+	if (argc != 2)
+	{
+		ft_printf("Use a wildcard-string as an argument!\n");
+		return (EXIT_FAILURE);
+	}
+	files_list = get_files_list();
+	ft_printf("There are %i files in this directory:\n", ft_lstsize(files_list));
+	searcher = files_list;
+	while (searcher)
+	{
+		ft_printf("name: %s\n", searcher->content);
+		searcher = searcher->next;
+	}
+	ft_printf("\nYour given input is: %s\n", argv[1]);
+	
+	t_list	*tmp;
+	writer = &files_list;
+	while (*writer)
+	{
+		if (hits_wildcard(argv[1], (*writer)->content))
+			writer = &(*writer)->next;
+		else
+		{
+			ft_printf("Removing: %s\n", (*writer)->content);
+			tmp = (*writer)->next;
+			free((*writer)->content);
+			free(*writer);
+			*writer = tmp;
+		}
+	}
+	ft_printf("\nThere are %i files matching the input:\n", ft_lstsize(files_list));
+	searcher = files_list;
+	while (searcher)
+	{
+		ft_printf("name: %s\n", searcher->content);
+		searcher = searcher->next;
+	}
+    return (0);
+}
 
 /*
 WILDCARD:
