@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 15:19:00 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:56:40 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int	main(int argc, char **argv, char **envp)
 	t_ast	*astRoot;
 	pid_t	id;
 
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	if (argc != 1)
 	{
 		errno = EINVAL;

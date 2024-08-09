@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 15:13:50 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:56:56 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,51 +74,51 @@ char	hits_wildcard(char *wildcard, char *str)
 }
 
 // compile with:  cc src/wildcard.c -L./src/Libft_extended -lft
-int main(int argc, char **argv)
-{
-	t_list	*files_list;
-	t_list	*searcher;
-	t_list	**writer;
+// int main(int argc, char **argv)
+// {
+// 	t_list	*files_list;
+// 	t_list	*searcher;
+// 	t_list	**writer;
 
-	if (argc != 2)
-	{
-		ft_printf("Use a wildcard-string as an argument!\n");
-		return (EXIT_FAILURE);
-	}
-	files_list = get_files_list();
-	ft_printf("There are %i files in this directory:\n", ft_lstsize(files_list));
-	searcher = files_list;
-	while (searcher)
-	{
-		ft_printf("name: %s\n", searcher->content);
-		searcher = searcher->next;
-	}
-	ft_printf("\nYour given input is: %s\n", argv[1]);
+// 	if (argc != 2)
+// 	{
+// 		ft_printf("Use a wildcard-string as an argument!\n");
+// 		return (EXIT_FAILURE);
+// 	}
+// 	files_list = get_files_list();
+// 	ft_printf("There are %i files in this directory:\n", ft_lstsize(files_list));
+// 	searcher = files_list;
+// 	while (searcher)
+// 	{
+// 		ft_printf("name: %s\n", searcher->content);
+// 		searcher = searcher->next;
+// 	}
+// 	ft_printf("\nYour given input is: %s\n", argv[1]);
 	
-	t_list	*tmp;
-	writer = &files_list;
-	while (*writer)
-	{
-		if (hits_wildcard(argv[1], (*writer)->content))
-			writer = &(*writer)->next;
-		else
-		{
-			ft_printf("Removing: %s\n", (*writer)->content);
-			tmp = (*writer)->next;
-			free((*writer)->content);
-			free(*writer);
-			*writer = tmp;
-		}
-	}
-	ft_printf("\nThere are %i files matching the input:\n", ft_lstsize(files_list));
-	searcher = files_list;
-	while (searcher)
-	{
-		ft_printf("name: %s\n", searcher->content);
-		searcher = searcher->next;
-	}
-    return (0);
-}
+// 	t_list	*tmp;
+// 	writer = &files_list;
+// 	while (*writer)
+// 	{
+// 		if (hits_wildcard(argv[1], (*writer)->content))
+// 			writer = &(*writer)->next;
+// 		else
+// 		{
+// 			ft_printf("Removing: %s\n", (*writer)->content);
+// 			tmp = (*writer)->next;
+// 			free((*writer)->content);
+// 			free(*writer);
+// 			*writer = tmp;
+// 		}
+// 	}
+// 	ft_printf("\nThere are %i files matching the input:\n", ft_lstsize(files_list));
+// 	searcher = files_list;
+// 	while (searcher)
+// 	{
+// 		ft_printf("name: %s\n", searcher->content);
+// 		searcher = searcher->next;
+// 	}
+//     return (0);
+// }
 
 /*
 WILDCARD:

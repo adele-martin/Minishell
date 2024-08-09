@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 15:19:16 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:56:29 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int		redirect_input(char *filename);
 int		heredoc(char *delimiter);
 // EXECUTION:
 int		execute(char *input);
+// SPLIT_CMD
+char	**split_args(char *str);
 // PARSING:
 int		parse_ast(t_ast *node);
 // UTILS:

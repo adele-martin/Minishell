@@ -6,13 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 17:33:51 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:56:33 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 int	expand_wildcards(char **cmd_argv);
+int	run_from_bin_path(char **cmd_argv);
 
 int	execute(char *input)
 {
@@ -24,8 +25,8 @@ int	execute(char *input)
 	cmd_argv = split_args(input);
 	if (!cmd_argv)
 		return (1);
-	if (!expand_variables(cmd_argv) || !expand_wildcards(cmd_argv))
-		return (1);
+	// if (!expand_variables(cmd_argv) || !expand_wildcards(cmd_argv))
+	// 	return (1);
 	if (**cmd_argv == '.')
 	{
 		if (access(cmd_argv[0], X_OK))
@@ -34,14 +35,15 @@ int	execute(char *input)
 			execve(cmd_argv[0], cmd_argv, NULL);
 		exit (2);
 	}
-	else if (is_buildin(cmd_argv[0]))
-		return (run_buildin(cmd_argv));
+	// else if (is_buildin(cmd_argv[0]))
+	// 	return (run_buildin(cmd_argv));
 	exit (run_from_bin_path(cmd_argv));
 }
 
 int	expand_wildcards(char **cmd_argv)
 {
-
+	(void)cmd_argv;
+	return (1);
 }
 
 int	run_from_bin_path(char **cmd_argv)

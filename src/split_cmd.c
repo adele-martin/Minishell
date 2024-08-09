@@ -6,11 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:24:16 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 17:57:46 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:54:51 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+static size_t	count_args(char *str);
+static	char	write_all_args(char *str, char **args_out, size_t args);
 
 char	**split_args(char *str)
 {
@@ -51,7 +54,11 @@ static size_t	count_args(char *str)
 		else if (*str == '"')
 			in_double = 1;
 		else if (*str == ' ')
+		{
 			amount++;
+			while (*(str + 1) == ' ')
+				str++;
+		}
 		str++;
 	}
 	return (amount);
@@ -87,7 +94,9 @@ static	char	write_all_args(char *str, char **args_out, size_t args)
 		in_double = 0;
 		while (str[len])
 		{
-			if (in_single || in_double)
+			if (str[len] == '\0')
+				break ;
+			else if (in_single || in_double)
 			{
 				if (in_single && str[len] == '\'')
 					in_single = 0;
@@ -102,19 +111,33 @@ static	char	write_all_args(char *str, char **args_out, size_t args)
 				break ;
 			len++;
 		}
-		while (str[len - 1] == ' ')
-			len--;
-		
-
-		*writer = token_write(str, len);
+		*writer = arg_write(str, len);
 		if (!(*(writer++)))
 		{
 			ft_split_free(args_out);
 			return (0);
 		}
 		str += len;
+		while (*str == ' ')
+			str++;
 	}
 	*writer = 0;
 	return (1);
 }
 
+// compile with:  cc src/split_cmd.c -L./src/Libft_extended -lft
+// int	main(int argc, char **argv)
+// {
+// 	char	**args;
+// 	size_t	i;
+
+// 	args = split_args(argv[1]);
+// 	i = 0;
+// 	while (args[i])
+// 	{
+// 		printf("args[%lu]: %s\n", i, args[i]);
+// 		i++;
+// 	}
+// 	ft_split_free(args);
+// 	return (0);
+// }
