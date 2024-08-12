@@ -51,7 +51,7 @@ int	parse_ast(t_ast *node)
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 			parse_ast(node->right);
 	}
-	else if (ft_strncmp(node->value, "|", 2) == 0)
+	else if (ft_strncmp(node->value, "|", 2) == 0)	// TODO: this may interfere with heredoc which needs writing in STDOUT 
 	{
 		// fd[0] is the read end
 		// fd[1] is the write end

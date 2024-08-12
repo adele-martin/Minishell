@@ -73,6 +73,53 @@ char	hits_wildcard(char *wildcard, char *str)
 	return (0);
 }
 
+void	clean_quotations(char *str)
+{
+	char	*writer;
+	char	in_single;
+	char	in_double;
+	
+	in_single = 0;
+	in_double = 0;
+	writer = str;
+	while (*str)
+	{
+		if (in_single || in_double)
+		{
+			if (in_single && *str == '\'' || in_double && *str == '"')
+			{
+				in_single = 0;
+				in_double = 0;
+				str++;
+				continue ;
+			}
+		}
+		else if (*str == '\'' || *str == '"')
+		{
+			if (*str == '\'')
+				in_single = 1;
+			else if (*str == '"')
+				in_double = 1;
+			str++;
+			continue ;
+		}
+		*(writer++) = *(str++);
+	}
+	*writer = '\0';
+}
+
+// CLEANING OUTPUT FROM QUOTATIONS:
+// compile with:  cc src/wildcard.c -L./src/Libft_extended -lft
+// int	main(int argc, char **argv)
+// {
+// 	if (argc == 2)
+// 	{
+// 		clean_quotations(argv[1]);
+// 		ft_printf("%s", argv[1]);
+// 	}
+// 	return (0);
+// }
+
 // compile with:  cc src/wildcard.c -L./src/Libft_extended -lft
 // int main(int argc, char **argv)
 // {
