@@ -70,18 +70,18 @@ t_list	*get_args(char *str)
 }
 
 // compile with:  cc src/split_cmd.c -L./src/Libft_extended -lft
-int	main(int argc, char **argv)
-{
-	t_list	*args;
+// int	main(int argc, char **argv)
+// {
+// 	t_list	*args;
 
-	args = get_args(argv[1]);
-	while (args)
-	{
-		printf("args: %s\n", (char *)args->content);
-		args = args->next;
-	}
-	return (0);
-}
+// 	args = get_args(argv[1]);
+// 	while (args)
+// 	{
+// 		printf("args: %s\n", (char *)args->content);
+// 		args = args->next;
+// 	}
+// 	return (0);
+// }
 
 /*
 1. Expand $ variables in every list element in normal string and in double quotes

@@ -86,7 +86,7 @@ void	clean_quotations(char *str)
 	{
 		if (in_single || in_double)
 		{
-			if (in_single && *str == '\'' || in_double && *str == '"')
+			if ((in_single && *str == '\'') || (in_double && *str == '"'))
 			{
 				in_single = 0;
 				in_double = 0;

@@ -32,14 +32,9 @@ $(LIBFT):
 	$(MAKE) -C src/Libft_extended -f Makefile bonus
 	$(MAKE) -C src/Libft_extended -f Makefile clean
 
-# tokenize: src/tokenize.c src/split_tokens.c
-# 	cc $(FLAGS) src/tokenize.c src/split_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
-
-# split: src/split_tokens.c
-# 	cc $(FLAGS) src/split_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
-
 clean:
 	rm -rf $(OBJ_DIR)
+	rm src/heredoc.txt
 
 fclean:	clean
 	rm -f $(NAME)
