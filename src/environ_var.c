@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/09 16:14:47 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:11:52 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	**envs_list(char **envp)
 	return (list_envs);
 }
 
-// variable is key=value
 char	**update_list(char *variable, char **list)
 {
 	int	i;
@@ -67,6 +66,48 @@ char	**update_list(char *variable, char **list)
 	return (list);
 }
 
+//TODO: protect malloc in this function
+void expand(char **argv, int argc, t_list *head)
+{
+	(void)argc;
+	t_list *temp;
+	temp = head;
+	char *str;
+	int len;
+	int found;
+	found = 0;
+	while (temp != NULL)
+	{
+		str = (char *)temp->content;
+		len = 0;
+		while (argv[1][len] != '=')
+			len++;
+		if (ft_strncmp(str, argv[1], len) == 0)
+		{
+			found = 1;
+			free(temp->content);
+			temp->content = ft_strdup(argv[1]);
+		}
+		temp = temp->next;
+	}
+	if (!found)
+	{
+		t_list *new_node = malloc(sizeof(t_list));
+		if (!new_node)
+			return;
+		new_node->content = ft_strdup(argv[1]);
+		new_node->next = NULL;
+		if (head == NULL) {
+			head = new_node;
+		} else {
+			temp = head;
+			while (temp->next != NULL)
+				temp = temp->next;
+			temp->next = new_node;
+		}
+	}
+}
+
 char	**delete_var(char *variable, char **list)
 {
 	int	i;
@@ -95,26 +136,4 @@ char	**delete_var(char *variable, char **list)
 	return (list);
 }
 
-// void expand_variable(char *string)
-// {
-// while (argv[i][j])
-// 		{
-// 			if (argv[i][j] == '$')
-// 			{
-// 				while (argv[i][j] != ' ')
-// 				{
-// 					variable[j] = argv[i][j];
-// 					j++;
-// 				}
-// 			}
-// }
 
-	// char **list_envs = envs_list(envp);
-	// list_envs = update_list("chicken=soup", list_envs);
-
-	// int i = 0;
-	// while (list_envs[i])
-	// {
-	// 	printf("%s\n", list_envs[i]);
-	// 	i++;
-	// }

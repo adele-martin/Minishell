@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/12 15:39:50 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:41:46 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,11 @@ void builtin_pwd(char **argv, int argc)
 
 void builtin_exit(char **argv, int argc)
 {
+	(void)argv;
+	(void)argc;
 	ft_printf("exit\n");
 	exit(1);
 }
-// void expand(char **argv, int argc, t_list expand_list)
-// {
-// }
 
 
 //TO DO: Check if the "cd " command works + do pwd function first

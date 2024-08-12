@@ -6,11 +6,41 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/12 15:32:40 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:02:28 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+t_list *create_node_(char *content)
+{
+    t_list *new_node = (t_list *)malloc(sizeof(t_list));
+    if (!new_node)
+        return NULL;
+    new_node->content = strdup(content);
+    new_node->next = NULL;
+    return new_node;
+}
+
+void add_node(t_list **head, char *content)
+{
+    t_list *new_node = create_node_(content);
+    if (!new_node)
+        return;
+
+    new_node->next = *head;
+    *head = new_node;
+}
+
+void print_list(t_list *head)
+{
+    t_list *temp = head;
+    while (temp != NULL)
+    {
+        printf("%s\n", (char *)temp->content);
+        temp = temp->next;
+    }
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -22,8 +52,20 @@ int	main(int argc, char **argv, char **envp)
 	// t_list *expand_list;
 	(void)envp;
 	(void)argc;
+	(void)argv;
 	// char **list_envs = envs_list(envp);
-	builtin_exit(argv, argc);
+
+	t_list *head = NULL;
+
+    add_node(&head, "USER=john_doe");
+    add_node(&head, "PATH=/usr/bin");
+    add_node(&head, "HOME=/home/john");
+    add_node(&head, "HELLO=/bin/bash");
+
+
+    expand(argv, argc, head);
+	print_list(head);
+
 	// while (1)
 	// {
 	// 	input = readline("\033[1;32mminishell > \033[0m");env_variable
