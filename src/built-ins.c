@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/09 16:19:15 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:20:30 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	builtin_echo(char **argv, int argc)
 		write(1, "\n", 1);
 }
 
-TODO: finish unset variable
+//TODO: finish unset variable
 void builtin_unset(char **argv, char **list_envs)
 {
 	int	i;
@@ -50,12 +50,12 @@ void builtin_unset(char **argv, char **list_envs)
 		delete_var(argv[i], list_envs);
 		i++;
 	}
-	i = 0;
-	while (list_envs[i])
-	{
-		ft_printf("%s\n", list_envs[i]);
-		i++;
-	}
+	// i = 0;
+	// while (list_envs[i])
+	// {
+	// 	ft_printf("%s\n", list_envs[i]);
+	// 	i++;
+	// }
 }
 
 void builtin_env(char **argv, int argc, char **list_envs)

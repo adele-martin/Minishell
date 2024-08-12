@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 17:27:39 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:18:45 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,13 @@ int	main(int argc, char **argv, char **envp)
 	// (void)envp;
 	(void)argc;
 	char **list_envs = envs_list(envp);
-	builtin_export(argv, list_envs);
+	builtin_unset(argv, list_envs);
+	int i = 0;
+	while (list_envs[i])
+	{
+		ft_printf("%s\n", list_envs[i]);
+		i++;
+	}
 
 	// while (1)
 	// {
