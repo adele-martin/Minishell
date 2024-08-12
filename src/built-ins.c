@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/12 15:16:50 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:39:50 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,12 @@ void builtin_pwd(char **argv, int argc)
 	ft_printf(getenv("PWD"));
 	ft_printf("\n");
 }
+
+void builtin_exit(char **argv, int argc)
+{
+	ft_printf("exit\n");
+	exit(1);
+}
 // void expand(char **argv, int argc, t_list expand_list)
 // {
 // }
@@ -112,6 +118,7 @@ void builtin_pwd(char **argv, int argc)
 //TO DO: Check if the "cd " command works + do pwd function first
 // void builtin_cd(char **argv, int argc)
 // {
+//char *curr_dir = getcwd();
 // 	if (argc == 2)
 // 	{
 // 	if (ft_strncmp(argv[1], "..", 2) == 0)

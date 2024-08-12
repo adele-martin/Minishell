@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/12 15:14:24 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:32:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ void builtin_env(char **argv, int argc, char **list_envs);
 void builtin_unset(char **argv, char **list_envs);
 void builtin_cd(char **argv, int argc);
 void builtin_pwd(char **argv, int argc);
+void builtin_exit(char **argv, int argc);
 
 #endif

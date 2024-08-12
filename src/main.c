@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/12 15:14:53 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:32:40 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	(void)argc;
 	// char **list_envs = envs_list(envp);
-	builtin_pwd(argv, argc);
+	builtin_exit(argv, argc);
 	// while (1)
 	// {
 	// 	input = readline("\033[1;32mminishell > \033[0m");env_variable
