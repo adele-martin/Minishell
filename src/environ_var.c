@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/12 19:11:52 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:16:39 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**update_list(char *variable, char **list)
 	return (list);
 }
 
-//TODO: protect malloc in this function
+//TODO: protect malloc in this function + implement a split
 void expand(char **argv, int argc, t_list *head)
 {
 	(void)argc;

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/12 19:02:28 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:39:42 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,12 @@ int	main(int argc, char **argv, char **envp)
 
 	t_list *head = NULL;
 
-    add_node(&head, "USER=john_doe");
-    add_node(&head, "PATH=/usr/bin");
-    add_node(&head, "HOME=/home/john");
-    add_node(&head, "HELLO=/bin/bash");
+	add_node(&head, "USER=john_doe");
+	add_node(&head, "PATH=/usr/bin");
+	add_node(&head, "HOME=/home/john");
+	add_node(&head, "HELLO=/bin/bash");
 
-
-    expand(argv, argc, head);
+	expand(argv, argc, head);
 	print_list(head);
 
 	// while (1)
