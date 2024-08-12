@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 16:16:16 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:14:24 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@
 # include <readline/readline.h>		// readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay
 # include "../src/Libft_extended/include/libft.h"
 # include <dirent.h>				// for directory operations
+
+
+// typedef struct s_list
+// {
+// 	void			*content;
+// 	struct s_list	*next;
+// }	t_list;
+
 
 typedef struct s_ast t_ast;
 
@@ -77,5 +85,7 @@ void builtin_export(char **argv, int argc, char **list_envs);
 void	builtin_echo(char **argv, int argc);
 void builtin_env(char **argv, int argc, char **list_envs);
 void builtin_unset(char **argv, char **list_envs);
+void builtin_cd(char **argv, int argc);
+void builtin_pwd(char **argv, int argc);
 
 #endif

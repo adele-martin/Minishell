@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/12 11:18:45 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:14:53 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,11 @@ int	main(int argc, char **argv, char **envp)
 	// char	**tokens;
 	// char	**end_tokens;
 	// t_ast	*astRoot;
-	// (void)envp;
+	// t_list *expand_list;
+	(void)envp;
 	(void)argc;
-	char **list_envs = envs_list(envp);
-	builtin_unset(argv, list_envs);
-	int i = 0;
-	while (list_envs[i])
-	{
-		ft_printf("%s\n", list_envs[i]);
-		i++;
-	}
-
+	// char **list_envs = envs_list(envp);
+	builtin_pwd(argv, argc);
 	// while (1)
 	// {
 	// 	input = readline("\033[1;32mminishell > \033[0m");env_variable

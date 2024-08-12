@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/12 11:20:30 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:16:50 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	builtin_echo(char **argv, int argc)
 		write(1, "\n", 1);
 }
 
-//TODO: finish unset variable
 void builtin_unset(char **argv, char **list_envs)
 {
 	int	i;
@@ -98,6 +97,36 @@ void builtin_export(char **argv, int argc, char **list_envs)
 
 }
 
-// void wildcard_function()
+void builtin_pwd(char **argv, int argc)
+{
+	(void)argv;
+	(void)argc;
+	ft_printf(getenv("PWD"));
+	ft_printf("\n");
+}
+// void expand(char **argv, int argc, t_list expand_list)
 // {
 // }
+
+
+//TO DO: Check if the "cd " command works + do pwd function first
+// void builtin_cd(char **argv, int argc)
+// {
+// 	if (argc == 2)
+// 	{
+// 	if (ft_strncmp(argv[1], "..", 2) == 0)
+// 		ft_printf("yeah");
+// 	else if (chdir(argv[1]) != 0)
+// 		ft_printf("cd: %s: No such file or directory\n", argv[1]);
+// 	}
+// 	else if (argc == 1)
+// 	{
+// 	if (chdir(getenv("HOME")) != 0)
+// 		printf("error");
+// 	}
+// 	else
+// 	{
+// 		ft_printf("bash: cd: too many arguments\n");
+// 	}
+// }
+
