@@ -75,7 +75,10 @@ int		heredoc(char *delimiter);
 // EXECUTION:
 int		execute(char *input);
 // SPLIT_CMD
+t_list	*get_args(char *str);
 char	**split_args(char *str);
+// WILDCARD:
+void	clean_quotations(char *str);
 // PARSING:
 int		parse_ast(t_ast *node);
 // UTILS:
