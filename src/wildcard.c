@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/14 11:57:34 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:42:03 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,47 @@
 	// would use "cda", "cdrom", "cdrecord" and anything that starts with “cd”
 	// also including “cd” itself. "m*l" could by mill, mull, ml, and anything 
 	// that starts with an m and ends with an l.
+
+TODO:
+char	add_wildcards(t_list **linked_args)
+{
+	t_list	*files_list;
+	t_list	*tmp;
+	t_list	**writer;
+
+	files_list = get_files_list();
+	if (!files_list)
+		return (0);
+	writer = linked_args;
+	while (*writer)
+	{
+		
+	}
+}
+
+char	has_wildcards(char *str)
+{
+	char	in_single;
+	char	in_double;
+
+	in_single = 0;
+	in_double = 0;
+	while (*str)
+	{
+		if (!in_single && !in_double && *str == '\'')
+			in_single = 1;
+		else if (!in_single && !in_double && *str == '"')
+			in_double = 1;
+		else if (in_single && *str == '\'')
+			in_single = 0;
+		else if (in_double && *str == '"')
+			in_double = 0;
+		else if (!in_single && !in_double && *str == '*')
+			return (1);
+		str++;
+	}
+	return (0);
+}
 
 t_list	*get_files_list()
 {
