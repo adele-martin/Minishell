@@ -26,6 +26,9 @@ int	execute(char *input)
 	// cmd_argv = ft_split(input, ' ');
 	// cmd_argv = split_args(input);
 	linked_args = get_args(input);
+	// append variables in strings
+	if (!add_wildcards(linked_args))
+		return (perror("Error in wildcards"), 1);
 	cmd_argv = create_argv(linked_args);
 	if (!cmd_argv)
 		return (1);

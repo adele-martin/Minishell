@@ -74,10 +74,12 @@ int		redirect_input(char *filename);
 int		heredoc(char *delimiter);
 // EXECUTION:
 int		execute(char *input);
+char	**create_argv(t_list *linked_args);
 // SPLIT_CMD
 t_list	*get_args(char *str);
 char	**split_args(char *str);
 // WILDCARD:
+char	add_wildcards(t_list *linked_args);
 void	clean_quotations(char *str);
 char	hits_wildcard(char *wildcard, char *str, char in_sgl, char in_dbl);
 // PARSING:

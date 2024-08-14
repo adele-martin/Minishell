@@ -18,21 +18,76 @@
 	// also including “cd” itself. "m*l" could by mill, mull, ml, and anything 
 	// that starts with an m and ends with an l.
 
-TODO:
-char	add_wildcards(t_list **linked_args)
+char	replace_wildcards(t_list ***writer, t_list *files_list);
+t_list	*get_files_list();
+char	has_wildcards(char *str);
+
+void	print_args(char *str, t_list *linked_args)
+{
+	ft_printf("\t%s\n", str);
+	while (linked_args)
+	{
+		ft_printf("%s\n", linked_args->content);
+		linked_args = linked_args->next;
+	}
+}
+
+// TODO:
+char	add_wildcards(t_list *linked_args)
 {
 	t_list	*files_list;
 	t_list	*tmp;
 	t_list	**writer;
 
+	// print_args("before", linked_args);
 	files_list = get_files_list();
 	if (!files_list)
 		return (0);
-	writer = linked_args;
+	writer = &(linked_args->next);
 	while (*writer)
 	{
-		
+		if (has_wildcards((*writer)->content))
+		{
+			tmp = *writer;
+			if (replace_wildcards(&writer, files_list))
+			{
+				*writer = tmp->next;
+				free(tmp->content);
+				free(tmp);
+				// print_args("IN LOOP", linked_args);
+				continue ;
+			}
+		}
+		writer = &((*writer)->next);
 	}
+	// print_args("after", linked_args);
+	return (1);
+}
+
+char	replace_wildcards(t_list ***writer, t_list *files_list)
+{
+	char	replaced;
+	char	*wc;
+	t_list	*new_node;
+
+	replaced = 0;
+	wc = (**writer)->content;
+	while (files_list)
+	{
+		if (hits_wildcard(wc, files_list->content, 0, 0))	// adding in linked list
+		{
+			new_node = ft_lstnew(files_list->content);
+			if (!new_node)
+				return (0);
+			replaced = 1;
+			**writer = new_node;
+			*writer = &(new_node->next);
+		}
+		files_list = files_list->next;
+	}
+	if (replaced)
+		return (1);
+	return (0);
 }
 
 char	has_wildcards(char *str)
