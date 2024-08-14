@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 19:56:29 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:48:38 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_list	*get_args(char *str);
 char	**split_args(char *str);
 // WILDCARD:
 void	clean_quotations(char *str);
+char	hits_wildcard(char *wildcard, char *str, char in_sgl, char in_dbl);
 // PARSING:
 int		parse_ast(t_ast *node);
 // UTILS:

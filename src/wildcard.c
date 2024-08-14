@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 18:56:56 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:57:34 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,58 @@ t_list	*get_files_list()
 	return (files_list);
 }
 
-char	hits_wildcard(char *wildcard, char *str)
+char	hits_wildcard(char *wc, char *str, char in_sgl, char in_dbl)
 {
-	if (!*wildcard && !*str)
+	if (!*wc && !*str)
 		return (1);
-	else if (!*wildcard)
+	else if (!*wc)
 		return (0);
-	if (*wildcard == '*')
+	if (!in_sgl && !in_dbl && *wc == '\'')
+		return (hits_wildcard(wc + 1, str, 1, 0));
+	else if (!in_sgl && !in_dbl && *wc == '"')
+		return (hits_wildcard(wc + 1, str, 0, 1));
+	else if ((in_sgl && *wc == '\'') || (in_dbl && *wc == '"'))
+		return (hits_wildcard(wc + 1, str, 0, 0));
+	if (!in_sgl && !in_dbl && *wc == '*')
 	{
-		if (!*str)
-			return (hits_wildcard(wildcard + 1, str));
-		else if (!*(wildcard + 1))
+		if (!*str || *(wc + 1) == '*')
+			return (hits_wildcard(wc + 1, str, 0, 0));
+		else if (!*(wc + 1))
 			return (1);
-		else if (*(wildcard + 1) == '*')
-			return (hits_wildcard(wildcard + 1, str));
-		else if (*(wildcard + 1) != *str)
-			return (hits_wildcard(wildcard, str + 1));
-		else if (*(wildcard + 1) == *str)
-			return (hits_wildcard(wildcard + 1, str) || hits_wildcard(wildcard, str + 1));
+		else if (*(wc + 1) != *str)
+			return (hits_wildcard(wc, str + 1, 0, 0));
+		else if (*(wc + 1) == *str)
+			return (hits_wildcard(wc + 1, str, 0, 0) || hits_wildcard(wc, str + 1, 0, 0));
 	}
-	if (*wildcard == *str)
-		return (hits_wildcard(wildcard + 1, str + 1));
+	if (*wc == *str)
+		return (hits_wildcard(wc + 1, str + 1, in_sgl, in_dbl));
 	return (0);
 }
+
+// char	hits_wildcard(char *wildcard, char *str)
+// {
+// 	if (!*wildcard && !*str)
+// 		return (1);
+// 	else if (!*wildcard)
+// 		return (0);
+// 	if (*wildcard == '*')
+// 	{
+// 		if (!*str)
+// 			return (hits_wildcard(wildcard + 1, str));
+// 		else if (!*(wildcard + 1))
+// 			return (1);
+// 		else if (*(wildcard + 1) == '*')
+// 			return (hits_wildcard(wildcard + 1, str));
+// 		else if (*(wildcard + 1) != *str)
+// 			return (hits_wildcard(wildcard, str + 1));
+// 		else if (*(wildcard + 1) == *str)
+// 			return (hits_wildcard(wildcard + 1, str) || hits_wildcard(wildcard, str + 1));
+// 	}
+// 	if (*wildcard == *str)
+// 		return (hits_wildcard(wildcard + 1, str + 1));
+// 	return (0);
+// }
+
 
 void	clean_quotations(char *str)
 {
