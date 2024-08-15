@@ -6,7 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/08/15 13:42:22 by ademarti         ###   ########.fr       */
+=======
 /*   Updated: 2024/08/14 11:48:38 by bschneid         ###   ########.fr       */
+>>>>>>> 0f26f591eecd9922b2083a19f20675a9278bc748
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +107,8 @@ char	add_wildcards(t_list *linked_args);
 char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
 char	**delete_var(char *variable, char **list);
-void expand(char **argv, int argc, t_list *head);
+int expand_list(char **argv, t_list *head);
+void	expanding(char **argv, t_list *head);
 
 //BUILT-INS
 void builtin_export(char **argv, int argc, char **list_envs);
