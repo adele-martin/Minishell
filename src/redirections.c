@@ -15,7 +15,7 @@
 // not really sure what this function does and not right!
 int	redirect(char *operator, char *word)
 {
-	if (!ft_strncmp(operator, ">", 2)) 
+	if (!ft_strncmp(operator, ">", 2))
 		return (redirect_output(word));
 	else if (!ft_strncmp(operator, ">>", 3))
 		return (append_output(word));
@@ -25,7 +25,6 @@ int	redirect(char *operator, char *word)
 		return (heredoc(word));
 	return (1);
 }
-
 
 // for > operator
 int	redirect_output(char *filename)
@@ -38,15 +37,12 @@ int	redirect_output(char *filename)
 		perror("open");
 		exit(1);
 	}
-	// ft_printf("Opened file %s with fd %d\n", filename, fd);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		exit(1);
 	}
-	// ft_printf("DUPPED...\n");
 	close(fd);
-	// ft_printf("Redirected output to %s\n", filename);
 	return (0);
 }
 
