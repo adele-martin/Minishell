@@ -2,7 +2,6 @@
 
 TODO:
  - Divide project into pieces to work on
- - Create branches ?! (HOW?)
  - Write tests to check functionality
  - 
 

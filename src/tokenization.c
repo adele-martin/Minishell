@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:33 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/06 15:37:59 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:34:07 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,20 +220,3 @@ static	char	write_all_tokens(char *str, char **tokens_out, size_t tokens)
 	*writer = 0;
 	return (1);
 }
-
-
-// int	main(int argc, char **argv)
-// {
-// 	char	**splited;
-
-// 	if (argc == 2)
-// 	{
-// 		splited = split_tokens(argv[1]);
-// 		while (*splited)
-// 		{
-// 			printf("TOKEN: %s\n", *splited);
-// 			splited++;
-// 		}
-// 	}
-// 	return (0);
-// }
