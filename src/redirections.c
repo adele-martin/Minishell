@@ -78,9 +78,29 @@ int	redirect_input(char *filename)
 	return (0);
 }
 
+/*
+Subshell: When a heredoc is encountered, it signals the shell to create a new child process 
+known as a subshell. This subshell is a separate instance of the shell, created specifically 
+to handle the commands within the heredoc block. So, a subshell can be imagined as a fork of 
+the current shell process with the new shell inheriting the state of the parent shell but 
+operating independently there.
+
+Illustration of what happens:
+When the shell encounters a heredoc block (<< EOF), it knows that everything between << EOF 
+and EOF should be treated as input to a command.
+The shell creates a subshell — a separate process that inherits the environment (variables, 
+functions, etc.) from the parent shell.
+The subshell executes the commands within the heredoc block as if you typed them directly 
+into the terminal.
+Any changes in the environment (variables, etc.) inside the subshell do not affect the parent 
+shell. Once the subshell completes execution, it exits, and the parent shell continues where it left off.
+*/
+
 // for << operator
 int	heredoc(char *delimiter)
 {
+	// (void)delimiter;
+	// write(0, "This is a test\n", 16);
 	char	*line;
 	int	fd;
 

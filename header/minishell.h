@@ -6,11 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/15 13:42:22 by ademarti         ###   ########.fr       */
-=======
 /*   Updated: 2024/08/14 11:48:38 by bschneid         ###   ########.fr       */
->>>>>>> 0f26f591eecd9922b2083a19f20675a9278bc748
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +29,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <dirent.h>
-
-// global var for received signals
-int	g_sig;
 
 typedef struct s_ast	t_ast;
 
