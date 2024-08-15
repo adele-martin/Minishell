@@ -34,7 +34,7 @@ $(LIBFT):
 
 clean:
 	rm -rf $(OBJ_DIR)
-	rm src/heredoc.txt
+	rm -f src/heredoc.txt
 
 fclean:	clean
 	rm -f $(NAME)

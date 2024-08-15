@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		else
 		{
-			printf("INPUT: %s\n", input);
+			// printf("INPUT: %s\n", input);
 			add_history(input);
 			id = fork();
 			if (id == -1)
