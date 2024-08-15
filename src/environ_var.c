@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/12 19:16:39 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/15 13:50:17 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,9 @@ char	**update_list(char *variable, char **list)
 	return (list);
 }
 
-//TODO: protect malloc in this function + implement a split
-void expand(char **argv, int argc, t_list *head)
+//TODO: protect malloc in this function
+int expand_list(char **argv, t_list *head)
 {
-	(void)argc;
 	t_list *temp;
 	temp = head;
 	char *str;
@@ -105,6 +104,34 @@ void expand(char **argv, int argc, t_list *head)
 				temp = temp->next;
 			temp->next = new_node;
 		}
+	return 1;
+	}
+	else
+		return 0;
+}
+
+void	expanding(char **argv, t_list *head)
+{
+	int i;
+
+	i = 0;
+	char *temp;
+	while (argv[i])
+	{
+		temp = 0;
+		if (argv[i] == '$')
+		{
+			while (argv[i] != ' ')
+			{
+				temp[i] = argv[i];
+				i++;
+			}
+			temp[i] = '\0';
+			if (expand_list(&temp, head) == 0)
+				printf("hey");
+		}
+		else
+			i++;
 	}
 }
 
@@ -119,7 +146,7 @@ char	**delete_var(char *variable, char **list)
 	{
 		j = 0;
 		while (list[i][j] != '=')
-			j++;
+			j++;temp_index
 		if (ft_strncmp(list[i], variable, j) == 0)
 		{
 			free(list[i]);

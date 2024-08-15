@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/12 19:59:44 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/15 13:42:22 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ char	is_redirection(char *str);
 char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
 char	**delete_var(char *variable, char **list);
-void expand(char **argv, int argc, t_list *head);
+int expand_list(char **argv, t_list *head);
+void	expanding(char **argv, t_list *head);
 
 //BUILT-INS
 void builtin_export(char **argv, int argc, char **list_envs);
