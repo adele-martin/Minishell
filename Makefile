@@ -15,7 +15,8 @@ HEADER = header/minishell.h
 LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
-SOURCES = ast.c evaluation.c helpers.c main.c parsing.c redirections.c split_cmd.c tokenization.c wildcard.c
+SOURCES = ast.c evaluation.c helpers.c main.c parsing.c redirections.c\
+	signals.c split_cmd.c tokenization.c wildcard.c
 OBJECTS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
 FLAGS = -Wall -Werror -Wextra -g3
 

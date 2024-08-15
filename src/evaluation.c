@@ -12,7 +12,6 @@
 
 #include "../header/minishell.h"
 
-int		expand_wildcards(char **cmd_argv);
 int		run_from_bin_path(char **cmd_argv);
 char	**create_argv(t_list *linked_args);
 
@@ -23,8 +22,6 @@ int	execute(char *input)
 
 	if (!input || !*input)
 		return (0);
-	// cmd_argv = ft_split(input, ' ');
-	// cmd_argv = split_args(input);
 	linked_args = get_args(input);
 	// append variables in strings
 	if (!add_wildcards(linked_args))
@@ -32,8 +29,6 @@ int	execute(char *input)
 	cmd_argv = create_argv(linked_args);
 	if (!cmd_argv)
 		return (1);
-	// if (!expand_variables(cmd_argv) || !expand_wildcards(cmd_argv))
-	// 	return (1);
 	if (**cmd_argv == '.')
 	{
 		if (access(cmd_argv[0], X_OK))
@@ -45,12 +40,6 @@ int	execute(char *input)
 	// else if (is_buildin(cmd_argv[0]))
 	// 	return (run_buildin(cmd_argv));
 	exit (run_from_bin_path(cmd_argv));
-}
-
-int	expand_wildcards(char **cmd_argv)
-{
-	(void)cmd_argv;
-	return (1);
 }
 
 char	**create_argv(t_list *linked_args)

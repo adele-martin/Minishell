@@ -30,6 +30,9 @@
 # include <readline/readline.h>
 # include <dirent.h>
 
+// global var for received signals
+int	g_sig;
+
 typedef struct s_ast	t_ast;
 
 // struct for the Abstract syntax tree nodes
@@ -85,6 +88,9 @@ void	print_ast(t_ast *root);
 int		parse_ast(t_ast *node);
 // UTILS:
 char	is_redirection(char *str);
+//SIGNALS:
+void	handle_signals(void);
+void	signal_action(int sig);
 // SPLIT_CMD
 t_list	*get_args(char *str);
 // TOKENIZATION:

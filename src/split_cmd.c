@@ -43,6 +43,7 @@ t_list	*get_args(char *str)
 	return (args_out);
 }
 
+// gives back the addres of the following arguments end 
 static char	*end_of_arg(char *str, char in_sgl, char in_dbl)
 {
 	while (*str)

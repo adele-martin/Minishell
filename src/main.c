@@ -22,7 +22,6 @@ int	main(int argc, char **argv, char **envp)
 	t_ast	*astRoot;
 	pid_t	id;
 
-	(void)argc;
 	(void)argv;
 	(void)envp;
 	if (argc != 1)
@@ -31,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		perror("main");
 		exit (EXIT_FAILURE);
 	}
+	handle_signals();
 	while (1)
 	{
 		input = readline("minishell > ");
@@ -40,6 +40,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			// printf("INPUT: %s\n", input);
 			add_history(input);
+			// free(input);
 			id = fork();
 			if (id == -1)
 				return (1);
