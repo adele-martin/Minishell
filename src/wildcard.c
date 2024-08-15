@@ -18,28 +18,18 @@
 	// also including “cd” itself. "m*l" could by mill, mull, ml, and anything 
 	// that starts with an m and ends with an l.
 
-char	replace_wildcards(t_list ***writer, t_list *files_list);
-t_list	*get_files_list();
-char	has_wildcards(char *str);
+static t_list	*get_files_list();
+static char		has_wildcards(char *str);
+static char		replace_wildcards(t_list ***writer, t_list *files_list);
+static char		hits_wc(char *wc, char *str, char in_sgl, char in_dbl);
 
-void	print_args(char *str, t_list *linked_args)
-{
-	ft_printf("\t%s\n", str);
-	while (linked_args)
-	{
-		ft_printf("%s\n", linked_args->content);
-		linked_args = linked_args->next;
-	}
-}
-
-// TODO:
+// appends the arguments-linked-list through wildcard-hits
 char	add_wildcards(t_list *linked_args)
 {
 	t_list	*files_list;
 	t_list	*tmp;
 	t_list	**writer;
 
-	// print_args("before", linked_args);
 	files_list = get_files_list();
 	if (!files_list)
 		return (0);
@@ -54,43 +44,48 @@ char	add_wildcards(t_list *linked_args)
 				*writer = tmp->next;
 				free(tmp->content);
 				free(tmp);
-				// print_args("IN LOOP", linked_args);
 				continue ;
 			}
 		}
 		writer = &((*writer)->next);
 	}
-	// print_args("after", linked_args);
 	return (1);
 }
 
-char	replace_wildcards(t_list ***writer, t_list *files_list)
+// returns a linked list with the file-names in the current directory
+static t_list	*get_files_list(void)
 {
-	char	replaced;
-	char	*wc;
-	t_list	*new_node;
+	t_list			*files_list;
+	t_list			*file_node;
+	char			*file_str;
+	DIR				*dir;
+	struct dirent	*entry;
 
-	replaced = 0;
-	wc = (**writer)->content;
-	while (files_list)
+	files_list = NULL;
+	dir = opendir("."); // should open the current dir in $PWD
+	if (!dir)
+		return (ft_printf("ERROR WILDCARD"), NULL);
+	entry = readdir(dir);
+	while (entry) // Read and print each entry in the directory
 	{
-		if (hits_wildcard(wc, files_list->content, 0, 0))	// adding in linked list
+		if (*entry->d_name != '.')
 		{
-			new_node = ft_lstnew(files_list->content);
-			if (!new_node)
+			file_str = ft_strdup(entry->d_name);
+			if (!file_str)
 				return (0);
-			replaced = 1;
-			**writer = new_node;
-			*writer = &(new_node->next);
+			file_node = ft_lstnew(file_str);
+			if (!file_node)
+				return (free(file_str), NULL);
+			ft_lstadd_back(&files_list, file_node);
 		}
-		files_list = files_list->next;
+		entry = readdir(dir);
 	}
-	if (replaced)
-		return (1);
-	return (0);
+	closedir(dir);	// Close the directory
+	return (files_list);
 }
 
-char	has_wildcards(char *str)
+// checks, if a given string (str) includes a wildcard (*)
+static char	has_wildcards(char *str)
 {
 	char	in_single;
 	char	in_double;
@@ -114,194 +109,56 @@ char	has_wildcards(char *str)
 	return (0);
 }
 
-t_list	*get_files_list()
+// replaces/adds the hit files-names to the linked list (writer)
+static char	replace_wildcards(t_list ***writer, t_list *files_list)
 {
-	t_list			*files_list;
-	t_list			*file_node;
-	char			*file_str;
-	DIR				*dir;
-	struct dirent	*entry;
+	char	replaced;
+	char	*wc;
+	t_list	*new_node;
 
-	files_list = NULL;
-	dir = opendir(".");
-	if (!dir)
-		return 0;
-	entry = readdir(dir);
-	while (entry) // Read and print each entry in the directory
+	replaced = 0;
+	wc = (**writer)->content;
+	while (files_list)
 	{
-		if (*entry->d_name != '.')
+		if (hits_wc(wc, files_list->content, 0, 0))	// adding in linked list
 		{
-			file_str = ft_strdup(entry->d_name);
-			if (!file_str)
+			new_node = ft_lstnew(files_list->content);
+			if (!new_node)
 				return (0);
-			file_node = ft_lstnew(file_str);
-			if (!file_node)
-				return (free(file_str), NULL);
-			ft_lstadd_back(&files_list, file_node);
+			replaced = 1;
+			**writer = new_node;
+			*writer = &(new_node->next);
 		}
-		entry = readdir(dir);
+		files_list = files_list->next;
 	}
-	closedir(dir);	// Close the directory
-	return (files_list);
+	if (replaced)
+		return (1);
+	return (0);
 }
 
-char	hits_wildcard(char *wc, char *str, char in_sgl, char in_dbl)
+// checks, if a wildcard-string (wc) expands to a given string (str)
+static char	hits_wc(char *wc, char *str, char in_sgl, char in_dbl)
 {
 	if (!*wc && !*str)
 		return (1);
 	else if (!*wc)
 		return (0);
 	if (!in_sgl && !in_dbl && *wc == '\'')
-		return (hits_wildcard(wc + 1, str, 1, 0));
+		return (hits_wc(wc + 1, str, 1, 0));
 	else if (!in_sgl && !in_dbl && *wc == '"')
-		return (hits_wildcard(wc + 1, str, 0, 1));
+		return (hits_wc(wc + 1, str, 0, 1));
 	else if ((in_sgl && *wc == '\'') || (in_dbl && *wc == '"'))
-		return (hits_wildcard(wc + 1, str, 0, 0));
+		return (hits_wc(wc + 1, str, 0, 0));
 	if (!in_sgl && !in_dbl && *wc == '*')
 	{
 		if (!*str || *(wc + 1) == '*')
-			return (hits_wildcard(wc + 1, str, 0, 0));
+			return (hits_wc(wc + 1, str, 0, 0));
 		else if (!*(wc + 1))
 			return (1);
-		else if (*(wc + 1) != *str)
-			return (hits_wildcard(wc, str + 1, 0, 0));
-		else if (*(wc + 1) == *str)
-			return (hits_wildcard(wc + 1, str, 0, 0) || hits_wildcard(wc, str + 1, 0, 0));
+		else 
+			return (hits_wc(wc + 1, str, 0, 0) || hits_wc(wc, str + 1, 0, 0));
 	}
 	if (*wc == *str)
-		return (hits_wildcard(wc + 1, str + 1, in_sgl, in_dbl));
+		return (hits_wc(wc + 1, str + 1, in_sgl, in_dbl));
 	return (0);
 }
-
-// char	hits_wildcard(char *wildcard, char *str)
-// {
-// 	if (!*wildcard && !*str)
-// 		return (1);
-// 	else if (!*wildcard)
-// 		return (0);
-// 	if (*wildcard == '*')
-// 	{
-// 		if (!*str)
-// 			return (hits_wildcard(wildcard + 1, str));
-// 		else if (!*(wildcard + 1))
-// 			return (1);
-// 		else if (*(wildcard + 1) == '*')
-// 			return (hits_wildcard(wildcard + 1, str));
-// 		else if (*(wildcard + 1) != *str)
-// 			return (hits_wildcard(wildcard, str + 1));
-// 		else if (*(wildcard + 1) == *str)
-// 			return (hits_wildcard(wildcard + 1, str) || hits_wildcard(wildcard, str + 1));
-// 	}
-// 	if (*wildcard == *str)
-// 		return (hits_wildcard(wildcard + 1, str + 1));
-// 	return (0);
-// }
-
-
-void	clean_quotations(char *str)
-{
-	char	*writer;
-	char	in_single;
-	char	in_double;
-	
-	in_single = 0;
-	in_double = 0;
-	writer = str;
-	while (*str)
-	{
-		if (in_single || in_double)
-		{
-			if ((in_single && *str == '\'') || (in_double && *str == '"'))
-			{
-				in_single = 0;
-				in_double = 0;
-				str++;
-				continue ;
-			}
-		}
-		else if (*str == '\'' || *str == '"')
-		{
-			if (*str == '\'')
-				in_single = 1;
-			else if (*str == '"')
-				in_double = 1;
-			str++;
-			continue ;
-		}
-		*(writer++) = *(str++);
-	}
-	*writer = '\0';
-}
-
-// CLEANING OUTPUT FROM QUOTATIONS:
-// compile with:  cc src/wildcard.c -L./src/Libft_extended -lft
-// int	main(int argc, char **argv)
-// {
-// 	if (argc == 2)
-// 	{
-// 		clean_quotations(argv[1]);
-// 		ft_printf("%s", argv[1]);
-// 	}
-// 	return (0);
-// }
-
-// compile with:  cc src/wildcard.c -L./src/Libft_extended -lft
-// int main(int argc, char **argv)
-// {
-// 	t_list	*files_list;
-// 	t_list	*searcher;
-// 	t_list	**writer;
-
-// 	if (argc != 2)
-// 	{
-// 		ft_printf("Use a wildcard-string as an argument!\n");
-// 		return (EXIT_FAILURE);
-// 	}
-// 	files_list = get_files_list();
-// 	ft_printf("There are %i files in this directory:\n", ft_lstsize(files_list));
-// 	searcher = files_list;
-// 	while (searcher)
-// 	{
-// 		ft_printf("name: %s\n", searcher->content);
-// 		searcher = searcher->next;
-// 	}
-// 	ft_printf("\nYour given input is: %s\n", argv[1]);
-	
-// 	t_list	*tmp;
-// 	writer = &files_list;
-// 	while (*writer)
-// 	{
-// 		if (hits_wildcard(argv[1], (*writer)->content))
-// 			writer = &(*writer)->next;
-// 		else
-// 		{
-// 			ft_printf("Removing: %s\n", (*writer)->content);
-// 			tmp = (*writer)->next;
-// 			free((*writer)->content);
-// 			free(*writer);
-// 			*writer = tmp;
-// 		}
-// 	}
-// 	ft_printf("\nThere are %i files matching the input:\n", ft_lstsize(files_list));
-// 	searcher = files_list;
-// 	while (searcher)
-// 	{
-// 		ft_printf("name: %s\n", searcher->content);
-// 		searcher = searcher->next;
-// 	}
-//     return (0);
-// }
-
-/*
-WILDCARD:
-in the directory:
-header  _infos  Makefile  minishell  obj  README.md  src
-" ls * "
-expands to
-" ls header _infos/ Makefile minishell obj README.md src "
-
-Idea to recreate wildcard: 
-1. Use opendir and readdir to open and read the directory specified by the token.
-2. Match the wildcard pattern with the entries in the directory.
-3. Append matching filenames to the arg list.
-*/
