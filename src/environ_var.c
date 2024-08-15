@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/15 13:50:17 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:01:30 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ char	**delete_var(char *variable, char **list)
 	{
 		j = 0;
 		while (list[i][j] != '=')
-			j++;temp_index
+			j++;
 		if (ft_strncmp(list[i], variable, j) == 0)
 		{
 			free(list[i]);
