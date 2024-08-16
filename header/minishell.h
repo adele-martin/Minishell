@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 17:08:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 18:23:31 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,16 @@ typedef struct
 // }	t_action;
 
 // struct for the information
-typedef struct s_info
+typedef struct s_data
 {
-	unsigned int	id;
-}	t_info;
+	char	*input;
+	char 	*tty_name;
+	char	**list_envs;
+	char	**tokens;
+	char	**end_tokens;
+	t_ast	*astRoot;
+	int		id;
+}	t_data;
 
 // global var for received signals
 extern volatile __sig_atomic_t	g_signal;
@@ -105,9 +111,10 @@ char	add_wildcards(t_list *linked_args);
 // void store_envs(char **envp);
 char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
+char	*return_value_env(char *variable, char **list);
+char	*return_value_var(char *variable, t_list *head);
 char	**delete_var(char *variable, char **list);
-int expand_list(char **argv, t_list *head);
-void	expanding(char **argv, t_list *head);
+char	*expanding(char *variable, char **list, t_list *head);
 
 //BUILT-INS
 void builtin_export(char **argv, int argc, char **list_envs);

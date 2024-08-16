@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environ_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/15 14:01:30 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:48:27 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ char	**update_list(char *variable, char **list)
 {
 	int	i;
 	int	j;
-	int found;
 
 	j = 0;
 	i = 0;
-	found = 0;
+	int found_value;
+	found_value = 0;
 	while (list[i])
 	{
 		j = 0;
@@ -52,7 +52,7 @@ char	**update_list(char *variable, char **list)
 			j++;
 		if (ft_strncmp(list[i], variable, j) == 0)
 		{
-			found = 1;
+			found_value = 1;
 			free(list[i]);
 			list[i] = ft_strdup(variable);
 			if (!list[i])
@@ -61,78 +61,12 @@ char	**update_list(char *variable, char **list)
 		}
 		i++;
 	}
-	if (!found)
+	if (!found_value)
+	{
 		list[i] = ft_strdup(variable);
+		found_value = 0;
+	}
 	return (list);
-}
-
-//TODO: protect malloc in this function
-int expand_list(char **argv, t_list *head)
-{
-	t_list *temp;
-	temp = head;
-	char *str;
-	int len;
-	int found;
-	found = 0;
-	while (temp != NULL)
-	{
-		str = (char *)temp->content;
-		len = 0;
-		while (argv[1][len] != '=')
-			len++;
-		if (ft_strncmp(str, argv[1], len) == 0)
-		{
-			found = 1;
-			free(temp->content);
-			temp->content = ft_strdup(argv[1]);
-		}
-		temp = temp->next;
-	}
-	if (!found)
-	{
-		t_list *new_node = malloc(sizeof(t_list));
-		if (!new_node)
-			return;
-		new_node->content = ft_strdup(argv[1]);
-		new_node->next = NULL;
-		if (head == NULL) {
-			head = new_node;
-		} else {
-			temp = head;
-			while (temp->next != NULL)
-				temp = temp->next;
-			temp->next = new_node;
-		}
-	return 1;
-	}
-	else
-		return 0;
-}
-
-void	expanding(char **argv, t_list *head)
-{
-	int i;
-
-	i = 0;
-	char *temp;
-	while (argv[i])
-	{
-		temp = 0;
-		if (argv[i] == '$')
-		{
-			while (argv[i] != ' ')
-			{
-				temp[i] = argv[i];
-				i++;
-			}
-			temp[i] = '\0';
-			if (expand_list(&temp, head) == 0)
-				printf("hey");
-		}
-		else
-			i++;
-	}
 }
 
 char	**delete_var(char *variable, char **list)
@@ -163,4 +97,104 @@ char	**delete_var(char *variable, char **list)
 	return (list);
 }
 
+char	*return_value_env(char *variable, char **list)
+{
+	int	i;
+	int	j;
 
+	j = 0;
+	i = 0;
+	while (list[i])
+	{
+		j = 0;
+		while (list[i][j] != '=')
+			j++;
+		if (ft_strncmp(list[i], variable, j) == 0)
+		{
+			j = j + 1;
+			return (&list[i][j]);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*return_value_var(char *variable, t_list *head)
+{
+	t_list *temp;
+	temp = head;
+	char *str;
+	int i;
+	while (temp != NULL)
+	{
+		str = (char *)temp->content;
+		i = 0;
+		while (variable[i] != '=')
+			i++;
+		if (ft_strncmp(str, &variable[i], i) == 0)
+		{
+			i = i + 1;
+			return(&variable[i]);
+		}
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
+//TODO: protect malloc in this function
+int expand_list(char **argv, t_list *head)
+{
+	t_list *temp;
+	temp = head;
+	char *str;
+	int len;
+	int found;
+	while (temp != NULL)
+	{
+		str = (char *)temp->content;
+		len = 0;
+		while (argv[1][len] != '=')
+			len++;
+		if (ft_strncmp(str, argv[1], len) == 0)
+		{
+			found = 1;
+			free(temp->content);
+			temp->content = ft_strdup(argv[1]);
+		}
+		temp = temp->next;
+	}
+	if (!found)
+	{
+		t_list *new_node = malloc(sizeof(t_list));
+		if (!new_node)
+			return 0; //protect malloc
+		new_node->content = ft_strdup(argv[1]);
+		new_node->next = NULL;
+		if (head == NULL) {
+			head = new_node;
+		} else {
+			temp = head;
+			while (temp->next != NULL)
+				temp = temp->next;
+			temp->next = new_node;
+		}
+	return 1;
+	}
+	else
+		return 0;
+}
+
+//Function with you ask for key and get value
+//if found = return pointer, otherwise return NULL
+char	*expanding(char *variable, char **list, t_list *head)
+{
+	char	*out;
+
+	out = return_value_env(variable, list);
+	if (out)
+		return (out);
+	out = return_value_var(variable, head);
+	if (out)
+		return (out);
+	return (NULL);
+}
