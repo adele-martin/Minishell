@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/15 13:50:17 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:50:20 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ char	**update_list(char *variable, char **list)
 {
 	int	i;
 	int	j;
-	int found;
 
 	j = 0;
 	i = 0;
-	found = 0;
+	int found_value;
+	found_value = 0;
 	while (list[i])
 	{
 		j = 0;
@@ -52,7 +52,7 @@ char	**update_list(char *variable, char **list)
 			j++;
 		if (ft_strncmp(list[i], variable, j) == 0)
 		{
-			found = 1;
+			found_value = 1;
 			free(list[i]);
 			list[i] = ft_strdup(variable);
 			if (!list[i])
@@ -61,9 +61,84 @@ char	**update_list(char *variable, char **list)
 		}
 		i++;
 	}
-	if (!found)
+	if (!found_value)
+	{
 		list[i] = ft_strdup(variable);
+		found_value = 0;
+	}
 	return (list);
+}
+
+char	**delete_var(char *variable, char **list)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while (list[i])
+	{
+		j = 0;
+		while (list[i][j] != '=')
+			j++;
+		if (ft_strncmp(list[i], variable, j) == 0)
+		{
+			free(list[i]);
+			while (list[i + 1])
+			{
+				list[i] = list[i + 1];
+				i++;
+			}
+			list[i] = NULL;
+			break;
+		}
+		i++;
+	}
+	return (list);
+}
+
+char	*return_value_env(char *variable, char **list)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while (list[i])
+	{
+		j = 0;
+		while (list[i][j] != '=')
+			j++;
+		if (ft_strncmp(list[i], variable, j) == 0)
+		{
+			j = j + 1;
+			return (&list[i][j]);
+		}
+		i++;
+	}
+		return (NULL);
+}
+
+char	*return_value_var(char *variable, t_list *head)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while (list[i])
+	{
+		j = 0;
+		while (list[i][j] != '=')
+			j++;
+		if (ft_strncmp(list[i], variable, j) == 0)
+		{
+			j = j + 1;
+			return (&list[i][j]);
+		}
+		i++;
+	}
+		return (NULL);
 }
 
 //TODO: protect malloc in this function
@@ -74,7 +149,6 @@ int expand_list(char **argv, t_list *head)
 	char *str;
 	int len;
 	int found;
-	found = 0;
 	while (temp != NULL)
 	{
 		str = (char *)temp->content;
@@ -93,7 +167,7 @@ int expand_list(char **argv, t_list *head)
 	{
 		t_list *new_node = malloc(sizeof(t_list));
 		if (!new_node)
-			return;
+			return 0; //protect malloc
 		new_node->content = ft_strdup(argv[1]);
 		new_node->next = NULL;
 		if (head == NULL) {
@@ -110,57 +184,21 @@ int expand_list(char **argv, t_list *head)
 		return 0;
 }
 
-void	expanding(char **argv, t_list *head)
+//Function with you ask for key and get value
+//if found = return pointer, otherwise return NULL
+char	*expanding(char *variable, char **list, t_list *head)
 {
-	int i;
-
-	i = 0;
-	char *temp;
-	while (argv[i])
-	{
-		temp = 0;
-		if (argv[i] == '$')
-		{
-			while (argv[i] != ' ')
-			{
-				temp[i] = argv[i];
-				i++;
-			}
-			temp[i] = '\0';
-			if (expand_list(&temp, head) == 0)
-				printf("hey");
-		}
-		else
-			i++;
-	}
+    (void)head;
+	if (return_value(variable, list) != NULL)
+		return (return_value(variable, list));
+	// else if
+	// 	return ();
+	else
+		return (NULL);
 }
 
-char	**delete_var(char *variable, char **list)
-{
-	int	i;
-	int	j;
+// ft_printf("%s", (return_value(variable, list)));
 
-	j = 0;
-	i = 0;
-	while (list[i])
-	{
-		j = 0;
-		while (list[i][j] != '=')
-			j++;temp_index
-		if (ft_strncmp(list[i], variable, j) == 0)
-		{
-			free(list[i]);
-			while (list[i + 1])
-			{
-				list[i] = list[i + 1];
-				i++;
-			}
-			list[i] = NULL;
-			break;
-		}
-		i++;
-	}
-	return (list);
-}
+
 
 
