@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/16 16:21:25 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:28:00 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ void builtin_unset(char **argv, char **list_envs, t_list *head)
 	i = 1;
 	while (argv[i])
 	{
-		delete_env(argv[i], list_envs);
+		if (delete_env(argv[i], list_envs))
 		i++;
 	}
+	if (search(argv[i], list_envs, head) != NULL)
 	(void)head;
 }
 
