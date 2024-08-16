@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 14:48:06 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:19:32 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int		evaluate(char *input, t_info *info);
 char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
 char	*return_value_env(char *variable, char **list);
+char	*return_value_var(char *variable, t_list *head);
 char	**delete_var(char *variable, char **list);
 char	*expanding(char *variable, char **list, t_list *head);
 

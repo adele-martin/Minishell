@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/16 14:50:20 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:29:02 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,22 +121,22 @@ char	*return_value_env(char *variable, char **list)
 
 char	*return_value_var(char *variable, t_list *head)
 {
-	int	i;
-	int	j;
-
-	j = 0;
-	i = 0;
-	while (list[i])
+	t_list *temp;
+	temp = head;
+	char *str;
+	int i;
+	while (temp != NULL)
 	{
-		j = 0;
-		while (list[i][j] != '=')
-			j++;
-		if (ft_strncmp(list[i], variable, j) == 0)
+		str = (char *)temp->content;
+		i = 0;
+		while (variable[i] != '=')
+			i++;
+		if (ft_strncmp(str, &variable[i], i) == 0)
 		{
-			j = j + 1;
-			return (&list[i][j]);
+			i = i + 1;
+			return(&variable[i]);
 		}
-		i++;
+		temp = temp->next;
 	}
 		return (NULL);
 }
@@ -188,17 +188,14 @@ int expand_list(char **argv, t_list *head)
 //if found = return pointer, otherwise return NULL
 char	*expanding(char *variable, char **list, t_list *head)
 {
-    (void)head;
-	if (return_value(variable, list) != NULL)
-		return (return_value(variable, list));
-	// else if
-	// 	return ();
-	else
-		return (NULL);
+	char	*out;
+
+	out = return_value_env(variable, list);
+	if (out)
+		return (out);
+	out = return_value_var(variable, head);
+	if (out)
+		return (out);
+	return (NULL);
 }
-
-// ft_printf("%s", (return_value(variable, list)));
-
-
-
 
