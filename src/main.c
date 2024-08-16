@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 15:20:33 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:16:33 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 t_list *create_node_(char *content)
 {
-    t_list *new_node = (t_list *)malloc(sizeof(t_list));
-    if (!new_node)
-        return NULL;
-    new_node->content = strdup(content);
-    new_node->next = NULL;
-    return new_node;
+	t_list *new_node = (t_list *)malloc(sizeof(t_list));
+	if (!new_node)
+		return NULL;
+	new_node->content = strdup(content);
+	new_node->next = NULL;
+	return new_node;
 }
 
 void add_node(t_list **head, char *content)
@@ -54,16 +54,16 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	char **list_envs = envs_list(envp);
-
+	(void)list_envs;
 	t_list *head = NULL;
 
 	add_node(&head, "USER=john_doe");
 	add_node(&head, "PATH=/usr/bin");
 	add_node(&head, "HOME=/home/john");
-	add_node(&head, "HELLO=/bin/bash");
-	expanding("MAIL", list_envs, head);
+	print_list(head);
+	head = delete_var("PATH=/usr/bin", head);
 
-	// print_list(head);
+	print_list(head);
 
 	// while (1)
 	// {

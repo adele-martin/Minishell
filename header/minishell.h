@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 15:19:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:08:44 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 // 	void			*content;
 // 	struct s_list	*next;
 // }	t_list;
-
 
 typedef struct s_ast t_ast;
 
@@ -80,14 +79,15 @@ char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
 char	*return_value_env(char *variable, char **list);
 char	*return_value_var(char *variable, t_list *head);
-char	**delete_var(char *variable, char **list);
-char	*expanding(char *variable, char **list, t_list *head);
+char	**delete_env(char *variable, char **list);
+t_list *delete_var(char *variable, t_list *head);
+char	*search(char *variable, char **list, t_list *head);
 
 //BUILT-INS
 void builtin_export(char **argv, int argc, char **list_envs);
 void	builtin_echo(char **argv, int argc);
 void builtin_env(char **argv, int argc, char **list_envs);
-void builtin_unset(char **argv, char **list_envs);
+void builtin_unset(char **argv, char **list_envs, t_list *head);
 void builtin_cd(char **argv, int argc);
 void builtin_pwd(char **argv, int argc);
 void builtin_exit(char **argv, int argc);
