@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 18:23:31 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:32:52 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,23 @@ extern volatile __sig_atomic_t	g_signal;
 
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);
-// EVALUATION:
-int		evaluate(char *input, t_info *info);
+// // EVALUATION:
+// int		evaluate(char *input, t_info *info);
 // REDIRECTIONS:
-int		redirect(char *operator, char *word, char *tty_name);
+int	redirect(char *operator, char *word, t_data *data);
 int		redirect_output(char *filename);
 int		append_output(char *filename);
 int		redirect_input(char *filename);
 int		heredoc(char *delimiter, char *tty_name);
 // EXECUTION:
-int		execute(char *input);
+int		execute(char *input, t_data *data);
 char	**create_argv(t_list *linked_args);
 // HELPERS:
 void	print_args(char *str, t_list *linked_args);
 void	clean_quotations(char *str);
 void	print_ast(t_ast *root);
 // PARSING:
-int		parse_ast(t_ast *node, char *tty_name);
+int		parse_ast(t_ast *node, t_data *data);
 // UTILS:
 char	is_redirection(char *str);
 //SIGNALS:

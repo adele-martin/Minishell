@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 17:14:08 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:34:55 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,49 @@
 int		run_from_bin_path(char **cmd_argv);
 char	**create_argv(t_list *linked_args);
 
-int	execute(char *input)
+
+char	replace_vars(t_list *linked_args, t_data *data)
+{
+	(void)linked_args;
+	// alle $-Variablen werden beendet durch 
+	// nicht-alphanumerische Zeichen, auch " und '
+	// beginnen allerdings nur ohne oder in aeußeren " "
+	// zB echo "$PAT"H --> H (da key=PAT nicht existiert)
+
+	ft_printf("%s\n", expanding("PATH", data->list_envs, NULL));
+	return (1);
+}
+
+char	has_var(char *str)
+{
+	// $ innerhalb von " " oder ohne
+	// TODO, nur DUMMY
+	while(*str)
+	{
+		if (*str == '$')
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
+char	expand_variables(t_list *linked_args, t_data *data)
+{
+	if (!linked_args)
+		return (0);
+	while (linked_args)
+	{
+		while (has_var(linked_args->content))
+		{
+			if (!replace_vars(linked_args, data))
+				return (0);
+		}
+		linked_args = linked_args->next;
+	}
+	return (1);
+}
+
+int	execute(char *input, t_data *data)
 {
 	char	**cmd_argv;
 	t_list	*linked_args;
@@ -23,9 +65,11 @@ int	execute(char *input)
 	if (!input || !*input)
 		return (0);
 	linked_args = get_args(input);
-	// append variables in strings
 	if (!add_wildcards(linked_args))
 		return (perror("Error in wildcards"), 1);
+	// append variables in strings
+	if (!expand_variables(linked_args, data))
+		return (perror("Error in expanding variables"), 1);
 	cmd_argv = create_argv(linked_args);
 	if (!cmd_argv)
 		return (1);

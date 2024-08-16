@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 17:18:14 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 21:00:10 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,24 @@ use of kill is allowed
 
 void	signal_action(int sig)
 {
-	if (sig == SIGINT)
-		ft_printf("\nPressed CTRL-C\n");
-	else if (sig == SIGQUIT)
-		ft_printf("\nPressed CTRL-\\\n");
+	(void)sig;
+	ft_printf("\nPressed CTRL-C\nminishell > ");
 }
 
 void	handle_signals(void)
 {
 	struct sigaction	action;
+	struct sigaction	ignore;
 
 	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, SIGINT);		// ctrl-C
-	sigaddset(&action.sa_mask, SIGQUIT);	/* ctrl-\ */ 
 	action.sa_flags = SA_RESTART;
 	action.sa_handler = signal_action;
 	sigaction(SIGINT, &action, NULL);
-	sigaction(SIGQUIT, &action, NULL);
 	
-	// return (0);
+	sigemptyset(&ignore.sa_mask);
+	sigaddset(&ignore.sa_mask, SIGQUIT);	/* ctrl-\ */ 
+	ignore.sa_flags = SA_RESTART;
+	ignore.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &ignore, NULL);
 }

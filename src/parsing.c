@@ -6,23 +6,21 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 18:25:22 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:32:33 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	parse_and_or(t_ast *node, s_data *data);
+int	parse_and_or(t_ast *node, t_data *data);
 
 // return 0 on success, 1/? on failure
-int	parse_ast(t_ast *node, s_data *data)
+int	parse_ast(t_ast *node, t_data *data)
 {
 	if (!ft_strncmp(node->value, "&&", 3) || !ft_strncmp(node->value, "||", 3))
 		parse_and_or(node, data);
 	else if (ft_strncmp(node->value, "|", 2) == 0)
 	{
-		// fd[0] is the read end
-		// fd[1] is the write end
 		int 	fd[2];
 		pid_t	id;
 		
@@ -67,11 +65,11 @@ int	parse_ast(t_ast *node, s_data *data)
 		parse_ast(node->left, data);
 	}
 	else
-		return (execute(node->value));
+		return (execute(node->value, data));
 	return (0);
 }
 
-int	parse_and_or(t_ast *node, s_data *data)
+int	parse_and_or(t_ast *node, t_data *data)
 {
 	pid_t	id;
 	int		status;

@@ -6,7 +6,7 @@
 #    By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/08/09 19:55:15 by bschneid         ###   ########.fr        #
+#    Updated: 2024/08/16 19:13:31 by bschneid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ HEADER = header/minishell.h
 LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
-SOURCES = ast.c evaluation.c helpers.c main.c parsing.c redirections.c\
-	signals.c split_cmd.c tokenization.c wildcard.c
+SOURCES = ast.c built-ins.c environ_var.c evaluation.c helpers.c main.c\
+	parsing.c redirections.c signals.c split_cmd.c tokenization.c wildcard.c
 OBJECTS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
 FLAGS = -Wall -Werror -Wextra -g3
 

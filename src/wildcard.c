@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 17:15:04 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:00:31 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	add_wildcards(t_list *linked_args)
 	t_list	**writer;
 
 	files_list = get_files_list();
-	if (!files_list)
+	if (!files_list || !linked_args)
 		return (0);
 	writer = &(linked_args->next);
 	while (*writer)

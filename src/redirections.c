@@ -6,14 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 15:42:35 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:05:32 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 // not really sure what this function does and not right!
-int	redirect(char *operator, char *word, char *tty_name)
+int	redirect(char *operator, char *word, t_data *data)
 {
 	if (!ft_strncmp(operator, ">", 2))
 		return (redirect_output(word));
@@ -22,7 +22,7 @@ int	redirect(char *operator, char *word, char *tty_name)
 	else if (!ft_strncmp(operator, "<", 2))
 		return (redirect_input(word));
 	else if (!ft_strncmp(operator, "<<", 3))
-		return (heredoc(word, tty_name));
+		return (heredoc(word, data->tty_name));
 	return (1);
 }
 

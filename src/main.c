@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 18:11:16 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:29:23 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 // TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
 	char	**tokens;
 	char	**end_tokens;
 	t_ast	*astRoot;
@@ -38,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		data.input = readline("minishell > ");
-		if (!input)
+		if (!data.input)
 			break ;
 		else
 		{
@@ -49,14 +48,14 @@ int	main(int argc, char **argv, char **envp)
 				return (1);
 			if (id == 0)
 			{
-				tokenize_parse(&data);
-				tokens = split_tokens(input);
+				// tokenize_parse(&data);
+				tokens = split_tokens(data.input);
 				end_tokens = tokens;
 				while (*end_tokens)
 					end_tokens++;
 				end_tokens--;
 				astRoot = create_ast(tokens, end_tokens); // Parse the tokens to build the AST
-				parse_ast(astRoot, ); // Parse the AST to execute the commands
+				parse_ast(astRoot, &data); // Parse the AST to execute the commands
 			}
 			else
 			{
