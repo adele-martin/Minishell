@@ -6,14 +6,11 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 15:06:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:07:14 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-// global var for received signals
-int	g_sig;
 
 // TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
 int	main(int argc, char **argv, char **envp)

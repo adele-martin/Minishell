@@ -6,12 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 15:10:12 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:08:13 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define _GNU_SOURCE
 
 # include "../src/Libft_extended/include/libft.h"
 # include <stdio.h>
@@ -29,6 +31,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <dirent.h>
+# include <sys/stat.h>
 
 typedef struct s_ast	t_ast;
 
@@ -63,6 +66,9 @@ typedef struct s_info
 {
 	unsigned int	id;
 }	t_info;
+
+// global var for received signals
+extern volatile __sig_atomic_t	g_signal;
 
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);
