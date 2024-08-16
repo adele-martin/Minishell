@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/12 15:41:46 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:04:02 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void builtin_env(char **argv, int argc, char **list_envs)
 	}
 }
 
-//TODO: perhaps add a second array of intermediary variables that have not yet entered the env array;
+//TODO: xport from linked list to array. After exported delete it from linked list 
 void builtin_export(char **argv, int argc, char **list_envs)
 {
 	int i;

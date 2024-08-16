@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/15 14:04:17 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:36:26 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ int	main(int argc, char **argv, char **envp)
 	// char	**tokens;
 	// char	**end_tokens;
 	// t_ast	*astRoot;
-	// char **list_envs = envs_list(envp);
+	// t_list *expand_list;
+	(void)envp;
+	(void)argc;
+	(void)argv;
+	char **list_envs = envs_list(envp);
 
 	(void)argv;
 	(void)envp;
@@ -37,8 +41,8 @@ int	main(int argc, char **argv, char **envp)
 	add_node(&head, "PATH=/usr/bin");
 	add_node(&head, "HOME=/home/john");
 	add_node(&head, "HELLO=/bin/bash");
+	expanding("MAIL", list_envs, head);
 
-	expanding(argv, head);
 	// print_list(head);
 
 	// handle_signals();

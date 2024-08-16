@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/15 13:42:22 by ademarti         ###   ########.fr       */
-=======
-/*   Updated: 2024/08/14 11:48:38 by bschneid         ###   ########.fr       */
->>>>>>> 0f26f591eecd9922b2083a19f20675a9278bc748
+/*   Created: 2024/08/16 15:34:39 by ademarti          #+#    #+#             */
+/*   Updated: 2024/08/16 15:34:43 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +102,10 @@ char	add_wildcards(t_list *linked_args);
 // void store_envs(char **envp);
 char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
+char	*return_value_env(char *variable, char **list);
+char	*return_value_var(char *variable, t_list *head);
 char	**delete_var(char *variable, char **list);
-int expand_list(char **argv, t_list *head);
-void	expanding(char **argv, t_list *head);
+char	*expanding(char *variable, char **list, t_list *head);
 
 //BUILT-INS
 void builtin_export(char **argv, int argc, char **list_envs);
