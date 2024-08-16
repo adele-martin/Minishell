@@ -6,14 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/08 14:50:35 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:38:38 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 // return 0 on success, 1/? on failure
-int	parse_ast(t_ast *node)
+int	parse_ast(t_ast *node, char *tty_name)
 {
 	if (ft_strncmp(node->value, "&&", 3) == 0)	// if left execute successfully, execute right
 	{
@@ -25,13 +25,13 @@ int	parse_ast(t_ast *node)
 			return (1);
 		if (id == 0)
 		{
-			parse_ast(node->left);
+			parse_ast(node->left, tty_name);
 			exit(0);
 		}
 		else
 			waitpid(id, &status, 0);
 		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
-			parse_ast(node->right);
+			parse_ast(node->right, tty_name);
 	}
 	else if (ft_strncmp(node->value, "||", 3) == 0)	// if left DIDN'T execute successfully, execute right
 	{
@@ -43,13 +43,13 @@ int	parse_ast(t_ast *node)
 			return (1);
 		if (id == 0)
 		{
-			parse_ast(node->left);
+			parse_ast(node->left, tty_name);
 			exit(0);
 		}
 		else
 			waitpid(id, &status, 0);
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			parse_ast(node->right);
+			parse_ast(node->right, tty_name);
 	}
 	else if (ft_strncmp(node->value, "|", 2) == 0)	// TODO: this may interfere with heredoc which needs writing in STDOUT 
 	{
@@ -68,7 +68,7 @@ int	parse_ast(t_ast *node)
 			close(fd[0]);
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
-			parse_ast(node->left);
+			parse_ast(node->left, tty_name);
 			return (0);
 		}
 		else
@@ -76,7 +76,9 @@ int	parse_ast(t_ast *node)
 			close(fd[1]);
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
-			parse_ast(node->right);
+			waitpid(id, NULL, 0);	 // NEW
+			// ft_printf("waited for left pipe with id %d\n", id);
+			parse_ast(node->right, tty_name);
 			return (0);
 		}
 		close(fd[0]);
@@ -90,11 +92,11 @@ int	parse_ast(t_ast *node)
 		tmp_node = node;
 		while (is_redirection(tmp_node->right->value))
 		{
-			redirect(tmp_node->value, tmp_node->right->left->value);	
+			redirect(tmp_node->value, tmp_node->right->left->value, tty_name);	
 			tmp_node = tmp_node->right;
 		}
-		redirect(tmp_node->value, tmp_node->right->value);
-		parse_ast(node->left);
+		redirect(tmp_node->value, tmp_node->right->value, tty_name);
+		parse_ast(node->left, tty_name);
 	}
 	else
 		return (execute(node->value));

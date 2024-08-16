@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/15 14:04:17 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:06:01 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 					end_tokens++;
 				end_tokens--;
 				astRoot = create_ast(tokens, end_tokens); // Parse the tokens to build the AST
-				parse_ast(astRoot); // Parse the AST to execute the commands
+				parse_ast(astRoot, ttyname(STDIN_FILENO)); // Parse the AST to execute the commands
 			}
 			else
 				waitpid(id, NULL, 0);

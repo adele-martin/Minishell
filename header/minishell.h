@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/14 11:48:38 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:10:12 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ t_ast	*create_ast(char **token_start, char **token_end);
 // EVALUATION:
 int		evaluate(char *input, t_info *info);
 // REDIRECTIONS:
-int		redirect(char *operator, char *word);
+int		redirect(char *operator, char *word, char *tty_name);
 int		redirect_output(char *filename);
 int		append_output(char *filename);
 int		redirect_input(char *filename);
-int		heredoc(char *delimiter);
+int		heredoc(char *delimiter, char *tty_name);
 // EXECUTION:
 int		execute(char *input);
 char	**create_argv(t_list *linked_args);
@@ -82,7 +82,7 @@ void	print_args(char *str, t_list *linked_args);
 void	clean_quotations(char *str);
 void	print_ast(t_ast *root);
 // PARSING:
-int		parse_ast(t_ast *node);
+int		parse_ast(t_ast *node, char *tty_name);
 // UTILS:
 char	is_redirection(char *str);
 //SIGNALS:
