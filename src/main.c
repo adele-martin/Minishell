@@ -27,6 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	// for char	*expanding(char *variable, char **list, t_list *head)
 	// expanding(char *variable, list_envs, NULL);
 	data.tty_name = ttyname(STDIN_FILENO);
+	data.shell_name = ft_strdup("minishell");
+	data.status_str = ft_itoa(123);
 	if (argc != 1)
 	{
 		errno = EINVAL;

@@ -28,17 +28,83 @@ char	replace_vars(t_list *linked_args, t_data *data)
 	return (1);
 }
 
-char	has_var(char *str)
+// TODO: variable declarations also expand wildcards, variables and clean quotations!
+
+// struct for linked variables list to be replaced:
+// typedef struct s_vars
+// {
+// 	void	*key_start;
+// 	int		key_len;
+// 	void	*value_start;
+// 	int		len_diff;
+// 	t_vars	*next;
+// }	t_vars;
+
+void	append_replace(char *str, t_vars **list, t_data *data)
 {
-	// $ innerhalb von " " oder ohne
-	// TODO, nur DUMMY
-	while(*str)
+	while (*list)
+		list = &(*list)->next;
+	*list = (t_vars *)malloc(sizeof(t_vars));
+	if (!*list)
+		return ;
+	(*list)->next = NULL;
+	(*list)->key_start = str++;	// start at $
+	if (ft_isdigit(*str) || *str == '?')
+		(*list)->key_len = 2;
+	if (*str == '0')
+		(*list)->value_start = data->shell_name;
+	else if (ft_isdigit(*str))
+		(*list)->value_start = NULL;
+	else if (*str == '?')
+		(*list)->value_start = data->status_str;
+	else
 	{
-		if (*str == '$')
-			return (1);
+		str = ft_strdup(str);
+		if (!str)
+		{
+			free(*list);
+			*list = NULL;
+			return ;
+		}
+		(*list)->key_len = 0;
+		while (ft_isalnum(str[(*list)->key_len]))
+			(*list)->key_len++;
+		str[(*list)->key_len++] = '\0';
+		(*list)->value_start = expanding(str, data->list_envs, NULL);
+		free(str);
+	}
+	if (!(*list)->value_start)
+		(*list)->len_diff = 0 - (*list)->key_len;
+	else
+		(*list)->len_diff = (int)ft_strlen((*list)->value_start) - (*list)->key_len;
+}
+
+// $ with alphanum, ? (last status), (!), ($ (ppid) - not possible to get, 0 (name of shell),  
+char	has_var(char *str, t_data *data)
+{
+	char	in_sgl;
+	char	in_dbl;
+	t_vars	*replace_vars;
+
+	replace_vars = NULL;
+	in_sgl = 0;
+	in_dbl = 0;
+	while (*str)
+	{
+		if (!in_sgl && !in_dbl && *str == '\'')
+			in_sgl = 1;
+		else if (!in_sgl && !in_dbl && *str == '"')
+			in_dbl = 1;
+		else if (in_sgl && *str == '\'')
+			in_sgl = 0;
+		else if (in_dbl && *str == '"')
+			in_dbl = 0;
+		else if (!in_sgl && *str == '*' && (ft_isalnum(*(str + 1))
+				|| *(str + 1) == '?'))
+			append_replace(str++, &replace_vars, data);
 		str++;
 	}
-	return (0);
+	return (replace_vars);
 }
 
 char	expand_variables(t_list *linked_args, t_data *data)
@@ -47,7 +113,7 @@ char	expand_variables(t_list *linked_args, t_data *data)
 		return (0);
 	while (linked_args)
 	{
-		while (has_var(linked_args->content))
+		if (has_var(linked_args->content, data))
 		{
 			if (!replace_vars(linked_args, data))
 				return (0);

@@ -56,6 +56,18 @@ typedef struct
 // 	struct s_list	*next;
 // }	t_list;
 
+typedef struct s_vars	t_vars;
+
+// struct for linked variables list to be replaced:
+typedef struct s_vars
+{
+	void	*key_start;
+	int		key_len;
+	void	*value_start;
+	int		len_diff;
+	t_vars	*next;
+}	t_vars;
+
 // typedef enum s_action {
 // 	WORD1,
 // 	WORD2
@@ -64,6 +76,9 @@ typedef struct
 // struct for the information
 typedef struct s_data
 {
+	char	*shell_name;
+	int		last_status;
+	char	*status_str;
 	char	*input;
 	char 	*tty_name;
 	char	**list_envs;
