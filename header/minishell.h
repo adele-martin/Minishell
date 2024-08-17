@@ -61,9 +61,9 @@ typedef struct s_vars	t_vars;
 // struct for linked variables list to be replaced:
 typedef struct s_vars
 {
-	void	*key_start;
+	char	*key_start;
 	int		key_len;
-	void	*value_start;
+	char	*value_start;
 	int		len_diff;
 	t_vars	*next;
 }	t_vars;
@@ -119,6 +119,8 @@ void	signal_action(int sig);
 t_list	*get_args(char *str);
 // TOKENIZATION:
 char	**split_tokens(char *str);
+// VAR_EXPAND:
+char	expand_variables(t_list *linked_args, t_data *data);
 // WILDCARD:
 char	add_wildcards(t_list *linked_args);
 

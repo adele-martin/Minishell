@@ -3,6 +3,8 @@
 #include "../header/minishell.h"
 
 t_vars	*var_val(char *str, t_data *data);
+char	replace_vars(t_list *arg, t_vars *vars);
+void	free_vars(t_vars *vars);
 
 char	expand_variables(t_list *linked_args, t_data *data)
 {
@@ -21,7 +23,7 @@ char	expand_variables(t_list *linked_args, t_data *data)
 	return (1);
 }
 
-free_vars(t_vars *vars)
+void	free_vars(t_vars *vars)
 {
 	t_vars	*tmp;
 
@@ -33,29 +35,50 @@ free_vars(t_vars *vars)
 	}
 }
 
+size_t	len_after_replace(char *original, t_vars *vars)
+{
+	size_t	len;
+
+	len = ft_strlen(original);
+	while (vars)
+	{
+		len += vars->len_diff;
+		vars = vars->next;
+	}
+	return (len + 1);
+}
+
 char	replace_vars(t_list *arg, t_vars *vars)
 {
-	(void)linked_args;
-	// alle $-Variablen werden beendet durch 
-	// nicht-alphanumerische Zeichen, auch " und '
-	// beginnen allerdings nur ohne oder in aeußeren " "
-	// zB echo "$PAT"H --> H (da key=PAT nicht existiert)
+	char	*new;
+	char	*old_ptr;
+	char	*cpy;
 
-	ft_printf("%s\n", expanding("PATH", data->list_envs, NULL));
+	new = (char *)malloc(len_after_replace(arg->content, vars) * sizeof(char));
+	if (!new)
+		return (0);
+	cpy = new;
+	old_ptr = arg->content;
+	while (*old_ptr)
+	{
+		if (vars && old_ptr == vars->key_start)
+		{
+			if (vars->value_start)
+				while (*vars->value_start)
+					*(cpy++) = *(vars->value_start++);
+			old_ptr += vars->key_len;
+			vars = vars->next;
+		}
+		else
+			*(cpy++) = *(old_ptr++);
+	}
+	*cpy = '\0';
+	free(arg->content);
+	arg->content = new;
 	return (1);
 }
 
 // TODO: variable declarations also expand wildcards, variables and clean quotations!
-
-// struct for linked variables list to be replaced:
-// typedef struct s_vars
-// {
-// 	void	*key_start;
-// 	int		key_len;
-// 	void	*value_start;
-// 	int		len_diff;
-// 	t_vars	*next;
-// }	t_vars;
 
 // fills the linked vars list with infos about VARS to replace
 // key_start holds pointer to $ from VAR
@@ -121,7 +144,7 @@ t_vars	*var_val(char *str, t_data *data)
 			in_sgl = 0;
 		else if (in_dbl && *str == '"')
 			in_dbl = 0;
-		else if (!in_sgl && *str == '*' && (ft_isalnum(*(str + 1))
+		else if (!in_sgl && *str == '$' && (ft_isalnum(*(str + 1))
 				|| *(str + 1) == '?'))
 			append_replace(str++, &replace_vars, data);
 		str++;

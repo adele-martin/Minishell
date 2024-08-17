@@ -23,12 +23,12 @@ int	main(int argc, char **argv, char **envp)
 	// t_list *expand_list;
 	(void)argv;
 	
-	data.list_envs = envs_list(envp);		// Copied envp - is it shielded??
 	// for char	*expanding(char *variable, char **list, t_list *head)
-	// expanding(char *variable, list_envs, NULL);
+	data.list_envs = envs_list(envp);		// Copied envp - is it shielded??
 	data.tty_name = ttyname(STDIN_FILENO);
 	data.shell_name = ft_strdup("minishell");
 	data.status_str = ft_itoa(123);
+	ft_printf("EXPAND: %s\n", expanding("PWDasdf", data.list_envs, NULL));
 	if (argc != 1)
 	{
 		errno = EINVAL;
