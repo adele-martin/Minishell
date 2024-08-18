@@ -15,32 +15,70 @@
 int		run_from_bin_path(char **cmd_argv);
 char	**create_argv(t_list *linked_args);
 
+/*
+◦ echo with option -n
+◦ cd with only a relative or absolute path
+◦ pwd with no options
+◦ export with no options
+◦ unset with no options
+◦ env with no options or arguments
+◦ exit with no options
+void builtin_export(char **argv, int argc, char **list_envs);
+void	builtin_echo(char **argv, int argc);
+void builtin_env(char **argv, int argc, char **list_envs);
+void builtin_unset(char **argv, char **list_envs);
+void builtin_cd(char **argv, int argc);
+void builtin_pwd(char **argv, int argc);
+void builtin_exit(char **argv, int argc);
+*/
+
 // TODO: else if (is_buildin(cmd_argv[0]))
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
-	char	**cmd_argv;
-	t_list	*linked_args;
-
+	if (data->signal_fd)
+	{
+		write(data->signal_fd, &data->in_pipe, sizeof(char));
+		close(data->signal_fd);
+	}
 	if (!input || !*input)
 		return (0);
-	linked_args = get_args(input);
-	if (!add_wildcards(linked_args))
+	data->linked_args = get_args(input);
+	if (!add_wildcards(data->linked_args))
 		return (perror("Error in wildcards"), 1);
-	if (!expand_variables(linked_args, data))
+	if (!expand_variables(data->linked_args, data))
 		return (perror("Error in expanding variables"), 1);
-	cmd_argv = create_argv(linked_args);
-	if (!cmd_argv)
+	data->cmd_argv = create_argv(data->linked_args);
+	if (!data->cmd_argv)
 		return (1);
-	if (**cmd_argv == '.')
+	char	**argv_tmp = data->cmd_argv;
+	while (*(argv_tmp++))
+		data->cmd_argc++;
+	if (**data->cmd_argv == '.')
 	{
-		if (access(cmd_argv[0], X_OK))
-			ft_printf("%s: No execution rights!\n", cmd_argv[0]);
+		if (access(data->cmd_argv[0], X_OK))
+			ft_printf("%s: No execution rights!\n", data->cmd_argv[0]);
 		else
-			execve(cmd_argv[0], cmd_argv, NULL);
+			execve(data->cmd_argv[0], data->cmd_argv, NULL);
 		exit (2);
 	}
-	exit (run_from_bin_path(cmd_argv));
+	else if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
+		builtin_echo(data->cmd_argv, data->cmd_argc);
+	else if (ft_strncmp(*data->cmd_argv, "cd", 3) == 0)
+		builtin_cd(data->cmd_argv, data->cmd_argc);
+	else if (ft_strncmp(*data->cmd_argv, "pwd", 4) == 0)
+		builtin_pwd(data->cmd_argv, data->cmd_argc);
+	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
+		builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs);
+	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
+		builtin_unset(data->cmd_argv, data->list_envs);
+	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
+		builtin_env(data->cmd_argv, data->cmd_argc, data->list_envs);
+	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
+		builtin_exit(data->cmd_argv, data->cmd_argc);
+	else
+		run_from_bin_path(data->cmd_argv);
+	exit (data->status);
 }
 
 char	**create_argv(t_list *linked_args)

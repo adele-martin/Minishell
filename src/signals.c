@@ -28,7 +28,7 @@ void	signal_action(int sig)
 	ft_printf("\nPressed CTRL-C\nminishell > ");
 }
 
-// SIGINT: ctrl-C; SIGQUIT: ctrl-\ 
+/* SIGINT: ctrl-C; SIGQUIT: ctrl-\ */
 void	handle_signals(void)
 {
 	struct sigaction	action;

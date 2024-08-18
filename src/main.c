@@ -20,7 +20,6 @@ int	main(int argc, char **argv, char **envp)
 	char	**tokens;
 	char	**end_tokens;
 	t_ast	*astRoot;
-	pid_t	id;
 	t_data	data;
 	
 	if (initialize_data(&data, argc, argv, envp))
@@ -33,10 +32,10 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			add_history(data.input);
-			id = fork();
-			if (id == -1)
+			data.id = fork();
+			if (data.id == -1)
 				return (1);
-			if (id == 0)
+			if (data.id == 0)
 			{
 				// tokenize_parse(&data);
 				tokens = split_tokens(data.input);
@@ -49,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 			else
 			{
-				waitpid(id, NULL, 0);
+				waitpid(data.id, NULL, 0);
 				free(data.input);
 			}
 		}
@@ -72,6 +71,10 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	data->tty_name = ttyname(STDIN_FILENO);
 	data->shell_name = ft_strdup("minishell");
 	data->status_str = ft_itoa(123);
+	data->in_pipe = 0;
+	data->id = 0;
+	data->signal_fd = 0;
+	data->cmd_argc = 0;
 	ft_printf("TEST-EXPAND: %s\n", expanding("PWDasdf", data->list_envs, NULL));
 	handle_signals();
 	return (EXIT_SUCCESS);

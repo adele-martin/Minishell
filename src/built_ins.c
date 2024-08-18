@@ -15,6 +15,14 @@
 
 #include "../header/minishell.h"
 
+
+void builtin_cd(char **argv, int argc)
+{
+	(void)argv;
+	(void)argc;
+	ft_printf("<TEST in BUILDIN CD>\n");
+}
+
 void	builtin_echo(char **argv, int argc)
 {
 	int	i;
@@ -37,6 +45,7 @@ void	builtin_echo(char **argv, int argc)
 	}
 	if (!option_n)
 		write(1, "\n", 1);
+	ft_printf("<TEST in BUILDIN ECHO>\n");
 }
 
 void builtin_unset(char **argv, char **list_envs)
@@ -69,6 +78,7 @@ void builtin_env(char **argv, int argc, char **list_envs)
 		ft_printf("%s\n", list_envs[i]);
 		i++;
 	}
+	ft_printf("<TEST in BUILDIN ENV>\n");
 }
 
 //TODO: xport from linked list to array. After exported delete it from linked list 
@@ -87,14 +97,14 @@ void builtin_export(char **argv, int argc, char **list_envs)
 	}
 	else
 	{
-	i = 0;
-	while (list_envs[i])
-	{
-		ft_printf("%s\n", list_envs[i]);
-		i++;
+		i = 0;
+		while (list_envs[i])
+		{
+			ft_printf("%s\n", list_envs[i]);
+			i++;
+		}
 	}
-	}
-
+	ft_printf("<TEST in BUILDIN ECHO>\n");
 }
 
 void builtin_pwd(char **argv, int argc)
@@ -103,6 +113,7 @@ void builtin_pwd(char **argv, int argc)
 	(void)argc;
 	ft_printf(getenv("PWD"));
 	ft_printf("\n");
+	ft_printf("<TEST in BUILDIN PWD>\n");
 }
 
 void builtin_exit(char **argv, int argc)
@@ -111,6 +122,7 @@ void builtin_exit(char **argv, int argc)
 	(void)argc;
 	ft_printf("exit\n");
 	exit(1);
+	ft_printf("<TEST in BUILDIN EXIT>\n");
 }
 
 

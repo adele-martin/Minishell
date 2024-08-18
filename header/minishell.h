@@ -84,8 +84,14 @@ typedef struct s_data
 	char	**list_envs;
 	char	**tokens;
 	char	**end_tokens;
+	char	in_pipe;
+	int		signal_fd;
+	pid_t	id;
+	int		status;
+	int		cmd_argc;
+	char	**cmd_argv;
+	t_list	*linked_args;
 	t_ast	*astRoot;
-	int		id;
 }	t_data;
 
 // global var for received signals

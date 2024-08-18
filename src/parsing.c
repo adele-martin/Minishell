@@ -21,19 +21,23 @@ int	parse_ast(t_ast *node, t_data *data)
 		parse_and_or(node, data);
 	else if (ft_strncmp(node->value, "|", 2) == 0)
 	{
-		int 	fd[2];
-		pid_t	id;
-		
+		int		fd[2];
+
 		if (pipe(fd) == -1)
 			return (1);
-		id = fork();
-		if (id == -1)
-			return (1);
-		if (id == 0)
+		data->in_pipe = 1;
+		data->id = fork();
+		if (data->id == -1)
 		{
 			close(fd[0]);
-			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
+			return (1);
+		}
+		if (data->id == 0)
+		{
+			close(fd[0]);
+			data->signal_fd = fd[1];
+			dup2(fd[1], STDOUT_FILENO);
 			parse_ast(node->left, data);
 			return (0);
 		}
@@ -41,15 +45,15 @@ int	parse_ast(t_ast *node, t_data *data)
 		{
 			close(fd[1]);
 			dup2(fd[0], STDIN_FILENO);
+			read(fd[0], &data->in_pipe, sizeof(char));
 			close(fd[0]);
-			waitpid(id, NULL, 0);	 // NEW
-			// ft_printf("waited for left pipe with id %d\n", id);
+			ft_printf("waited for left pipe with id %d\n", data->id);
 			parse_ast(node->right, data);
 			return (0);
 		}
-		close(fd[0]);
-		close(fd[1]);
-		waitpid(id, NULL, 0);
+		// close(fd[0]);
+		// close(fd[1]);
+		waitpid(data->id, NULL, 0);
 	}
 	else if (is_redirection(node->value))
 	{
@@ -71,24 +75,21 @@ int	parse_ast(t_ast *node, t_data *data)
 
 int	parse_and_or(t_ast *node, t_data *data)
 {
-	pid_t	id;
-	int		status;
-
-	id = fork();
-	if (id == -1)
+	data->id = fork();
+	if (data->id == -1)
 		return (1);
-	if (id == 0)
+	if (data->id == 0)
 		exit(parse_ast(node->left, data));
 	else
-		waitpid(id, &status, 0);
+		waitpid(data->id, &data->status, 0);
 	if (ft_strncmp(node->value, "&&", 3) == 0)
 	{
-		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+		if (WIFEXITED(data->status) && !WEXITSTATUS(data->status))
 			parse_ast(node->right, data);
 	}
 	else if (ft_strncmp(node->value, "||", 3) == 0)
 	{
-		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		if (WIFEXITED(data->status) && WEXITSTATUS(data->status))
 			parse_ast(node->right, data);
 	}
 	return (0);
