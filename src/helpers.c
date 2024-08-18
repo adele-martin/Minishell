@@ -31,7 +31,7 @@ void	clean_quotations(char *str)
 	char	*writer;
 	char	in_sgl;
 	char	in_dbl;
-	
+
 	in_sgl = 0;
 	in_dbl = 0;
 	writer = str;

@@ -15,8 +15,8 @@
 int		run_from_bin_path(char **cmd_argv);
 char	**create_argv(t_list *linked_args);
 
-
-
+// TODO: else if (is_buildin(cmd_argv[0]))
+// 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
 	char	**cmd_argv;
@@ -27,7 +27,6 @@ int	execute(char *input, t_data *data)
 	linked_args = get_args(input);
 	if (!add_wildcards(linked_args))
 		return (perror("Error in wildcards"), 1);
-	// append variables in strings
 	if (!expand_variables(linked_args, data))
 		return (perror("Error in expanding variables"), 1);
 	cmd_argv = create_argv(linked_args);
@@ -41,8 +40,6 @@ int	execute(char *input, t_data *data)
 			execve(cmd_argv[0], cmd_argv, NULL);
 		exit (2);
 	}
-	// else if (is_buildin(cmd_argv[0]))
-	// 	return (run_buildin(cmd_argv));
 	exit (run_from_bin_path(cmd_argv));
 }
 
@@ -103,4 +100,3 @@ int	run_from_bin_path(char **cmd_argv)
 		ft_printf("%s: CMD not found!\n", cmd_argv[0]);
 	exit (2); //status
 }
-

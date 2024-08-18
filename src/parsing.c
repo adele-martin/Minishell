@@ -81,12 +81,12 @@ int	parse_and_or(t_ast *node, t_data *data)
 		exit(parse_ast(node->left, data));
 	else
 		waitpid(id, &status, 0);
-	if (ft_strncmp(node->value, "&&", 3) == 0)	// if left execute successfully, execute right
+	if (ft_strncmp(node->value, "&&", 3) == 0)
 	{
 		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
 			parse_ast(node->right, data);
 	}
-	else if (ft_strncmp(node->value, "||", 3) == 0)	// if left DIDN'T execute successfully, execute right
+	else if (ft_strncmp(node->value, "||", 3) == 0)
 	{
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 			parse_ast(node->right, data);

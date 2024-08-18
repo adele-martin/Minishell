@@ -18,7 +18,7 @@
 	// also including “cd” itself. "m*l" could by mill, mull, ml, and anything 
 	// that starts with an m and ends with an l.
 
-static t_list	*get_files_list();
+static t_list	*get_files_list(void);
 static char		has_wildcards(char *str);
 static char		replace_wildcards(t_list ***writer, t_list *files_list);
 static char		hits_wc(char *wc, char *str, char in_sgl, char in_dbl);
@@ -52,6 +52,7 @@ char	add_wildcards(t_list *linked_args)
 	return (1);
 }
 
+// TODO:  should open the current dir in $PWD
 // returns a linked list with the file-names in the current directory
 static t_list	*get_files_list(void)
 {
@@ -62,11 +63,11 @@ static t_list	*get_files_list(void)
 	struct dirent	*entry;
 
 	files_list = NULL;
-	dir = opendir("."); // should open the current dir in $PWD
+	dir = opendir(".");
 	if (!dir)
 		return (ft_printf("ERROR WILDCARD"), NULL);
 	entry = readdir(dir);
-	while (entry) // Read and print each entry in the directory
+	while (entry)
 	{
 		if (*entry->d_name != '.')
 		{
@@ -80,7 +81,7 @@ static t_list	*get_files_list(void)
 		}
 		entry = readdir(dir);
 	}
-	closedir(dir);	// Close the directory
+	closedir(dir);
 	return (files_list);
 }
 
@@ -120,7 +121,7 @@ static char	replace_wildcards(t_list ***writer, t_list *files_list)
 	wc = (**writer)->content;
 	while (files_list)
 	{
-		if (hits_wc(wc, files_list->content, 0, 0))	// adding in linked list
+		if (hits_wc(wc, files_list->content, 0, 0))
 		{
 			new_node = ft_lstnew(files_list->content);
 			if (!new_node)
@@ -155,7 +156,7 @@ static char	hits_wc(char *wc, char *str, char in_sgl, char in_dbl)
 			return (hits_wc(wc + 1, str, 0, 0));
 		else if (!*(wc + 1))
 			return (1);
-		else 
+		else
 			return (hits_wc(wc + 1, str, 0, 0) || hits_wc(wc, str + 1, 0, 0));
 	}
 	if (*wc == *str)

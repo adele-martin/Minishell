@@ -121,6 +121,8 @@ t_list	*get_args(char *str);
 char	**split_tokens(char *str);
 // VAR_EXPAND:
 char	expand_variables(t_list *linked_args, t_data *data);
+// VAR_HELPERS:
+char	replace_vars(t_list *arg, t_vars *vars);
 // WILDCARD:
 char	add_wildcards(t_list *linked_args);
 

@@ -28,19 +28,20 @@ void	signal_action(int sig)
 	ft_printf("\nPressed CTRL-C\nminishell > ");
 }
 
+// SIGINT: ctrl-C; SIGQUIT: ctrl-\ 
 void	handle_signals(void)
 {
 	struct sigaction	action;
 	struct sigaction	ignore;
 
 	sigemptyset(&action.sa_mask);
-	sigaddset(&action.sa_mask, SIGINT);		// ctrl-C
+	sigaddset(&action.sa_mask, SIGINT);
 	action.sa_flags = SA_RESTART;
 	action.sa_handler = signal_action;
 	sigaction(SIGINT, &action, NULL);
-	
+
 	sigemptyset(&ignore.sa_mask);
-	sigaddset(&ignore.sa_mask, SIGQUIT);	/* ctrl-\ */ 
+	sigaddset(&ignore.sa_mask, SIGQUIT);
 	ignore.sa_flags = SA_RESTART;
 	ignore.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &ignore, NULL);

@@ -1,10 +1,12 @@
 
+// TODO: variable declarations also expand wildcards, variables and clean quotations!
 
 #include "../header/minishell.h"
 
-t_vars	*var_val(char *str, t_data *data);
-char	replace_vars(t_list *arg, t_vars *vars);
-void	free_vars(t_vars *vars);
+static t_vars	*var_val(char *str, t_data *data);
+static void		append_replace(char *str, t_vars **list, t_data *data);
+static char		get_alphaval(char *str, t_vars **list, t_data *data);
+static void		free_vars(t_vars *vars);
 
 char	expand_variables(t_list *linked_args, t_data *data)
 {
@@ -23,109 +25,8 @@ char	expand_variables(t_list *linked_args, t_data *data)
 	return (1);
 }
 
-void	free_vars(t_vars *vars)
-{
-	t_vars	*tmp;
-
-	while (vars)
-	{
-		tmp = vars;
-		vars = vars->next;
-		free(tmp);
-	}
-}
-
-size_t	len_after_replace(char *original, t_vars *vars)
-{
-	size_t	len;
-
-	len = ft_strlen(original);
-	while (vars)
-	{
-		len += vars->len_diff;
-		vars = vars->next;
-	}
-	return (len + 1);
-}
-
-char	replace_vars(t_list *arg, t_vars *vars)
-{
-	char	*new;
-	char	*old_ptr;
-	char	*cpy;
-
-	new = (char *)malloc(len_after_replace(arg->content, vars) * sizeof(char));
-	if (!new)
-		return (0);
-	cpy = new;
-	old_ptr = arg->content;
-	while (*old_ptr)
-	{
-		if (vars && old_ptr == vars->key_start)
-		{
-			if (vars->value_start)
-				while (*vars->value_start)
-					*(cpy++) = *(vars->value_start++);
-			old_ptr += vars->key_len;
-			vars = vars->next;
-		}
-		else
-			*(cpy++) = *(old_ptr++);
-	}
-	*cpy = '\0';
-	free(arg->content);
-	arg->content = new;
-	return (1);
-}
-
-// TODO: variable declarations also expand wildcards, variables and clean quotations!
-
-// fills the linked vars list with infos about VARS to replace
-// key_start holds pointer to $ from VAR
-// key_len has the len of VAR-string including the $
-// value_start holds pointer to the replace-string or NULL (!)
-// len_diff has the len-difference after replacing (can be negative)
-void	append_replace(char *str, t_vars **list, t_data *data)
-{
-	while (*list)
-		list = &(*list)->next;
-	*list = (t_vars *)malloc(sizeof(t_vars));
-	if (!*list)
-		return ;
-	(*list)->next = NULL;
-	(*list)->key_start = str++;	// start at $
-	if (ft_isdigit(*str) || *str == '?')
-		(*list)->key_len = 2;
-	if (*str == '0')
-		(*list)->value_start = data->shell_name;
-	else if (ft_isdigit(*str))
-		(*list)->value_start = NULL;
-	else if (*str == '?')
-		(*list)->value_start = data->status_str;
-	else
-	{
-		str = ft_strdup(str);
-		if (!str)
-		{
-			free(*list);
-			*list = NULL;
-			return ;
-		}
-		(*list)->key_len = 0;
-		while (ft_isalnum(str[(*list)->key_len]))
-			(*list)->key_len++;
-		str[(*list)->key_len++] = '\0';
-		(*list)->value_start = expanding(str, data->list_envs, NULL);
-		free(str);
-	}
-	if (!(*list)->value_start)
-		(*list)->len_diff = 0 - (*list)->key_len;
-	else
-		(*list)->len_diff = (int)ft_strlen((*list)->value_start) - (*list)->key_len;
-}
-
-// $ with alphanum, ? (last status), (!), ($ (ppid) - not possible to get, 0 (name of shell),  
-t_vars	*var_val(char *str, t_data *data)
+// $ with alphanum, ? (last status), ($ (ppid) - not possible, 0 (shellname)
+static t_vars	*var_val(char *str, t_data *data)
 {
 	char	in_sgl;
 	char	in_dbl;
@@ -152,3 +53,61 @@ t_vars	*var_val(char *str, t_data *data)
 	return (replace_vars);
 }
 
+// fills the linked vars list with infos about VARS to replace
+// key_start holds pointer to $ from VAR
+// key_len has the len of VAR-string including the $
+// value_start holds pointer to the replace-string or NULL (!)
+// len_diff has the len-difference after replacing (can be negative)
+static void	append_replace(char *str, t_vars **list, t_data *data)
+{
+	while (*list)
+		list = &(*list)->next;
+	*list = (t_vars *)malloc(sizeof(t_vars));
+	if (!*list)
+		return ;
+	(*list)->next = NULL;
+	(*list)->key_start = str++;
+	if (ft_isdigit(*str) || *str == '?')
+		(*list)->key_len = 2;
+	if (*str == '0')
+		(*list)->value_start = data->shell_name;
+	else if (ft_isdigit(*str))
+		(*list)->value_start = NULL;
+	else if (*str == '?')
+		(*list)->value_start = data->status_str;
+	else if (!get_alphaval(ft_strdup(str), list, data))
+		return ;
+	if (!(*list)->value_start)
+		(*list)->len_diff = 0 - (*list)->key_len;
+	else
+		(*list)->len_diff = (int)ft_strlen((*list)->value_start) - (*list)->key_len;
+}
+
+static char	get_alphaval(char *str, t_vars **list, t_data *data)
+{
+	if (!str)
+	{
+		free(*list);
+		*list = NULL;
+		return (0);
+	}
+	(*list)->key_len = 0;
+	while (ft_isalnum(str[(*list)->key_len]))
+		(*list)->key_len++;
+	str[(*list)->key_len++] = '\0';
+	(*list)->value_start = expanding(str, data->list_envs, NULL);
+	free(str);
+	return (1);
+}
+
+static void	free_vars(t_vars *vars)
+{
+	t_vars	*tmp;
+
+	while (vars)
+	{
+		tmp = vars;
+		vars = vars->next;
+		free(tmp);
+	}
+}
