@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/16 17:16:24 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:58:49 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ char	*return_value_env(char *variable, char **list)
 		j = 0;
 		while (list[i][j] != '=')
 			j++;
-		if (ft_strncmp(list[i], variable, j) == 0)
+		if (ft_strncmp(list[i], variable, ft_strlen(variable)) == 0)
 		{
 			j = j + 1;
 			return (&list[i][j]);
@@ -159,9 +159,9 @@ char	*return_value_var(char *variable, t_list *head)
 	{
 		str = (char *)temp->content;
 		i = 0;
-		while (variable[i] != '=')
+		while (str[i] != '=')
 			i++;
-		if (ft_strncmp(str, &variable[i], i) == 0)
+		if (ft_strncmp(str, variable, ft_strlen(variable)) == 0)
 		{
 			i = i + 1;
 			return(&variable[i]);

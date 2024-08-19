@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 17:24:51 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:03:12 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_list *create_node_(char *content)
 
 void add_node(t_list **head, char *content)
 {
-    t_list *new_node = create_node_(content);
-    if (!new_node)
-        return;
+	t_list *new_node = create_node_(content);
+	if (!new_node)
+		return;
 
     new_node->next = *head;
     *head = new_node;
@@ -60,10 +60,11 @@ int	main(int argc, char **argv, char **envp)
 	add_node(&head, "USER=john_doe");
 	add_node(&head, "PATH=/usr/bin");
 	add_node(&head, "HOME=/home/john");
-	print_list(head);
-	head = delete_var("PATH=/usr/bin", head);
-
-	print_list(head);
+	// print_list(head);
+	// head = delete_var("PATH=/usr/bin", head);
+	char *hey= search("HOME", list_envs, head);
+	ft_printf("%s", hey);
+	// print_list(head);
 
 	//TODO : create the linked list from vars.
 
