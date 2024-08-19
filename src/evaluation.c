@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 22:34:55 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:23:05 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	execute(char *input, t_data *data)
 	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
 		builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
-		builtin_unset(data->cmd_argv, data->list_envs);
+		builtin_unset(data->cmd_argv, data->list_envs, NULL);
 	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
 		builtin_env(data->cmd_argv, data->cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
@@ -134,7 +134,7 @@ int	run_from_bin_path(char **cmd_argv)
 	}
 	if (file_exists)
 		ft_printf("%s: No execution rights!\n", cmd_argv[0]);
-	else
-		ft_printf("%s: CMD not found!\n", cmd_argv[0]);
+	// else
+	// 	ft_printf("%s: CMD not found!\n", cmd_argv[0]);
 	exit (2); //status
 }

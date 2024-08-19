@@ -95,7 +95,7 @@ static char	get_alphaval(char *str, t_vars **list, t_data *data)
 	while (ft_isalnum(str[(*list)->key_len]))
 		(*list)->key_len++;
 	str[(*list)->key_len++] = '\0';
-	(*list)->value_start = expanding(str, data->list_envs, NULL);
+	(*list)->value_start = search(str, data->list_envs, NULL);
 	free(str);
 	return (1);
 }

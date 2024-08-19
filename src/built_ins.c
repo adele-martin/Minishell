@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built-ins.c                                        :+:      :+:    :+:   */
+/*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/19 11:26:55 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:10:53 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void builtin_unset(char **argv, char **list_envs, t_list *head)
 	i = 1;
 	while (argv[i])
 	{
-		if (delete_env(argv[i], list_envs)) 
+		if (delete_env(argv[i], list_envs))
 		i++;
 	}
 	if (search(argv[i], list_envs, head) != NULL)
@@ -127,7 +127,7 @@ void builtin_exit(char **argv, int argc)
 //TO DO: Check if the "cd " command works + do pwd function first
 // void builtin_cd(char **argv, int argc)
 // {
-//char *curr_dir = getcwd();
+// char *curr_dir = getcwd();
 // 	if (argc == 2)
 // 	{
 // 	if (ft_strncmp(argv[1], "..", 2) == 0)

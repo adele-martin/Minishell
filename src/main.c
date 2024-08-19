@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/19 12:07:24 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:16:44 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	data->id = 0;
 	data->signal_fd = 0;
 	data->cmd_argc = 0;
-	ft_printf("TEST-EXPAND: %s\n", expanding("PWDasdf", data->list_envs, NULL));
+	ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
 	handle_signals();
 	return (EXIT_SUCCESS);
 }
