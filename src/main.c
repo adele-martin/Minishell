@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/19 12:28:23 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:18:14 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	char **list_envs = envs_list(envp);
 	(void)list_envs;
-	t_list *head = NULL;
 
-	add_node(&head, "USER=john_doe");
-	add_node(&head, "PATH=/usr/bin");
-	add_node(&head, "HOME=/home/john");
-	// print_list(head);
-	// head = delete_var("PATH=/usr/bin", head);
-	char *hey= search("HOME", list_envs, head);
-	ft_printf("%s", hey);
-	// print_list(head);
+	builtin_cd(argv, argc);
 
 	//TODO : create the linked list from vars.
 

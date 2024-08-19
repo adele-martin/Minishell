@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/19 11:26:55 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/19 17:13:39 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	builtin_echo(char **argv, int argc)
 		write(1, "\n", 1);
 }
 
-
 //TO DO: delete variable from linked list
 void builtin_unset(char **argv, char **list_envs, t_list *head)
 {
@@ -48,7 +47,7 @@ void builtin_unset(char **argv, char **list_envs, t_list *head)
 	i = 1;
 	while (argv[i])
 	{
-		if (delete_env(argv[i], list_envs)) 
+		if (delete_env(argv[i], list_envs))
 		i++;
 	}
 	if (search(argv[i], list_envs, head) != NULL)
@@ -113,24 +112,28 @@ void builtin_exit(char **argv, int argc)
 
 
 //TO DO: Check if the "cd " command works + do pwd function first
-// void builtin_cd(char **argv, int argc)
-// {
-//char *curr_dir = getcwd();
-// 	if (argc == 2)
-// 	{
-// 	if (ft_strncmp(argv[1], "..", 2) == 0)
-// 		ft_printf("yeah");
-// 	else if (chdir(argv[1]) != 0)
-// 		ft_printf("cd: %s: No such file or directory\n", argv[1]);
-// 	}
-// 	else if (argc == 1)
-// 	{
-// 	if (chdir(getenv("HOME")) != 0)
-// 		printf("error");
-// 	}
-// 	else
-// 	{
-// 		ft_printf("bash: cd: too many arguments\n");
-// 	}
-// }
+void builtin_cd(char **argv, int argc)
+{
+	// char curr_dir[2000];
+	// curr_dir = getcwd(curr_dir, sizeof(curr_dir));
+	if (argc == 2)
+	{
+	if (ft_strncmp(argv[1], "..", 2) == 0)
+	{
+		if (chdir("..") != 0)
+			perror("chdir() error");
+	}
+	else if (chdir(argv[1]) != 0)
+		ft_printf("cd: %s: No such file or directory\n", argv[1]);
+	}
+	else if (argc == 1)
+	{
+	if (chdir(getenv("HOME")) != 0)
+		printf("error");
+	}
+	else
+	{
+		ft_printf("bash: cd: too many arguments\n");
+	}
+}
 
