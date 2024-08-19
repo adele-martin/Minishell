@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/19 12:03:12 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:28:23 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void add_node(t_list **head, char *content)
 	if (!new_node)
 		return;
 
-    new_node->next = *head;
-    *head = new_node;
+	new_node->next = *head;
+	*head = new_node;
 }
 
 void print_list(t_list *head)
