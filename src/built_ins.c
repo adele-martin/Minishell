@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/16 13:04:02 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:26:55 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,20 @@ void	builtin_echo(char **argv, int argc)
 	ft_printf("<TEST in BUILDIN ECHO>\n");
 }
 
-void builtin_unset(char **argv, char **list_envs)
+
+//TO DO: delete variable from linked list
+void builtin_unset(char **argv, char **list_envs, t_list *head)
 {
 	int	i;
 
 	i = 1;
 	while (argv[i])
 	{
-		delete_var(argv[i], list_envs);
+		if (delete_env(argv[i], list_envs)) 
 		i++;
 	}
-	// i = 0;
-	// while (list_envs[i])
-	// {
-	// 	ft_printf("%s\n", list_envs[i]);
-	// 	i++;
-	// }
+	if (search(argv[i], list_envs, head) != NULL)
+	(void)head;
 }
 
 void builtin_env(char **argv, int argc, char **list_envs)
@@ -81,7 +79,7 @@ void builtin_env(char **argv, int argc, char **list_envs)
 	ft_printf("<TEST in BUILDIN ENV>\n");
 }
 
-//TODO: xport from linked list to array. After exported delete it from linked list 
+//TODO: xport from linked list to array. After exported delete it from linked list
 void builtin_export(char **argv, int argc, char **list_envs)
 {
 	int i;

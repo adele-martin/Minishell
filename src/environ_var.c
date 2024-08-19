@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environ_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/16 17:48:27 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:05:51 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**update_list(char *variable, char **list)
 	return (list);
 }
 
-char	**delete_var(char *variable, char **list)
+char	**delete_env(char *variable, char **list)
 {
 	int	i;
 	int	j;
@@ -96,6 +96,36 @@ char	**delete_var(char *variable, char **list)
 	}
 	return (list);
 }
+t_list *delete_var(char *variable, t_list *head)
+{
+	t_list *temp;
+	t_list *prev;
+
+	prev = NULL;
+	temp = head;
+	char *str;
+	int i;
+	while (temp != NULL)
+	{
+		str = (char *)temp->content;
+		i = 0;
+		while (variable[i] &&variable[i] != '=')
+			i++;
+		if (ft_strncmp(str, variable, i) == 0)
+		{
+			if (prev == NULL)
+				head = temp->next;
+			else
+				prev->next = temp->next;
+			free(temp->content);
+			free(temp);
+			return head;
+		}
+		prev = temp;
+        temp = temp->next;
+	}
+	return (head);
+}
 
 char	*return_value_env(char *variable, char **list)
 {
@@ -109,7 +139,7 @@ char	*return_value_env(char *variable, char **list)
 		j = 0;
 		while (list[i][j] != '=')
 			j++;
-		if (ft_strncmp(list[i], variable, j) == 0)
+		if (ft_strncmp(list[i], variable, ft_strlen(variable)) == 0)
 		{
 			j = j + 1;
 			return (&list[i][j]);
@@ -129,9 +159,9 @@ char	*return_value_var(char *variable, t_list *head)
 	{
 		str = (char *)temp->content;
 		i = 0;
-		while (variable[i] != '=')
+		while (str[i] != '=')
 			i++;
-		if (ft_strncmp(str, &variable[i], i) == 0)
+		if (ft_strncmp(str, variable, ft_strlen(variable)) == 0)
 		{
 			i = i + 1;
 			return(&variable[i]);
@@ -184,9 +214,8 @@ int expand_list(char **argv, t_list *head)
 		return 0;
 }
 
-//Function with you ask for key and get value
-//if found = return pointer, otherwise return NULL
-char	*expanding(char *variable, char **list, t_list *head)
+//Function searches for a key and returns its value
+char	*search(char *variable, char **list, t_list *head)
 {
 	char	*out;
 
