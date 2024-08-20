@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/19 17:13:39 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:34:12 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,6 @@ void builtin_cd(char **argv, int argc)
 		printf("error");
 	}
 	else
-	{
 		ft_printf("bash: cd: too many arguments\n");
-	}
 }
 
