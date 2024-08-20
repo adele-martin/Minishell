@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/19 12:05:51 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:38:37 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,3 +227,15 @@ char	*search(char *variable, char **list, t_list *head)
 		return (out);
 	return (NULL);
 }
+
+//TODO : Test
+	// t_list *head = NULL;
+
+	// add_node(&head, "USER=john_doe");
+	// add_node(&head, "PATH=/usr/bin");
+	// add_node(&head, "HOME=/home/john");
+	// // print_list(head);
+	// // head = delete_var("PATH=/usr/bin", head);
+	// char *hey= search("HOME", list_envs, head);
+	// ft_printf("%s", hey);
+	// // print_list(head);
