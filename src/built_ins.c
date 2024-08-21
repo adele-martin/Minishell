@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built-ins.c                                        :+:      :+:    :+:   */
+/*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/20 14:43:12 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:12:09 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //All built­in functions except printenv are executed by the parent process
 //Figure out how to deal with the quotes
-
 #include "../header/minishell.h"
 
 void	builtin_echo(char **argv, int argc)
@@ -114,8 +113,6 @@ void builtin_exit(char **argv, int argc)
 //TO DO: Check if the "cd " command works + do pwd function first
 void builtin_cd(char **argv, int argc)
 {
-	// char curr_dir[2000];
-	// curr_dir = getcwd(curr_dir, sizeof(curr_dir));
 	if (argc == 2)
 	{
 	if (ft_strncmp(argv[1], "..", 2) == 0)
@@ -131,7 +128,10 @@ void builtin_cd(char **argv, int argc)
 	if (chdir(getenv("HOME")) != 0)
 		printf("error");
 	}
-	else
+	else if (argc > 2)
 		ft_printf("bash: cd: too many arguments\n");
+	else
+		chdir(argv[1]);
+
 }
 

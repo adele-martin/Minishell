@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 22:32:33 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:47:05 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ int	parse_ast(t_ast *node, t_data *data)
 	else if (is_redirection(node->value))
 	{
 		t_ast	*tmp_node;
-		
+
 		tmp_node = node;
 		while (is_redirection(tmp_node->right->value))
 		{
-			redirect(tmp_node->value, tmp_node->right->left->value, data);	
+			redirect(tmp_node->value, tmp_node->right->left->value, data);
 			tmp_node = tmp_node->right;
 		}
 		redirect(tmp_node->value, tmp_node->right->value, data);
