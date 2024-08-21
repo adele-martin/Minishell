@@ -8,7 +8,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/minishell",
-            "args": [],
+            "args": ["src"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

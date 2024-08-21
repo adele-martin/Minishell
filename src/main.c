@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/19 16:18:14 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:58:36 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ int	main(int argc, char **argv, char **envp)
 	char **list_envs = envs_list(envp);
 	(void)list_envs;
 
-	builtin_cd(argv, argc);
 
+	// chdir("src");
+	builtin_cd(argv, argc, list_envs);
 	//TODO : create the linked list from vars.
 
 	// while (1)
