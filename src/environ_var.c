@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/19 16:17:37 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:21:47 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ char	*return_value_var(char *variable, t_list *head)
 		}
 		temp = temp->next;
 	}
-		return (NULL);
+	return (NULL);
 }
 
 //TODO: protect malloc in this function
@@ -214,15 +214,22 @@ int expand_list(char **argv, t_list *head)
 		return 0;
 }
 
-//Function searches for a key and returns its value
-char	*search(char *variable, char **list, t_list *head)
+//Function searches for a key and returns its value in list of variables.
+char	*search_var(char *variable, char **list, t_list *head)
+{
+	char	*out;
+
+	out = return_value_var(variable, list);
+	if (out)
+		return (out);
+	return (NULL);
+}
+//Function searches for a key and returns its value in the env list.
+char	*search_env(char *variable, char **list, t_list *head)
 {
 	char	*out;
 
 	out = return_value_env(variable, list);
-	if (out)
-		return (out);
-	out = return_value_var(variable, head);
 	if (out)
 		return (out);
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/22 14:59:29 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:29:38 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	builtin_echo(char **argv, int argc)
 		write(1, "\n", 1);
 }
 
-//TO DO: delete variable from linked list
 void builtin_unset(char **argv, char **list_envs, t_list *head)
 {
 	int	i;
@@ -47,11 +46,16 @@ void builtin_unset(char **argv, char **list_envs, t_list *head)
 	i = 1;
 	while (argv[i])
 	{
-		if (delete_env(argv[i], list_envs))
+		delete_env(argv[i], list_envs);
 		i++;
 	}
-	if (search(argv[i], list_envs, head) != NULL)
-	(void)head;
+	i = 0;
+	while (argv[i])
+	{
+		if (search_var(argv[i], list_envs, head) != NULL)
+			delete_var(argv[i], head);
+		i++;
+	}
 }
 
 void builtin_env(char **argv, int argc, char **list_envs)
@@ -97,13 +101,12 @@ void builtin_export(char **argv, int argc, char **list_envs)
 	{
 		while (argv[i])
 		{
-			while (argv[i][j])
-			{
-				if (has_equalsign(argv[i]) == 1)
-					printf("hey");
-			}
-			j = 0;
-			update_list(argv[i], list_envs);
+
+			if (has_equalsign(argv[i]) == 1)
+				update_second_list();
+				update_list(argv[i], list_envs);//it is updated to the env list
+			else
+				//it is updated to the export list only
 			i++;
 		}
 	}
