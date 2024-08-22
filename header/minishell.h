@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/22 15:21:08 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:24:03 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ char	*search_var(char *variable, char **list, t_list *head);
 char	*search_env(char *variable, char **list, t_list *head);
 
 //BUILT-INS
-void builtin_export(char **argv, int argc, char **list_envs);
-void	builtin_echo(char **argv, int argc);
-void builtin_env(char **argv, int argc, char **list_envs);
-void builtin_unset(char **argv, char **list_envs, t_list *head);
-void builtin_cd(char **argv, int argc, char **list_envs);
-void builtin_pwd(char **argv, char **list_envs);
-void builtin_exit(char **argv, int argc);
+int builtin_export(char **argv, int argc, char **list_envs);
+int	builtin_echo(char **argv, int argc);
+int builtin_env(char **argv, int argc, char **list_envs);
+int builtin_unset(char **argv, char **list_envs, t_list *head);
+int builtin_cd(char **argv, int argc, char **list_envs);
+int builtin_pwd(char **argv, char **list_envs);
+int builtin_exit(char **argv, int argc);
 
 #endif

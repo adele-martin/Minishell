@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/22 15:29:38 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:34:22 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,23 @@
 
 #include "../header/minishell.h"
 
-void	builtin_echo(char **argv, int argc)
+/*TODO: return values of the built-ins
+0: Success
+1: General error
+2: Misuse of shell built-ins (e.g., syntax errors)
+126: Command invoked cannot execute
+127: Command not found
+130: Script terminated by Ctrl+C (SIGINT)
+We can store in into a global variable or into 
+int built_ins()
+{
+	if ()
+	else
+		return (127);
+}
+*/
+
+int	builtin_echo(char **argv, int argc)
 {
 	int	i;
 	int option_n;
@@ -37,9 +53,10 @@ void	builtin_echo(char **argv, int argc)
 	}
 	if (!option_n)
 		write(1, "\n", 1);
+	return (0);
 }
 
-void builtin_unset(char **argv, char **list_envs, t_list *head)
+int builtin_unset(char **argv, char **list_envs, t_list *head)
 {
 	int	i;
 
@@ -56,9 +73,10 @@ void builtin_unset(char **argv, char **list_envs, t_list *head)
 			delete_var(argv[i], head);
 		i++;
 	}
+	return (0);
 }
 
-void builtin_env(char **argv, int argc, char **list_envs)
+int builtin_env(char **argv, int argc, char **list_envs)
 {
 	int	i;
 	(void)argv;
@@ -70,6 +88,7 @@ void builtin_env(char **argv, int argc, char **list_envs)
 		ft_printf("%s\n", list_envs[i]);
 		i++;
 	}
+	return (0);
 }
 //Sorts list in alphabetical order
 void sort_list()
@@ -90,7 +109,7 @@ int has_equalsign(char *string)
 }
 
 //TODO: xport from linked list to array. After exported delete it from linked list
-void builtin_export(char **argv, int argc, char **list_envs)
+int builtin_export(char **argv, int argc, char **list_envs)
 {
 	int i;
 	int j;
@@ -115,22 +134,24 @@ void builtin_export(char **argv, int argc, char **list_envs)
 	//sort list
 	//print list
 	}
-
+	return (0);
 }
 
-void builtin_pwd(char **argv, char **list_envs)
+int builtin_pwd(char **argv, char **list_envs)
 {
 	(void)argv;
 	update_list(getenv("PWD"), list_envs);
 	ft_printf("\n");
+	return (0);
 }
 
-void builtin_exit(char **argv, int argc)
+int builtin_exit(char **argv, int argc)
 {
 	(void)argv;
 	(void)argc;
 	ft_printf("exit\n");
 	exit(1);
+	return (0);
 }
 
 char *ft_strcat(char* dest, const char* src) {
@@ -147,7 +168,7 @@ char *ft_strcat(char* dest, const char* src) {
     return dest;
 }
 
-void builtin_cd (char **argv, int argc, char **list_envs)
+int builtin_cd (char **argv, int argc, char **list_envs)
 {
 	char *home;
 	char cwd[1024];
@@ -176,4 +197,5 @@ void builtin_cd (char **argv, int argc, char **list_envs)
 	ft_strcat(old_pwd, current_dir);
 	update_list(old_pwd, list_envs);
 	update_list(getenv("PWD"), list_envs);
+	return (0);
 }
