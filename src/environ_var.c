@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/22 15:21:47 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:59:57 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ char	**envs_list(char **envp)
 	}
 	return (list_envs);
 }
+
+//Sorts list in alphabetical order --do a strncmp bubble sort!
+// void sort_list_alpha()
+// {
+
+// }
 
 char	**update_list(char *variable, char **list)
 {

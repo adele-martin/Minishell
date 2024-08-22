@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/22 17:34:22 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 18:01:46 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 126: Command invoked cannot execute
 127: Command not found
 130: Script terminated by Ctrl+C (SIGINT)
-We can store in into a global variable or into 
+We can store in into a global variable or into
 int built_ins()
 {
 	if ()
@@ -90,11 +90,6 @@ int builtin_env(char **argv, int argc, char **list_envs)
 	}
 	return (0);
 }
-//Sorts list in alphabetical order
-void sort_list()
-{
-
-}
 
 int has_equalsign(char *string)
 {
@@ -108,7 +103,7 @@ int has_equalsign(char *string)
 	return (0);
 }
 
-//TODO: xport from linked list to array. After exported delete it from linked list
+//TODO: Export from linked list to array. After exported delete it from linked list --> this doesn't exactly work because 'export hey' is still printed with export command!
 int builtin_export(char **argv, int argc, char **list_envs)
 {
 	int i;
@@ -155,17 +150,17 @@ int builtin_exit(char **argv, int argc)
 }
 
 char *ft_strcat(char* dest, const char* src) {
-    char* ptr = dest;
-    while (*ptr != '\0') {
-        ptr++;
-    }
-    while (*src != '\0') {
-        *ptr = *src;
-        ptr++;
-        src++;
-    }
-    *ptr = '\0';
-    return dest;
+	char* ptr = dest;
+	while (*ptr != '\0') {
+		ptr++;
+	}
+	while (*src != '\0') {
+		*ptr = *src;
+		ptr++;
+		src++;
+	}
+	*ptr = '\0';
+	return dest;
 }
 
 int builtin_cd (char **argv, int argc, char **list_envs)
