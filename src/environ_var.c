@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/20 14:38:37 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:11:52 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,15 +214,22 @@ int expand_list(char **argv, t_list *head)
 		return 0;
 }
 
-//Function searches for a key and returns its value
-char	*search(char *variable, char **list, t_list *head)
+//Function searches for a key and returns its value in list of variables.
+char	*search_var(char *variable, char **list, t_list *head)
+{
+	char	*out;
+
+	out = return_value_var(variable, list);
+	if (out)
+		return (out);
+	return (NULL);
+}
+//Function searches for a key and returns its value in the env list.
+char	*search_env(char *variable, char **list, t_list *head)
 {
 	char	*out;
 
 	out = return_value_env(variable, list);
-	if (out)
-		return (out);
-	out = return_value_var(variable, head);
 	if (out)
 		return (out);
 	return (NULL);

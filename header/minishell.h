@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/20 14:43:57 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:12:53 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,15 +140,16 @@ char	*return_value_env(char *variable, char **list);
 char	*return_value_var(char *variable, t_list *head);
 char	**delete_env(char *variable, char **list);
 t_list *delete_var(char *variable, t_list *head);
-char	*search(char *variable, char **list, t_list *head);
+char	*search_var(char *variable, char **list, t_list *head);
+char	*search_env(char *variable, char **list, t_list *head);
 
 //BUILT-INS
 void builtin_export(char **argv, int argc, char **list_envs);
 void	builtin_echo(char **argv, int argc);
 void builtin_env(char **argv, int argc, char **list_envs);
 void builtin_unset(char **argv, char **list_envs, t_list *head);
-void builtin_cd(char **argv, int argc);
-void builtin_pwd(char **argv, int argc);
+void builtin_cd(char **argv, int argc, char **list_envs);
+void builtin_pwd(char **argv, char **list_envs);
 void builtin_exit(char **argv, int argc);
 
 #endif

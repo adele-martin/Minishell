@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/20 15:12:09 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:14:05 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	builtin_echo(char **argv, int argc)
 		write(1, "\n", 1);
 }
 
-//TO DO: delete variable from linked list
 void builtin_unset(char **argv, char **list_envs, t_list *head)
 {
 	int	i;
@@ -46,11 +45,16 @@ void builtin_unset(char **argv, char **list_envs, t_list *head)
 	i = 1;
 	while (argv[i])
 	{
-		if (delete_env(argv[i], list_envs))
+		delete_env(argv[i], list_envs);
 		i++;
 	}
-	if (search(argv[i], list_envs, head) != NULL)
-	(void)head;
+	i = 0;
+	while (argv[i])
+	{
+		if (search_var(argv[i], list_envs, head) != NULL)
+			delete_var(argv[i], head);
+		i++;
+	}
 }
 
 void builtin_env(char **argv, int argc, char **list_envs)
@@ -66,38 +70,59 @@ void builtin_env(char **argv, int argc, char **list_envs)
 		i++;
 	}
 }
+//Sorts list in alphabetical order
+void sort_list()
+{
+
+}
+
+int has_equalsign(char *string)
+{
+	int i = 0;
+	while (string[i])
+	{
+		if (string[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 //TODO: xport from linked list to array. After exported delete it from linked list
 void builtin_export(char **argv, int argc, char **list_envs)
 {
 	int i;
+	int j;
 
 	i = 1;
+	j = 0;
 	if (argc >= 1)
 	{
 		while (argv[i])
 		{
-			update_list(argv[i], list_envs);
-			i++;
+
+			if (has_equalsign(argv[i]) == 1)
+			{
+				update_second_list();
+				update_list(argv[i], list_envs);//it is updated to the env list
+			}
+			else
+				i++;
+				//it is updated to the export list only
 		}
 	}
 	else
 	{
-	i = 0;
-	while (list_envs[i])
-	{
-		ft_printf("%s\n", list_envs[i]);
-		i++;
-	}
+	//sort list
+	//print list
 	}
 
 }
 
-void builtin_pwd(char **argv, int argc)
+void builtin_pwd(char **argv, char **list_envs)
 {
 	(void)argv;
-	(void)argc;
-	ft_printf(getenv("PWD"));
+	update_list(getenv("PWD"), list_envs);
 	ft_printf("\n");
 }
 
@@ -109,29 +134,47 @@ void builtin_exit(char **argv, int argc)
 	exit(1);
 }
 
-
-//TO DO: Check if the "cd " command works + do pwd function first
-void builtin_cd(char **argv, int argc)
-{
-	if (argc == 2)
-	{
-	if (ft_strncmp(argv[1], "..", 2) == 0)
-	{
-		if (chdir("..") != 0)
-			perror("chdir() error");
-	}
-	else if (chdir(argv[1]) != 0)
-		ft_printf("cd: %s: No such file or directory\n", argv[1]);
-	}
-	else if (argc == 1)
-	{
-	if (chdir(getenv("HOME")) != 0)
-		printf("error");
-	}
-	else if (argc > 2)
-		ft_printf("bash: cd: too many arguments\n");
-	else
-		chdir(argv[1]);
-
+char *ft_strcat(char* dest, const char* src) {
+    char* ptr = dest;
+    while (*ptr != '\0') {
+        ptr++;
+    }
+    while (*src != '\0') {
+        *ptr = *src;
+        ptr++;
+        src++;
+    }
+    *ptr = '\0';
+    return dest;
 }
 
+void builtin_cd (char **argv, int argc, char **list_envs)
+{
+	char *home;
+	char cwd[1024];
+	char *current_dir;
+	char old_pwd[1024];
+
+	if (argc == 1)
+	{
+		home = getenv("HOME");
+		if (!home)
+			ft_printf("bash: cd: HOME not set\n");
+		if (chdir(home) == -1)
+			ft_printf("error");
+	}
+	else if (argc == 2)
+	{
+	if (chdir(argv[1]) == -1)
+		ft_printf("cd: %s: No such file or directory\n", argv[1]);
+	}
+	else if (argc > 2)
+	{
+		ft_printf("bash: cd: too many arguments\n");
+	}
+	current_dir = getcwd(cwd, sizeof(cwd));
+	ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
+	ft_strcat(old_pwd, current_dir);
+	update_list(old_pwd, list_envs);
+	update_list(getenv("PWD"), list_envs);
+}

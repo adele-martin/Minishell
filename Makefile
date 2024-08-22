@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+         #
+#    By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/08/16 19:13:31 by bschneid         ###   ########.fr        #
+#    Updated: 2024/08/22 16:11:38 by ademarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
