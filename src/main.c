@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/22 17:05:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:45:31 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 	}
+	//Return (exit code)
 	printf("Shell ended!\n");
 	return (EXIT_SUCCESS);
 }
