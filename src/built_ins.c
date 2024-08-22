@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/21 16:46:05 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:59:29 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,29 +67,50 @@ void builtin_env(char **argv, int argc, char **list_envs)
 		i++;
 	}
 }
+//Sorts list in alphabetical order
+void sort_list()
+{
+
+}
+
+int has_equalsign(char *string)
+{
+	int i = 0;
+	while (string[i])
+	{
+		if (string[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 //TODO: xport from linked list to array. After exported delete it from linked list
 void builtin_export(char **argv, int argc, char **list_envs)
 {
 	int i;
+	int j;
 
 	i = 1;
+	j = 0;
 	if (argc >= 1)
 	{
 		while (argv[i])
 		{
+			while (argv[i][j])
+			{
+				if (has_equalsign(argv[i]) == 1)
+					printf("hey");
+			}
+			j = 0;
 			update_list(argv[i], list_envs);
 			i++;
 		}
 	}
 	else
 	{
-	i = 0;
-	while (list_envs[i])
-	{
-		ft_printf("%s\n", list_envs[i]);
-		i++;
-	}
+	//sort list
+	//print list
 	}
 
 }
@@ -98,7 +119,6 @@ void builtin_pwd(char **argv, char **list_envs)
 {
 	(void)argv;
 	update_list(getenv("PWD"), list_envs);
-	// ft_printf(getenv("PWD"));
 	ft_printf("\n");
 }
 
@@ -109,45 +129,6 @@ void builtin_exit(char **argv, int argc)
 	ft_printf("exit\n");
 	exit(1);
 }
-
-// void change_path()
-// {
-
-// }
-
-//TO DO: Check if the "cd " command works + do pwd function first
-// void builtin_cd (char **argv, int argc, char **list_envs)
-// {
-// 	// char cwd[1024];
-// 	// char *current_dir = getcwd(cwd, sizeof(cwd));
-// 	// char old_pwd[1024]; //put them in other function
-// 	// ft_strlcat(old_pwd, current_dir, sizeof(old_pwd));
-// 	// update_list(old_pwd, list_envs);
-// 	if (argc == 2)
-// 	{
-// 	if (ft_strncmp(argv[1], "..", 2) == 0)
-// 	{
-// 		if (chdir("..") != 0)
-// 			perror("chdir() error");
-// 	}
-// 	else if (chdir(argv[1]) == -1)
-// 		ft_printf("cd: %s: No such file or directory\n", argv[1]);
-// 	}
-// 	else if (argc == 1)
-// 	{
-// 	if (chdir(getenv("HOME")) != 0)
-// 		printf("error");
-// 	}
-// 	else
-// 		ft_printf("bash: cd: too many arguments\n");
-// 	// builtin_pwd(argv, list_envs);
-// 	int i = 0;
-// 	while (list_envs[i])
-// 	{
-// 		printf("%s\n", list_envs[i]);
-// 		i++;
-// 	}
-// }
 
 char *ft_strcat(char* dest, const char* src) {
     char* ptr = dest;
@@ -169,6 +150,7 @@ void builtin_cd (char **argv, int argc, char **list_envs)
 	char cwd[1024];
 	char *current_dir;
 	char old_pwd[1024];
+
 	if (argc == 1)
 	{
 		home = getenv("HOME");
