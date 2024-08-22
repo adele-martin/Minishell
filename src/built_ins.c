@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/22 16:14:05 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:59:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,6 @@ void builtin_env(char **argv, int argc, char **list_envs)
 		i++;
 	}
 }
-//Sorts list in alphabetical order
-void sort_list()
-{
-
-}
 
 int has_equalsign(char *string)
 {
@@ -86,6 +81,12 @@ int has_equalsign(char *string)
 		i++;
 	}
 	return (0);
+}
+//Sorts list in alphabetical order
+void sort_list()
+{
+
+
 }
 
 //TODO: xport from linked list to array. After exported delete it from linked list
@@ -103,7 +104,7 @@ void builtin_export(char **argv, int argc, char **list_envs)
 
 			if (has_equalsign(argv[i]) == 1)
 			{
-				update_second_list();
+				export_declared();
 				update_list(argv[i], list_envs);//it is updated to the env list
 			}
 			else
