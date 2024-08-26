@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/22 17:45:31 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:34:50 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	//Return (exit code)
 	printf("Shell ended!\n");
-	return (EXIT_SUCCESS);
+	return (data.status);
+	// return (EXIT_SUCCESS);
 }
 
 // for getting key-value: char	*expanding(char *variable, char **list, t_list *head)
@@ -76,7 +77,7 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	data->id = 0;
 	data->signal_fd = 0;
 	data->cmd_argc = 0;
-	ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
+	// ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
 	handle_signals();
 	return (EXIT_SUCCESS);
 }

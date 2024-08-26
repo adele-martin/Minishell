@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/22 16:59:34 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:31:47 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void builtin_export(char **argv, int argc, char **list_envs)
 
 			if (has_equalsign(argv[i]) == 1)
 			{
-				export_declared();
+				// export_declared();
 				update_list(argv[i], list_envs);//it is updated to the env list
 			}
 			else

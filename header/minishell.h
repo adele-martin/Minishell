@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/22 16:12:53 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:40:45 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ char	**delete_env(char *variable, char **list);
 t_list *delete_var(char *variable, t_list *head);
 char	*search_var(char *variable, char **list, t_list *head);
 char	*search_env(char *variable, char **list, t_list *head);
+char	*search(char *variable, char **list, t_list *head);;
 
 //BUILT-INS
 void builtin_export(char **argv, int argc, char **list_envs);
