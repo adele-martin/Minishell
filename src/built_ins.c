@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/22 18:01:46 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:24:45 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@
 127: Command not found
 130: Script terminated by Ctrl+C (SIGINT)
 We can store in into a global variable or into
+
+*/
+
 int built_ins()
 {
 	if ()
+		return (builtin_echo(argv, argc))
+	else if ()
 	else
 		return (127);
 }
-*/
 
 int	builtin_echo(char **argv, int argc)
 {
@@ -56,6 +60,14 @@ int	builtin_echo(char **argv, int argc)
 	return (0);
 }
 
+char	**create_list(char **list)
+{
+	list = malloc(sizeof(char *) * 400);
+	if (!list)
+		return (NULL);
+	return (list);
+}
+
 int builtin_unset(char **argv, char **list_envs, t_list *head)
 {
 	int	i;
@@ -69,7 +81,7 @@ int builtin_unset(char **argv, char **list_envs, t_list *head)
 	i = 0;
 	while (argv[i])
 	{
-		if (search_var(argv[i], list_envs, head) != NULL)
+		if (search_var(argv[i], head) != NULL)
 			delete_var(argv[i], head);
 		i++;
 	}
@@ -103,32 +115,100 @@ int has_equalsign(char *string)
 	return (0);
 }
 
-//TODO: Export from linked list to array. After exported delete it from linked list --> this doesn't exactly work because 'export hey' is still printed with export command!
-int builtin_export(char **argv, int argc, char **list_envs)
+char	**update_list(char *variable, char **list)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	int found_value;
+	found_value = 0;
+	while (list[i])
+	{
+		j = 0;
+		while (list[i][j] != '=')
+			j++;
+		if (ft_strncmp(list[i], variable, j) == 0)
+		{
+			found_value = 1;
+			free(list[i]);
+			list[i] = ft_strdup(variable);
+			if (!list[i])
+				return NULL;
+			break;
+		}
+		i++;
+	}
+	if (!found_value)
+	{
+		list[i] = ft_strdup(variable);
+		found_value = 0;
+	}
+	return (list);
+}
+
+int fill_exportlist(char *argv, t_list *head)
+{
+	t_list *str;
+	str = ft_strdup(argv);
+	char *str = ft_strcat("declare -x ", argv);
+	ft_lstadd_back(&head, str);
+}
+
+void sortList(t_list *head)
+{
+    t_list *i;
+    t_list *j;
+    char temp[100];
+
+    if (head == NULL) {
+        return;
+    }
+    i = head;
+    while (i->next != NULL)
+	{
+        j = i->next;
+        while (j != NULL) {
+            if (strcmp(i->content, j->content) > 0)
+			{
+                strcpy(temp, i->content);
+                strcpy(i->content, j->content);
+                strcpy(j->content, temp);
+            }
+            j = j->next;
+        }
+        i = i->next;
+    }
+}
+
+int builtin_export(char **argv, int argc, char **list_envs, t_list *head)
 {
 	int i;
-	int j;
 
 	i = 1;
-	j = 0;
+	t_list *export_list;
+	export_list = NULL;
 	if (argc >= 1)
 	{
 		while (argv[i])
 		{
-
 			if (has_equalsign(argv[i]) == 1)
-				update_second_list();
-				update_list(argv[i], list_envs);//it is updated to the env list
+			{
+				update_list(argv[i], list_envs);
+				fill_exportlist(argv[i], export_list);
+			}
 			else
-				//it is updated to the export list only
+				fill_exportlist(argv[i], export_list);
 			i++;
 		}
 	}
 	else
 	{
-	//sort list
+	sortList(export_list);
 	//print list
 	}
+	(void)head;
 	return (0);
 }
 
@@ -149,7 +229,8 @@ int builtin_exit(char **argv, int argc)
 	return (0);
 }
 
-char *ft_strcat(char* dest, const char* src) {
+char *ft_strcat(char* dest, const char* src)
+{
 	char* ptr = dest;
 	while (*ptr != '\0') {
 		ptr++;

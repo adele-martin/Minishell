@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/22 17:24:03 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:03:27 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,21 @@ char	*return_value_env(char *variable, char **list);
 char	*return_value_var(char *variable, t_list *head);
 char	**delete_env(char *variable, char **list);
 t_list *delete_var(char *variable, t_list *head);
-char	*search_var(char *variable, char **list, t_list *head);
-char	*search_env(char *variable, char **list, t_list *head);
+char	*search_var(char *variable, t_list *head);
+char	*search_env(char *variable, char **list);
+void bubble_sort(char *arr[], int n);
+char	**create_list(char **list);
 
 //BUILT-INS
-int builtin_export(char **argv, int argc, char **list_envs);
+int builtin_export(char **argv, int argc, char **list_envs, t_list *head);
 int	builtin_echo(char **argv, int argc);
 int builtin_env(char **argv, int argc, char **list_envs);
 int builtin_unset(char **argv, char **list_envs, t_list *head);
 int builtin_cd(char **argv, int argc, char **list_envs);
 int builtin_pwd(char **argv, char **list_envs);
 int builtin_exit(char **argv, int argc);
+
+//HELPER
+char *ft_strcat(char* dest, const char* src);
 
 #endif

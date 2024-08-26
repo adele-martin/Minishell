@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/22 17:59:57 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:58:06 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ char	**envs_list(char **envp)
 	return (list_envs);
 }
 
-//Sorts list in alphabetical order --do a strncmp bubble sort!
-// void sort_list_alpha()
-// {
-
-// }
-
 char	**update_list(char *variable, char **list)
 {
 	int	i;
@@ -62,7 +56,7 @@ char	**update_list(char *variable, char **list)
 			free(list[i]);
 			list[i] = ft_strdup(variable);
 			if (!list[i])
-				return NULL; //Add a shield function
+				return NULL;
 			break;
 		}
 		i++;
@@ -221,17 +215,17 @@ int expand_list(char **argv, t_list *head)
 }
 
 //Function searches for a key and returns its value in list of variables.
-char	*search_var(char *variable, char **list, t_list *head)
+char	*search_var(char *variable, t_list *head)
 {
 	char	*out;
 
-	out = return_value_var(variable, list);
+	out = return_value_var(variable, head);
 	if (out)
 		return (out);
 	return (NULL);
 }
 //Function searches for a key and returns its value in the env list.
-char	*search_env(char *variable, char **list, t_list *head)
+char	*search_env(char *variable, char **list)
 {
 	char	*out;
 
