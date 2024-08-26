@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/26 17:47:19 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:48:29 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ We can store in into a global variable or into
 
 */
 
-int built_ins()
-{
-	if ()
-		return (builtin_echo(argv, argc))
-	else if ()
-	else
-		return (127);
-}
+// int built_ins()
+// {
+// 	if ()
+// 		return (builtin_echo(argv, argc))
+// 	else if ()
+// 	else
+// 		return (127);
+// }
 
 int	builtin_echo(char **argv, int argc)
 {

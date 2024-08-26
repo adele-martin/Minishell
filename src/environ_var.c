@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/26 17:47:40 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:49:53 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,6 @@ char	*search_var(char *variable, t_list *head)
 char	*search_env(char *variable, char **list)
 {
 	char	*out;
-	(void)head;
 	out = return_value_env(variable, list);
 	if (out)
 		return (out);
