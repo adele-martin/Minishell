@@ -6,13 +6,12 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/26 17:24:45 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:47:19 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //All built­in functions except printenv are executed by the parent process
 //Figure out how to deal with the quotes
-
 #include "../header/minishell.h"
 
 /*TODO: return values of the built-ins
@@ -113,6 +112,12 @@ int has_equalsign(char *string)
 		i++;
 	}
 	return (0);
+}
+//Sorts list in alphabetical order
+void sort_list()
+{
+
+
 }
 
 char	**update_list(char *variable, char **list)

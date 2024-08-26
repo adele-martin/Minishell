@@ -6,72 +6,131 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/26 17:03:27 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:46:43 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>					// printf, perror
-# include <stdlib.h>				// malloc, free, exit
-# include <unistd.h>				// access, read, write, close, fork, getcwd, chdir, unlink, execve, dup, dup2, pipe, isatty, ttyname, ttyslot
-# include <sys/wait.h>				// wait, waitpid, wait3, wait4
-# include <signal.h>				// signal, sigaction, sigemptyset, sigaddset, kill
-# include <fcntl.h>					// open
-# include <sys/types.h>				// stat, lstat, fstat, opendir, readdir, closedir
-# include <dirent.h>				// opendir, readdir, closedir
-# include <string.h>				// strerror
-# include <termios.h>				// tcsetattr, tcgetattr, tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-# include <curses.h>				// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-# include <errno.h>					// errno (used by strerror)
-# include <readline/history.h>		// add_history
-# include <readline/readline.h>		// readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay
+# define _GNU_SOURCE
+
 # include "../src/Libft_extended/include/libft.h"
-# include <dirent.h>				// for directory operations
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <dirent.h>
+# include <string.h>
+# include <termios.h>
+# include <curses.h>
+# include <errno.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <dirent.h>
+# include <sys/stat.h>
 
+typedef struct s_ast	t_ast;
 
+// struct for the Abstract syntax tree nodes
+struct s_ast
+{
+	char	*value;	// command, operator, filename
+	t_ast	*left;	// Left child node
+	t_ast	*right;	// Right child node
+};
+
+typedef struct
+{
+    char **keys;
+    char **values;
+}	EnvVars;
+
+// struct for linked lists from Libft:
 // typedef struct s_list
 // {
 // 	void			*content;
 // 	struct s_list	*next;
 // }	t_list;
 
-typedef struct s_ast t_ast;
+typedef struct s_vars	t_vars;
 
-// struct for the Abstract syntax tree nodes
-struct s_ast {
-    char	*value;	// command, operator, filename
-    t_ast	*left;	// Left child node
-    t_ast	*right;	// Right child node
-};
+// struct for linked variables list to be replaced:
+typedef struct s_vars
+{
+	char	*key_start;
+	int		key_len;
+	char	*value_start;
+	int		len_diff;
+	t_vars	*next;
+}	t_vars;
 
-typedef struct {
-    char **keys;
-    char **values;
-} EnvVars;
-
-typedef enum s_action {
-	WORD1,
-	WORD2
-}	t_action;
+// typedef enum s_action {
+// 	WORD1,
+// 	WORD2
+// }	t_action;
 
 // struct for the information
-typedef struct s_info
+typedef struct s_data
 {
-	unsigned int	id;
-}	t_info;
+	char	*shell_name;
+	int		last_status;
+	char	*status_str;
+	char	*input;
+	char 	*tty_name;
+	char	**list_envs;
+	char	**tokens;
+	char	**end_tokens;
+	char	in_pipe;
+	int		signal_fd;
+	pid_t	id;
+	int		status;
+	int		cmd_argc;
+	char	**cmd_argv;
+	t_list	*linked_args;
+	t_ast	*astRoot;
+}	t_data;
 
-// FUNCTIONS:
+// global var for received signals
+extern volatile __sig_atomic_t	g_signal;
 
-// SPLIT_TOKENS:
-char	**split_tokens(char *str);
-// TOKENIZE:
-t_ast	*create_ast(char **token_start, char **token_end);\
+// AST:
+t_ast	*create_ast(char **token_start, char **token_end);
+// // EVALUATION:
+// int		evaluate(char *input, t_info *info);
+// REDIRECTIONS:
+int	redirect(char *operator, char *word, t_data *data);
+int		redirect_output(char *filename);
+int		append_output(char *filename);
+int		redirect_input(char *filename);
+int		heredoc(char *delimiter, char *tty_name);
+// EXECUTION:
+int		execute(char *input, t_data *data);
+char	**create_argv(t_list *linked_args);
+// HELPERS:
+void	print_args(char *str, t_list *linked_args);
+void	clean_quotations(char *str);
 void	print_ast(t_ast *root);
-// EVALUATION:
-int		evaluate(char *input, t_info *info);
-// FILE 2:
+// PARSING:
+int		parse_ast(t_ast *node, t_data *data);
+// UTILS:
+char	is_redirection(char *str);
+//SIGNALS:
+void	handle_signals(void);
+void	signal_action(int sig);
+// SPLIT_CMD
+t_list	*get_args(char *str);
+// TOKENIZATION:
+char	**split_tokens(char *str);
+// VAR_EXPAND:
+char	expand_variables(t_list *linked_args, t_data *data);
+// VAR_HELPERS:
+char	replace_vars(t_list *arg, t_vars *vars);
+// WILDCARD:
+char	add_wildcards(t_list *linked_args);
 
 //ENVIRON_VAR
 // void store_envs(char **envp);
@@ -85,6 +144,7 @@ char	*search_var(char *variable, t_list *head);
 char	*search_env(char *variable, char **list);
 void bubble_sort(char *arr[], int n);
 char	**create_list(char **list);
+char	*search(char *variable, char **list, t_list *head);
 
 //BUILT-INS
 int builtin_export(char **argv, int argc, char **list_envs, t_list *head);

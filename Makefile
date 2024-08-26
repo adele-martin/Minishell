@@ -6,7 +6,7 @@
 #    By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/08/21 12:49:32 by ademarti         ###   ########.fr        #
+#    Updated: 2024/08/22 16:11:38 by ademarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,9 @@ HEADER = header/minishell.h
 LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
-SOURCES = evaluation.c main.c split_tokens.c tokenize.c wildcard.c environ_var.c built_ins.c
-
+SOURCES = ast.c built_ins.c environ_var.c evaluation.c helpers.c main.c\
+	parsing.c redirections.c signals.c split_cmd.c tokenization.c var_expand.c\
+	var_helpers.c wildcard.c
 OBJECTS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
 FLAGS = -Wall -Werror -Wextra -g3
 
@@ -32,12 +33,6 @@ $(NAME): $(OBJECTS) $(HEADER) $(LIBFT)
 $(LIBFT):
 	$(MAKE) -C src/Libft_extended -f Makefile bonus
 	$(MAKE) -C src/Libft_extended -f Makefile clean
-
-# tokenize: src/tokenize.c src/split_tokens.c
-# 	cc $(FLAGS) src/tokenize.c src/split_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
-
-# split: src/split_tokens.c
-# 	cc $(FLAGS) src/split_tokens.c -o $@ -lreadline -L./src/Libft_extended -lft
 
 clean:
 	rm -rf $(OBJ_DIR)
