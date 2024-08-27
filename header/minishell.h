@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/26 17:46:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:11:39 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_data
 	char	*input;
 	char 	*tty_name;
 	char	**list_envs;
+	t_list	*export_list;
 	char	**tokens;
 	char	**end_tokens;
 	char	in_pipe;
@@ -147,7 +148,8 @@ char	**create_list(char **list);
 char	*search(char *variable, char **list, t_list *head);
 
 //BUILT-INS
-int builtin_export(char **argv, int argc, char **list_envs, t_list *head);
+int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);
+t_list *arrayToLinkedList(char *arr[]);
 int	builtin_echo(char **argv, int argc);
 int builtin_env(char **argv, int argc, char **list_envs);
 int builtin_unset(char **argv, char **list_envs, t_list *head);

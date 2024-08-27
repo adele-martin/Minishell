@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/26 17:34:50 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:18:35 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,46 +17,50 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp);
 // TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
 int	main(int argc, char **argv, char **envp)
 {
-	char	**tokens;
-	char	**end_tokens;
-	t_ast	*astRoot;
-	t_data	data;
+	// char	**tokens;
+	// char	**end_tokens;
+	// t_ast	*astRoot;
+	// t_data	data;
 
-	if (initialize_data(&data, argc, argv, envp))
-		return (EXIT_FAILURE);
-	while (1)
-	{
-		data.input = readline("minishell > ");
-		if (!data.input)
-			break ;
-		else
-		{
-			add_history(data.input);
-			data.id = fork();
-			if (data.id == -1)
-				return (1);
-			if (data.id == 0)
-			{
-				// tokenize_parse(&data);
-				tokens = split_tokens(data.input);
-				end_tokens = tokens;
-				while (*end_tokens)
-					end_tokens++;
-				end_tokens--;
-				astRoot = create_ast(tokens, end_tokens);
-				parse_ast(astRoot, &data);
-			}
-			else
-			{
-				waitpid(data.id, NULL, 0);
-				free(data.input);
-			}
-		}
-	}
+	char **list_envs = envs_list(envp);
+	t_list *export_list = arrayToLinkedList(list_envs);;
+	builtin_export(argv, argc, list_envs, export_list);
+
+	// if (initialize_data(&data, argc, argv, envp))
+	// 	return (EXIT_FAILURE);
+	// while (1)
+	// {
+	// 	data.input = readline("minishell > ");
+	// 	if (!data.input)
+	// 		break ;
+	// 	else
+	// 	{
+	// 		add_history(data.input);
+	// 		data.id = fork();
+	// 		if (data.id == -1)
+	// 			return (1);
+	// 		if (data.id == 0)
+	// 		{
+	// 			// tokenize_parse(&data);
+	// 			tokens = split_tokens(data.input);
+	// 			end_tokens = tokens;
+	// 			while (*end_tokens)
+	// 				end_tokens++;
+	// 			end_tokens--;
+	// 			astRoot = create_ast(tokens, end_tokens);
+	// 			parse_ast(astRoot, &data);
+	// 		}
+	// 		else
+	// 		{
+	// 			waitpid(data.id, NULL, 0);
+	// 			free(data.input);
+	// 		}
+	// 	}
+	// }
 	//Return (exit code)
-	printf("Shell ended!\n");
-	return (data.status);
-	// return (EXIT_SUCCESS);
+	// printf("Shell ended!\n");
+	// return (data.status);
+	return (EXIT_SUCCESS);
 }
 
 // for getting key-value: char	*expanding(char *variable, char **list, t_list *head)
@@ -70,6 +74,7 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 		exit (EXIT_FAILURE);
 	}
 	data->list_envs = envs_list(envp);
+	data->export_list = arrayToLinkedList(data->list_envs);
 	data->tty_name = ttyname(STDIN_FILENO);
 	data->shell_name = ft_strdup("minishell");
 	data->status_str = ft_itoa(123);

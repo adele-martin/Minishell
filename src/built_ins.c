@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/26 17:47:19 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:35:51 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ We can store in into a global variable or into
 
 */
 
-int built_ins()
-{
-	if ()
-		return (builtin_echo(argv, argc))
-	else if ()
-	else
-		return (127);
-}
+// int built_ins()
+// {
+// 	if ()
+// 		return (builtin_echo(argv, argc))
+// 	else if ()
+// 	else
+// 		return (127);
+// }
 
 int	builtin_echo(char **argv, int argc)
 {
@@ -113,54 +113,38 @@ int has_equalsign(char *string)
 	}
 	return (0);
 }
-//Sorts list in alphabetical order
-void sort_list()
-{
 
 
+t_list *createNode(const char *data) {
+    t_list *newNode = (t_list *)malloc(sizeof(t_list));
+    if (!newNode) {
+        perror("Failed to allocate memory for new node");
+        exit(EXIT_FAILURE);
+    }
+    newNode->content = strdup(data);
+    if (!newNode->content) {
+        perror("Failed to duplicate string");
+        free(newNode);
+        exit(EXIT_FAILURE);
+    }
+    newNode->next = NULL;
+    return newNode;
 }
 
-char	**update_list(char *variable, char **list)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	i = 0;
-	int found_value;
-	found_value = 0;
-	while (list[i])
-	{
-		j = 0;
-		while (list[i][j] != '=')
-			j++;
-		if (ft_strncmp(list[i], variable, j) == 0)
-		{
-			found_value = 1;
-			free(list[i]);
-			list[i] = ft_strdup(variable);
-			if (!list[i])
-				return NULL;
-			break;
-		}
-		i++;
-	}
-	if (!found_value)
-	{
-		list[i] = ft_strdup(variable);
-		found_value = 0;
-	}
-	return (list);
+void appendNode(t_list **head, const char *data) {
+    t_list *newNode = createNode(data);
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        t_list *temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
 }
 
-int fill_exportlist(char *argv, t_list *head)
-{
-	t_list *str;
-	str = ft_strdup(argv);
-	char *str = ft_strcat("declare -x ", argv);
-	ft_lstadd_back(&head, str);
-}
-
+//also do the difference between 'H' and 'h'
 void sortList(t_list *head)
 {
     t_list *i;
@@ -173,47 +157,76 @@ void sortList(t_list *head)
     i = head;
     while (i->next != NULL)
 	{
-        j = i->next;
-        while (j != NULL) {
-            if (strcmp(i->content, j->content) > 0)
+		j = i->next;
+		while (j != NULL) {
+			if (strcmp(i->content, j->content) > 0)
 			{
-                strcpy(temp, i->content);
-                strcpy(i->content, j->content);
-                strcpy(j->content, temp);
-            }
-            j = j->next;
-        }
-        i = i->next;
+				strcpy(temp, i->content);
+				strcpy(i->content, j->content);
+				strcpy(j->content, temp);
+			}
+			j = j->next;
+		}
+		i = i->next;
+	}
+}
+void printList(t_list *head)
+{
+    t_list *temp = head;
+    while (temp != NULL) {
+        printf("%s\n", (char *)temp->content);
+        temp = temp->next;
     }
 }
 
-int builtin_export(char **argv, int argc, char **list_envs, t_list *head)
+void fill_exportlist(char *argv, t_list **head)
+{
+	char *str = ft_strcat("declare -x ", argv);
+	appendNode(head, str);
+}
+
+//fill it with the env variables
+t_list *arrayToLinkedList(char *arr[])
+{
+    if (arr[0] == NULL) return NULL;
+
+    t_list *head = createNode(arr[0]);
+    t_list *current = head;
+    int i = 1;
+
+    while (arr[i] != NULL)
+	{
+        current->next = createNode(arr[i]);
+        current = current->next;
+        i++;
+    }
+    return head;
+}
+
+int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 {
 	int i;
 
 	i = 1;
-	t_list *export_list;
-	export_list = NULL;
-	if (argc >= 1)
+	if (argc >= 2)
 	{
 		while (argv[i])
 		{
 			if (has_equalsign(argv[i]) == 1)
 			{
 				update_list(argv[i], list_envs);
-				fill_exportlist(argv[i], export_list);
+				fill_exportlist(argv[i], &export_list);
 			}
-			else
-				fill_exportlist(argv[i], export_list);
+			else if (has_equalsign(argv[i]) == 0)
+				fill_exportlist(argv[i], &export_list);
 			i++;
 		}
 	}
 	else
 	{
 	sortList(export_list);
-	//print list
+	printList(export_list);
 	}
-	(void)head;
 	return (0);
 }
 
