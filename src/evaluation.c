@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/26 17:43:25 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:06:16 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,19 @@ int	execute(char *input, t_data *data)
 		exit (2);
 	}
 	else if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
-		builtin_echo(data->cmd_argv, data->cmd_argc);
+		data->cm_stat = builtin_echo(data->cmd_argv, data->cmd_argc);
 	else if (ft_strncmp(*data->cmd_argv, "cd", 3) == 0)
-		builtin_cd(data->cmd_argv, data->cmd_argc, data->list_envs);
+		data->cm_stat = builtin_cd(data->cmd_argv, data->cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "pwd", 4) == 0)
-		builtin_pwd(data->cmd_argv, data->list_envs);
+		data->cm_stat = builtin_pwd(data->cmd_argv, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
-		builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs);
+		data->cm_stat = builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
-		builtin_unset(data->cmd_argv, data->list_envs, NULL);
+		data->cm_stat = builtin_unset(data->cmd_argv, data->list_envs, NULL);
 	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
-		builtin_env(data->cmd_argv, data->cmd_argc, data->list_envs);
+		data->cm_stat = builtin_env(data->cmd_argv, data->cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
-		builtin_exit(data->cmd_argv, data->cmd_argc);
+		data->cm_stat = builtin_exit(data->cmd_argv, data->cmd_argc);
 	else
 		run_from_bin_path(data->cmd_argv);
 	exit (data->status);

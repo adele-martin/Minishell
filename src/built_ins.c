@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/26 17:48:29 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/27 14:12:14 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 2: Misuse of shell built-ins (e.g., syntax errors)
 126: Command invoked cannot execute
 127: Command not found
+156: 156 typically indicates that a process was terminated by signal SIGXCPU (Signal 24), which is the CPU time limit exceeded signal
 130: Script terminated by Ctrl+C (SIGINT)
 We can store in into a global variable or into
 
@@ -114,52 +115,19 @@ int has_equalsign(char *string)
 	return (0);
 }
 //Sorts list in alphabetical order
-void sort_list()
-{
+// void sort_list()
+// {
 
 
-}
+// }
 
-char	**update_list(char *variable, char **list)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	i = 0;
-	int found_value;
-	found_value = 0;
-	while (list[i])
-	{
-		j = 0;
-		while (list[i][j] != '=')
-			j++;
-		if (ft_strncmp(list[i], variable, j) == 0)
-		{
-			found_value = 1;
-			free(list[i]);
-			list[i] = ft_strdup(variable);
-			if (!list[i])
-				return NULL;
-			break;
-		}
-		i++;
-	}
-	if (!found_value)
-	{
-		list[i] = ft_strdup(variable);
-		found_value = 0;
-	}
-	return (list);
-}
-
-int fill_exportlist(char *argv, t_list *head)
-{
-	t_list *str;
-	str = ft_strdup(argv);
-	char *str = ft_strcat("declare -x ", argv);
-	ft_lstadd_back(&head, str);
-}
+// int fill_exportlist(char *argv, t_list *head)
+// {
+// 	t_list *str;
+// 	str = ft_strdup(argv);
+// 	char *str = ft_strcat("declare -x ", argv);
+// 	ft_lstadd_back(&head, str);
+// }
 
 void sortList(t_list *head)
 {
@@ -187,7 +155,7 @@ void sortList(t_list *head)
     }
 }
 
-int builtin_export(char **argv, int argc, char **list_envs, t_list *head)
+int builtin_export(char **argv, int argc, char **list_envs)
 {
 	int i;
 
@@ -201,10 +169,10 @@ int builtin_export(char **argv, int argc, char **list_envs, t_list *head)
 			if (has_equalsign(argv[i]) == 1)
 			{
 				update_list(argv[i], list_envs);
-				fill_exportlist(argv[i], export_list);
+				// fill_exportlist(argv[i], export_list);
 			}
-			else
-				fill_exportlist(argv[i], export_list);
+			// else
+			// 	fill_exportlist(argv[i], export_list);
 			i++;
 		}
 	}
@@ -213,7 +181,6 @@ int builtin_export(char **argv, int argc, char **list_envs, t_list *head)
 	sortList(export_list);
 	//print list
 	}
-	(void)head;
 	return (0);
 }
 

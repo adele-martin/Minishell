@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/26 17:46:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:00:10 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_data
 	int		signal_fd;
 	pid_t	id;
 	int		status;
+	int		cm_stat;
 	int		cmd_argc;
 	char	**cmd_argv;
 	t_list	*linked_args;
@@ -147,7 +148,7 @@ char	**create_list(char **list);
 char	*search(char *variable, char **list, t_list *head);
 
 //BUILT-INS
-int builtin_export(char **argv, int argc, char **list_envs, t_list *head);
+int builtin_export(char **argv, int argc, char **list_envs);
 int	builtin_echo(char **argv, int argc);
 int builtin_env(char **argv, int argc, char **list_envs);
 int builtin_unset(char **argv, char **list_envs, t_list *head);
