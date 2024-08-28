@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/27 17:11:39 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:36:49 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int builtin_pwd(char **argv, char **list_envs);
 int builtin_exit(char **argv, int argc);
 
 //HELPER
-char *ft_strcat(char* dest, const char* src);
+char	*ft__strcat(char *dst, const char *src);
+char	*ft_strcat(char *dst, const char *src);
 
 #endif

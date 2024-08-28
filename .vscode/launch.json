@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/minishell",
-            "args": [],
+            "args": ["hey"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

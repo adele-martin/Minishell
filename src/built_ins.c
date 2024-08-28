@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/27 17:35:51 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:45:23 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void sortList(t_list *head)
 {
     t_list *i;
     t_list *j;
-    char temp[100];
+    char *temp;
 
     if (head == NULL) {
         return;
@@ -161,9 +161,12 @@ void sortList(t_list *head)
 		while (j != NULL) {
 			if (strcmp(i->content, j->content) > 0)
 			{
-				strcpy(temp, i->content);
-				strcpy(i->content, j->content);
-				strcpy(j->content, temp);
+				temp = ft_strdup(i->content);
+				free(i->content);
+				i->content = ft_strdup(j->content);
+				free(j->content);
+				j->content = ft_strdup(temp);
+				free(temp);
 			}
 			j = j->next;
 		}
@@ -181,25 +184,44 @@ void printList(t_list *head)
 
 void fill_exportlist(char *argv, t_list **head)
 {
-	char *str = ft_strcat("declare -x ", argv);
+	size_t len = strlen("declare -x ") + strlen(argv) + 1;
+    char *str = (char *)malloc(len);
+
+    if (!str)
+        return;
+
+    ft_strlcpy(str, "declare -x ",len);
+    ft_strcat(str, argv);
 	appendNode(head, str);
 }
+// void format_exportlist(t_list **head)
+// {
+// 	size_t len = strlen("declare -x ") + 1;
+//     char *str = (char *)malloc(len);
 
-//fill it with the env variables
+//     if (!str)
+//         return;
+
+//     ft_strlcpy(str, "declare -x ",len);
+//     ft__strcat(str, argv);
+// 	appendNode(head, str);
+// }
+
+
 t_list *arrayToLinkedList(char *arr[])
 {
-    if (arr[0] == NULL) return NULL;
+	if (arr[0] == NULL) return NULL;
 
-    t_list *head = createNode(arr[0]);
-    t_list *current = head;
-    int i = 1;
+	t_list *head = createNode(arr[0]);
+	t_list *current = head;
+	int i = 1;
 
-    while (arr[i] != NULL)
+	while (arr[i] != NULL)
 	{
-        current->next = createNode(arr[i]);
-        current = current->next;
-        i++;
-    }
+		current->next = createNode(arr[i]);
+		current = current->next;
+		i++;
+	}
     return head;
 }
 
@@ -219,6 +241,7 @@ int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 			}
 			else if (has_equalsign(argv[i]) == 0)
 				fill_exportlist(argv[i], &export_list);
+			printList(export_list);
 			i++;
 		}
 	}
