@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/27 14:42:03 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/30 17:18:55 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,8 @@ int expand_list(char **argv, t_list *head)
 			found = 1;
 			free(temp->content);
 			temp->content = ft_strdup(argv[1]);
+			// if (!temp->content)
+			// 	return NULL;
 		}
 		temp = temp->next;
 	}
@@ -197,8 +199,10 @@ int expand_list(char **argv, t_list *head)
 	{
 		t_list *new_node = malloc(sizeof(t_list));
 		if (!new_node)
-			return 0; //protect malloc
+			return 0;
 		new_node->content = ft_strdup(argv[1]);
+		// if (!new_node->content)
+		// 	return NULL;
 		new_node->next = NULL;
 		if (head == NULL) {
 			head = new_node;

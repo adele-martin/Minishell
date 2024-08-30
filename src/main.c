@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/27 17:18:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/30 17:28:02 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ int	main(int argc, char **argv, char **envp)
 	// t_ast	*astRoot;
 	// t_data	data;
 
-	char **list_envs = envs_list(envp);
-	t_list *export_list = arrayToLinkedList(list_envs);;
-	builtin_export(argv, argc, list_envs, export_list);
+	// char **list_envs = envs_list(envp);
+	// t_list *export_list = arrayToLinkedList(list_envs);;
+	// builtin_export(argv, argc, list_envs, export_list);
+	// freeList(export_list);
+	(void)envp;
+	builtin_exit(argv, argc);
 
 	// if (initialize_data(&data, argc, argv, envp))
 	// 	return (EXIT_FAILURE);

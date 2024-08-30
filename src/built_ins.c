@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/30 16:46:53 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/30 17:35:39 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,10 @@ t_list *createNode(const char *data)
 {
     t_list *newNode = (t_list *)malloc(sizeof(t_list));
     if (!newNode) {
-        perror("Failed to allocate memory for new node");
         exit(EXIT_FAILURE);
     }
     newNode->content = strdup(data);
     if (!newNode->content) {
-        perror("Failed to duplicate string");
         free(newNode);
         exit(EXIT_FAILURE);
     }
@@ -200,8 +198,8 @@ void fill_exportlist(char *argv, t_list **head)
 t_list *createNodeexport(const char *str)
 {
     t_list *node = (t_list *)malloc(sizeof(t_list));
-    if (!node) return NULL;
-
+    if (!node)
+		return NULL;
     node->content = (char *)malloc(strlen("declare -x ") + strlen(str) + 1);
     if (!node->content)
     {
@@ -212,6 +210,20 @@ t_list *createNodeexport(const char *str)
     strcat(node->content, str);
     node->next = NULL;
     return node;
+}
+
+void freeList(t_list *head)
+{
+    t_list *temp;
+
+    while (head != NULL)
+    {
+        temp = head;
+        head = head->next;
+
+        free(temp->content); // Free the dynamically allocated string
+        free(temp);          // Free the node itself
+    }
 }
 
 t_list *arrayToLinkedList(char *arr[])
@@ -270,6 +282,16 @@ int builtin_exit(char **argv, int argc)
 {
 	(void)argv;
 	(void)argc;
+	int i = 0;
+	while (argv[1])
+	{
+		if (!ft_isalnum(argv[1][i]))
+		{
+			ft_printf("bash: exit: numeric argument required\n");
+			exit(1);
+		}
+		i++;
+	}
 	ft_printf("exit\n");
 	exit(1);
 	return (0);
