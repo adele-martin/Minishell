@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/28 18:45:23 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/08/30 16:46:53 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int has_equalsign(char *string)
 }
 
 
-t_list *createNode(const char *data) {
+t_list *createNode(const char *data)
+{
     t_list *newNode = (t_list *)malloc(sizeof(t_list));
     if (!newNode) {
         perror("Failed to allocate memory for new node");
@@ -133,7 +134,8 @@ t_list *createNode(const char *data) {
 
 void appendNode(t_list **head, const char *data) {
     t_list *newNode = createNode(data);
-    if (*head == NULL) {
+    if (*head == NULL)
+	{
         *head = newNode;
     } else {
         t_list *temp = *head;
@@ -194,31 +196,35 @@ void fill_exportlist(char *argv, t_list **head)
     ft_strcat(str, argv);
 	appendNode(head, str);
 }
-// void format_exportlist(t_list **head)
-// {
-// 	size_t len = strlen("declare -x ") + 1;
-//     char *str = (char *)malloc(len);
 
-//     if (!str)
-//         return;
+t_list *createNodeexport(const char *str)
+{
+    t_list *node = (t_list *)malloc(sizeof(t_list));
+    if (!node) return NULL;
 
-//     ft_strlcpy(str, "declare -x ",len);
-//     ft__strcat(str, argv);
-// 	appendNode(head, str);
-// }
-
+    node->content = (char *)malloc(strlen("declare -x ") + strlen(str) + 1);
+    if (!node->content)
+    {
+        free(node);
+        return NULL;
+    }
+    strcpy(node->content, "declare -x ");
+    strcat(node->content, str);
+    node->next = NULL;
+    return node;
+}
 
 t_list *arrayToLinkedList(char *arr[])
 {
 	if (arr[0] == NULL) return NULL;
 
-	t_list *head = createNode(arr[0]);
+	t_list *head = createNodeexport(arr[0]);
 	t_list *current = head;
 	int i = 1;
 
 	while (arr[i] != NULL)
 	{
-		current->next = createNode(arr[i]);
+		current->next = createNodeexport(arr[i]);
 		current = current->next;
 		i++;
 	}
@@ -241,7 +247,6 @@ int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 			}
 			else if (has_equalsign(argv[i]) == 0)
 				fill_exportlist(argv[i], &export_list);
-			printList(export_list);
 			i++;
 		}
 	}
