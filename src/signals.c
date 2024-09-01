@@ -25,7 +25,14 @@ use of kill is allowed
 void	signal_action(int sig)
 {
 	(void)sig;
-	ft_printf("\nPressed CTRL-C\nminishell > ");
+	// Print example statement
+	ft_printf("\nPressed CTRL-C\n");
+	// Clear the line buffer
+    rl_replace_line("", 0);
+    // Move to a new line
+    rl_on_new_line();
+    // Redisplay the prompt
+    rl_redisplay();
 }
 
 /* SIGINT: ctrl-C; SIGQUIT: ctrl-\ */

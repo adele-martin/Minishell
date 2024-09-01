@@ -60,7 +60,7 @@ int	execute(char *input, t_data *data)
 			ft_printf("%s: No execution rights!\n", data->cmd_argv[0]);
 		else
 			execve(data->cmd_argv[0], data->cmd_argv, NULL);
-		exit (2);
+		exit (126);
 	}
 	else if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
 		builtin_echo(data->cmd_argv, data->cmd_argc);
@@ -69,7 +69,7 @@ int	execute(char *input, t_data *data)
 	else if (ft_strncmp(*data->cmd_argv, "pwd", 4) == 0)
 		builtin_pwd(data->cmd_argv, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
-		builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs);
+		builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs, data->export_list);
 	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
 		builtin_unset(data->cmd_argv, data->list_envs, NULL);
 	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
@@ -78,6 +78,9 @@ int	execute(char *input, t_data *data)
 		builtin_exit(data->cmd_argv, data->cmd_argc);
 	else
 		run_from_bin_path(data->cmd_argv);
+	
+	// builtin_env(data->cmd_argv, data->cmd_argc, data->list_envs);
+	// builtin_pwd(data->cmd_argv, data->list_envs);
 	exit (data->status);
 }
 

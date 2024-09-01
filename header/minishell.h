@@ -96,7 +96,8 @@ typedef struct s_data
 }	t_data;
 
 // global var for received signals
-extern volatile __sig_atomic_t	g_signal;
+// extern volatile __sig_atomic_t	g_signal;
+extern int	g_signal;
 
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);

@@ -261,8 +261,9 @@ int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 int builtin_pwd(char **argv, char **list_envs)
 {
 	(void)argv;
-	update_list(getenv("PWD"), list_envs);
-	ft_printf("\n");
+	// (void)list_envs;
+	// update_list(getenv("PWD"), list_envs);
+	ft_printf("%s\n", search("PWD", list_envs, NULL));
 	return (0);
 }
 

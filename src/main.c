@@ -14,6 +14,8 @@
 
 int	initialize_data(t_data *data, int argc, char **argv, char **envp);
 
+int	g_signal;
+
 // TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
 int	main(int argc, char **argv, char **envp)
 {
@@ -21,6 +23,8 @@ int	main(int argc, char **argv, char **envp)
 	char	**end_tokens;
 	t_ast	*astRoot;
 	t_data	data;
+
+	// builtin_export(argv, argc, list_envs, export_list);
 
 	if (initialize_data(&data, argc, argv, envp))
 		return (EXIT_FAILURE);
@@ -37,6 +41,7 @@ int	main(int argc, char **argv, char **envp)
 				return (1);
 			if (data.id == 0)
 			{
+				ft_printf("IN CHILD\n");
 				// tokenize_parse(&data);
 				tokens = split_tokens(data.input);
 				end_tokens = tokens;
@@ -48,7 +53,8 @@ int	main(int argc, char **argv, char **envp)
 			}
 			else
 			{
-				waitpid(data.id, NULL, 0);
+				waitpid(data.id, &g_signal, 0);
+				printf("Received signal %d\n", g_signal);
 				free(data.input);
 			}
 		}
