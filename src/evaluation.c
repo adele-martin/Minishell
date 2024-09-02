@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/26 17:43:25 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/02 12:10:27 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		run_from_bin_path(char **cmd_argv);
 char	**create_argv(t_list *linked_args);
 
 /*
+The builtins should not be executed in the child process, but in the parent process:
 ◦ echo with option -n
 ◦ cd with only a relative or absolute path
 ◦ pwd with no options
