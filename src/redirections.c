@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 19:05:32 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/02 14:33:42 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	redirect(char *operator, char *word, t_data *data)
 	else if (!ft_strncmp(operator, "<", 2))
 		return (redirect_input(word));
 	else if (!ft_strncmp(operator, "<<", 3))
-		return (heredoc(word, data->tty_name));
+		return (heredoc(word, data));
 	return (1);
 }
 
@@ -90,10 +90,9 @@ int	redirect_input(char *filename)
 }
 
 // for << operator with child process
-int	heredoc(char *delimiter, char *tty_name)
+int	heredoc(char *delimiter, t_data *data)
 {
 	char	*line;
-	int		tty_fd;
 	int 	fd[2];
 	pid_t	id;
 	
@@ -105,14 +104,8 @@ int	heredoc(char *delimiter, char *tty_name)
 	if (id == 0)
 	{
 		close(fd[0]);
-		tty_fd = open(tty_name, O_RDWR);
-		if (tty_fd == -1) {
-			perror("open terminal");
-			return (1);
-		}
-		dup2(tty_fd, STDIN_FILENO);  // Restore STDIN
-		dup2(tty_fd, STDOUT_FILENO); // Restore STDOUT
-		close(tty_fd); 
+		if (!restore_stdin_stdout(data, 2))
+			exit (1);
 		while (1)
 		{
 			line = readline("> ");
@@ -130,16 +123,9 @@ int	heredoc(char *delimiter, char *tty_name)
 		close(fd[1]);
 		exit (0);
 	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		waitpid(id, NULL, 0);
-		return (0);
-	}
-	close(fd[0]);
 	close(fd[1]);
-	// waitpid(id, NULL, 0);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	waitpid(id, NULL, 0);
 	return (0);
 }

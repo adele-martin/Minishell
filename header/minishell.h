@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/28 17:36:49 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:20:19 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,6 @@ typedef struct s_vars
 	t_vars	*next;
 }	t_vars;
 
-// typedef enum s_action {
-// 	WORD1,
-// 	WORD2
-// }	t_action;
-
 // struct for the information
 typedef struct s_data
 {
@@ -85,11 +80,12 @@ typedef struct s_data
 	t_list	*export_list;
 	char	**tokens;
 	char	**end_tokens;
+	char	exit;
 	char	in_pipe;
 	int		signal_fd;
 	pid_t	id;
 	int		status;
-	int		cmd_argc;
+	// int		cmd_argc;
 	char	**cmd_argv;
 	t_list	*linked_args;
 	t_ast	*astRoot;
@@ -104,11 +100,11 @@ t_ast	*create_ast(char **token_start, char **token_end);
 // // EVALUATION:
 // int		evaluate(char *input, t_info *info);
 // REDIRECTIONS:
-int	redirect(char *operator, char *word, t_data *data);
+int		redirect(char *operator, char *word, t_data *data);
 int		redirect_output(char *filename);
 int		append_output(char *filename);
 int		redirect_input(char *filename);
-int		heredoc(char *delimiter, char *tty_name);
+int		heredoc(char *delimiter, t_data *data);
 // EXECUTION:
 int		execute(char *input, t_data *data);
 char	**create_argv(t_list *linked_args);
@@ -116,6 +112,9 @@ char	**create_argv(t_list *linked_args);
 void	print_args(char *str, t_list *linked_args);
 void	clean_quotations(char *str);
 void	print_ast(t_ast *root);
+// INIT:
+int		initialize_data(t_data *data, int argc, char **argv, char **envp);
+int		restore_stdin_stdout(t_data *data, char option);
 // PARSING:
 int		parse_ast(t_ast *node, t_data *data);
 // UTILS:
@@ -141,25 +140,25 @@ char	**update_list(char *variable, char **list_envs);
 char	*return_value_env(char *variable, char **list);
 char	*return_value_var(char *variable, t_list *head);
 char	**delete_env(char *variable, char **list);
-t_list *delete_var(char *variable, t_list *head);
+t_list	*delete_var(char *variable, t_list *head);
 char	*search_var(char *variable, t_list *head);
 char	*search_env(char *variable, char **list);
-void bubble_sort(char *arr[], int n);
+void	bubble_sort(char *arr[], int n);
 char	**create_list(char **list);
 char	*search(char *variable, char **list, t_list *head);
 
 //BUILT-INS
-int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);
-t_list *arrayToLinkedList(char *arr[]);
-int	builtin_echo(char **argv, int argc);
-int builtin_env(char **argv, int argc, char **list_envs);
-int builtin_unset(char **argv, char **list_envs, t_list *head);
-int builtin_cd(char **argv, int argc, char **list_envs);
-int builtin_pwd(char **argv, char **list_envs);
-int builtin_exit(char **argv, int argc);
+int		builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);
+t_list	*arrayToLinkedList(char *arr[]);
+int		builtin_echo(char **argv, int argc);
+int		builtin_env(char **argv, int argc, char **list_envs);
+int		builtin_unset(char **argv, char **list_envs, t_list *head);
+int		builtin_cd(char **argv, int argc, char **list_envs);
+int		builtin_pwd(char **argv, char **list_envs);
+int		builtin_exit(char **argv, int argc);
 
 //HELPER
-char	*ft__strcat(char *dst, const char *src);
-char	*ft_strcat(char *dst, const char *src);
+// char	*ft__strcat(char *dst, const char *src);	// TODO: What is this for?
+// char	*ft_strcat(char *dst, const char *src);
 
 #endif

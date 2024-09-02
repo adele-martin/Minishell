@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/30 16:46:53 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:13:50 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ int has_equalsign(char *string)
 	}
 	return (0);
 }
-
 
 t_list *createNode(const char *data)
 {
@@ -262,7 +261,7 @@ int builtin_pwd(char **argv, char **list_envs)
 {
 	(void)argv;
 	// (void)list_envs;
-	// update_list(getenv("PWD"), list_envs);
+	// update_list(getenv("PWD"), list_envs);	// TODO: hasn't this to be taken from the list_envs?
 	ft_printf("%s\n", search("PWD", list_envs, NULL));
 	return (0);
 }
@@ -296,29 +295,37 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	char *home;
 	char cwd[1024];
 	char *current_dir;
-	char old_pwd[1024];
+	char new_pwd[1024];
 
-	if (argc == 1)
+	// current_dir = getcwd(cwd, sizeof(cwd));
+	if (argc > 2)
 	{
-		home = getenv("HOME");
+		ft_printf("minishell: cd: too many arguments\n");
+		return (1);
+	}
+	else if (argc == 1)
+	{
+		home = getenv("HOME");	// TODO: hasn't this to be taken from the list_envs?
 		if (!home)
-			ft_printf("bash: cd: HOME not set\n");
+			return (ft_printf("minishell: cd: HOME not set\n"));
 		if (chdir(home) == -1)
 			ft_printf("error");
 	}
 	else if (argc == 2)
 	{
-	if (chdir(argv[1]) == -1)
-		ft_printf("cd: %s: No such file or directory\n", argv[1]);
+		if (chdir(argv[1]) == -1)
+			ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
 	}
-	else if (argc > 2)
-	{
-		ft_printf("bash: cd: too many arguments\n");
-	}
-	current_dir = getcwd(cwd, sizeof(cwd));
-	ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
-	ft_strcat(old_pwd, current_dir);
-	update_list(old_pwd, list_envs);
-	update_list(getenv("PWD"), list_envs);
+	current_dir = getcwd(cwd, sizeof(cwd)); // TODO: hasn't this to be taken from the list_envs?
+	
+	ft_strlcpy(new_pwd, "PWD=", sizeof(new_pwd));
+	ft_strcat(new_pwd, current_dir);
+	update_list(new_pwd, list_envs);
+	
+	// ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
+	// ft_strcat(old_pwd, current_dir);
+	// update_list(old_pwd, list_envs);
+	// update_list(getenv("PWD"), list_envs);
+	// update_list(search("PWD", list_envs, NULL), list_envs);
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+         #
+#    By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/08/22 16:11:38 by ademarti         ###   ########.fr        #
+#    Updated: 2024/09/02 14:19:46 by bschneid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ HEADER = header/minishell.h
 LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
-SOURCES = ast.c built_ins.c environ_var.c evaluation.c helpers.c main.c\
+SOURCES = ast.c built_ins.c environ_var.c evaluation.c helpers.c init.c main.c\
 	parsing.c redirections.c signals.c split_cmd.c tokenization.c var_expand.c\
 	var_helpers.c wildcard.c
 OBJECTS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))

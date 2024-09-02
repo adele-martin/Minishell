@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/02 12:10:27 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:33:25 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,35 +53,52 @@ int	execute(char *input, t_data *data)
 	if (!data->cmd_argv)
 		return (1);
 	char	**argv_tmp = data->cmd_argv;
+	char	cmd_argc = 0;
 	while (*(argv_tmp++))
-		data->cmd_argc++;
-	if (**data->cmd_argv == '.')
-	{
-		if (access(data->cmd_argv[0], X_OK))
-			ft_printf("%s: No execution rights!\n", data->cmd_argv[0]);
-		else
-			execve(data->cmd_argv[0], data->cmd_argv, NULL);
-		exit (126);
-	}
-	else if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
-		builtin_echo(data->cmd_argv, data->cmd_argc);
+		cmd_argc++;
+	// possibilities for executions:
+	if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
+		builtin_echo(data->cmd_argv, cmd_argc);
 	else if (ft_strncmp(*data->cmd_argv, "cd", 3) == 0)
-		builtin_cd(data->cmd_argv, data->cmd_argc, data->list_envs);
+		builtin_cd(data->cmd_argv, cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "pwd", 4) == 0)
 		builtin_pwd(data->cmd_argv, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
-		builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs, data->export_list);
+		builtin_export(data->cmd_argv, cmd_argc, data->list_envs, data->export_list);
 	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
 		builtin_unset(data->cmd_argv, data->list_envs, NULL);
 	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
-		builtin_env(data->cmd_argv, data->cmd_argc, data->list_envs);
+		builtin_env(data->cmd_argv, cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
-		builtin_exit(data->cmd_argv, data->cmd_argc);
+		builtin_exit(data->cmd_argv, cmd_argc);
 	else
-		run_from_bin_path(data->cmd_argv);
-	
+	{
+		data->id = fork();
+		if (data->id == -1)
+			return (1);
+		if (data->id == 0)
+		{
+			if (**data->cmd_argv == '.')
+			{
+				if (access(data->cmd_argv[0], X_OK) == 0)
+					execve(data->cmd_argv[0], data->cmd_argv, NULL);
+				ft_printf("minishell: %s: Permission denied\n", data->cmd_argv[0]);
+				exit (126);
+			}
+			else
+				run_from_bin_path(data->cmd_argv);
+		}
+		else
+		{
+			waitpid(data->id, &data->status, 0);
+			if (WIFEXITED(data->status))
+				data->status = WEXITSTATUS(data->status);
+		}
+	}
 	// builtin_env(data->cmd_argv, data->cmd_argc, data->list_envs);
 	// builtin_pwd(data->cmd_argv, data->list_envs);
+	if (data->id)
+		return (0);
 	exit (data->status);
 }
 
@@ -137,8 +154,12 @@ int	run_from_bin_path(char **cmd_argv)
 		bin_paths++;
 	}
 	if (file_exists)
-		ft_printf("%s: No execution rights!\n", cmd_argv[0]);
-	// else
-	// 	ft_printf("%s: CMD not found!\n", cmd_argv[0]);
-	exit (2); //status
+	{
+		ft_printf("minishell: %s: Permission denied\n", cmd_argv[0]);
+		exit (126);
+	}
+	ft_printf("%s: command not found\n", cmd_argv[0]);
+	exit (127);
 }
+
+// TODO: Exit statuses: https://www.redhat.com/sysadmin/exit-codes-demystified

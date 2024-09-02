@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/20 15:47:05 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:01:37 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,19 @@ int	parse_ast(t_ast *node, t_data *data)
 			close(fd[1]);
 			return (1);
 		}
-		if (data->id == 0)
+		if (data->id == 0)	// child parses left side
 		{
 			close(fd[0]);
 			data->signal_fd = fd[1];
 			dup2(fd[1], STDOUT_FILENO);
-			parse_ast(node->left, data);
-			return (0);
-		}
-		else
-		{
-			close(fd[1]);
-			dup2(fd[0], STDIN_FILENO);
-			read(fd[0], &data->in_pipe, sizeof(char));
-			close(fd[0]);
-			ft_printf("waited for left pipe with id %d\n", data->id);
-			parse_ast(node->right, data);
-			return (0);
-		}
-		// close(fd[0]);
-		// close(fd[1]);
-		waitpid(data->id, NULL, 0);
+			exit(parse_ast(node->left, data));
+		}					// parent parses right side
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		read(fd[0], &data->in_pipe, sizeof(char));
+		close(fd[0]);
+		ft_printf("waited for left pipe with id %d\n", data->id);
+		return (parse_ast(node->right, data));
 	}
 	else if (is_redirection(node->value))
 	{
@@ -70,6 +62,7 @@ int	parse_ast(t_ast *node, t_data *data)
 	}
 	else
 		return (execute(node->value, data));
+	ft_printf("ERROR: Should not reach this point\n");
 	return (0);
 }
 
