@@ -6,7 +6,11 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/02 17:20:19 by bschneid         ###   ########.fr       */
+=======
+/*   Updated: 2024/08/30 17:15:47 by ademarti         ###   ########.fr       */
+>>>>>>> built-ins
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +161,15 @@ int		builtin_cd(char **argv, int argc, char **list_envs);
 int		builtin_pwd(char **argv, char **list_envs);
 int		builtin_exit(char **argv, int argc);
 
+//MEMORY
+void freeList(t_list *head);
+
 //HELPER
+<<<<<<< HEAD
 // char	*ft__strcat(char *dst, const char *src);	// TODO: What is this for?
 // char	*ft_strcat(char *dst, const char *src);
+=======
+char	*ft_strcat(char *dst, const char *src);
+>>>>>>> built-ins
 
 #endif
