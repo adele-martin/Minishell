@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/03 13:29:42 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:30:28 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,11 +161,6 @@ int		builtin_exit(char **argv, int argc);
 void freeList(t_list *head);
 
 //HELPER
-<<<<<<< HEAD
-// char	*ft__strcat(char *dst, const char *src);	// TODO: What is this for?
-// char	*ft_strcat(char *dst, const char *src);
-=======
 char	*ft_strcat(char *dst, const char *src);
->>>>>>> built-ins
 
 #endif
