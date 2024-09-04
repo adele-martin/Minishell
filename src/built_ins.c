@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 12:17:01 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:10:17 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 127: Command not found
 130: Script terminated by Ctrl+C (SIGINT)
 We can store in into a global variable or into
-
 */
 
 // prints out the arguments passed to it
@@ -139,15 +138,6 @@ int builtin_exit(char **argv, int argc)
 	i = 0;
 	if (argc == 1)
 		exit(0);
-	while (argv[1])
-	{
-		if (!ft_isalnum(argv[1][i]))
-		{
-			ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
-			exit(2);
-		}
-		i++;
-	}
 	ft_printf("exit\n");
 	if (argc > 2)
 	{
@@ -190,7 +180,7 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	}
 	else if (argc == 1)
 	{
-		home = search("HOME", list_envs, NULL);	// TODO: hasn't this to be taken from the list_envs? YES!!!
+		home = search("HOME", list_envs, NULL);
 		if (!home)
 			return (ft_printf("minishell: cd: HOME not set\n"));
 		if (chdir(home) == -1)
@@ -203,6 +193,8 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	}
 	current_dir = getcwd(cwd, sizeof(cwd)); // TODO: hasn't this to be taken from the list_envs? No I use this variable to update pwd in the list_envs
 
+	ft_printf("Current Directory: %s\n", current_dir);
+	ft_printf("Previous Directory (OLDPWD): %s\n", previous_pwd);
 	ft_strlcpy(new_pwd, "PWD=", sizeof(new_pwd));
 	ft_strcat(new_pwd, current_dir);
 	update_list(new_pwd, list_envs);
