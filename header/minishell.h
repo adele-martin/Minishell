@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/30 17:15:47 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:07:10 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_data
 }	t_data;
 
 // global var for received signals
-extern volatile __sig_atomic_t	g_signal;
+//extern volatile __sig_atomic_t	g_signal;
 
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);
