@@ -6,13 +6,13 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/02 16:33:25 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:38:41 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int		run_from_bin_path(char **cmd_argv);
+static int		run_from_bin_path(t_data *data);
 char	**create_argv(t_list *linked_args);
 
 /*
@@ -62,13 +62,13 @@ int	execute(char *input, t_data *data)
 	else if (ft_strncmp(*data->cmd_argv, "cd", 3) == 0)
 		builtin_cd(data->cmd_argv, cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "pwd", 4) == 0)
-		builtin_pwd(data->cmd_argv, data->list_envs);
+		builtin_pwd();
 	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
 		builtin_export(data->cmd_argv, cmd_argc, data->list_envs, data->export_list);
 	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
 		builtin_unset(data->cmd_argv, data->list_envs, NULL);
 	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
-		builtin_env(data->cmd_argv, cmd_argc, data->list_envs);
+		builtin_env(data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
 		builtin_exit(data->cmd_argv, cmd_argc);
 	else
@@ -81,12 +81,12 @@ int	execute(char *input, t_data *data)
 			if (**data->cmd_argv == '.')
 			{
 				if (access(data->cmd_argv[0], X_OK) == 0)
-					execve(data->cmd_argv[0], data->cmd_argv, NULL);
+					execve(data->cmd_argv[0], data->cmd_argv, data->list_envs);
 				ft_printf("minishell: %s: Permission denied\n", data->cmd_argv[0]);
 				exit (126);
 			}
 			else
-				run_from_bin_path(data->cmd_argv);
+				run_from_bin_path(data);
 		}
 		else
 		{
@@ -126,7 +126,7 @@ char	**create_argv(t_list *linked_args)
 	return (out);
 }
 
-int	run_from_bin_path(char **cmd_argv)
+static int	run_from_bin_path(t_data *data)
 {
 	char	*path_str;
 	char	**bin_paths;
@@ -144,21 +144,21 @@ int	run_from_bin_path(char **cmd_argv)
 	while (*bin_paths)
 	{
 		filepath = ft_strjoin(*bin_paths, "/");
-		filepath = ft_strjoin(filepath, cmd_argv[0]);
+		filepath = ft_strjoin(filepath, data->cmd_argv[0]);
 		if (access(filepath, F_OK) == 0)
 			file_exists = 1;
 		if (access(filepath, X_OK) == 0)
 		{
-			execve(filepath, cmd_argv, NULL);
+			execve(filepath, data->cmd_argv, data->list_envs);
 		}
 		bin_paths++;
 	}
 	if (file_exists)
 	{
-		ft_printf("minishell: %s: Permission denied\n", cmd_argv[0]);
+		ft_printf("minishell: %s: Permission denied\n", data->cmd_argv[0]);
 		exit (126);
 	}
-	ft_printf("%s: command not found\n", cmd_argv[0]);
+	ft_printf("%s: command not found\n", data->cmd_argv[0]);
 	exit (127);
 }
 

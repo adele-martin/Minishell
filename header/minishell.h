@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/03 13:30:28 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:42:51 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,11 @@ char	*search(char *variable, char **list, t_list *head);
 //BUILT-INS
 int		builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);
 t_list	*arrayToLinkedList(char *arr[]);
-int		builtin_echo(char **argv, int argc);
-int		builtin_env(char **argv, int argc, char **list_envs);
+int		builtin_echo(char **argv, int argc);	// DONE
+int		builtin_env(char **list_envs);			// DONE
 int		builtin_unset(char **argv, char **list_envs, t_list *head);
 int		builtin_cd(char **argv, int argc, char **list_envs);
-int		builtin_pwd(char **argv, char **list_envs);
+int		builtin_pwd(void);
 int		builtin_exit(char **argv, int argc);
 
 //MEMORY

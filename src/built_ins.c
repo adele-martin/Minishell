@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/03 13:24:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:46:06 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,15 @@ We can store in into a global variable or into
 
 */
 
-// int built_ins()
-// {
-// 	if ()
-// 		return (builtin_echo(argv, argc))
-// 	else if ()
-// 	else
-// 		return (127);
-// }
-
+// prints out the arguments passed to it
+// includes the option -n, which suppresses the trailing newline
 int	builtin_echo(char **argv, int argc)
 {
 	int	i;
 	int option_n;
 
 	option_n = 0;
-	if (argc > 1 && ft_strncmp(argv[1], "-n", 2) == 0)
+	if (argc > 1 && ft_strncmp(argv[1], "-n", 3) == 0)
 	{
 		option_n = 1;
 		i = 2;
@@ -87,18 +80,11 @@ int builtin_unset(char **argv, char **list_envs, t_list *head)
 	return (0);
 }
 
-int builtin_env(char **argv, int argc, char **list_envs)
+// prints out the current environments (saved in list_envs)
+int builtin_env(char **list_envs)
 {
-	int	i;
-	(void)argv;
-	(void)argc;
-
-	i = 0;
-	while (list_envs[i])
-	{
-		ft_printf("%s\n", list_envs[i]);
-		i++;
-	}
+	while (*list_envs)
+		ft_printf("%s\n", *(list_envs++));
 	return (0);
 }
 
@@ -263,47 +249,58 @@ int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 	}
 	else
 	{
-	sortList(export_list);
-	printList(export_list);
+		sortList(export_list);
+		printList(export_list);
 	}
 	return (0);
 }
 
-int builtin_pwd(char **argv, char **list_envs)
+// prints out the current working directory
+int builtin_pwd(void)
 {
-	(void)argv;
-	// (void)list_envs;
-	// update_list(getenv("PWD"), list_envs);	// TODO: hasn't this to be taken from the list_envs?
-	ft_printf("%s\n", search("PWD", list_envs, NULL));
+	char cwd[1024];
+
+	getcwd(cwd, sizeof(cwd));
+	ft_printf("%s\n", cwd);
 	return (0);
 }
 
+// with no arguments, exits with status 0
+// with args, checks for numeric (first) argument, optional error message
+// if more than one argument, prints error
+// if one argument, exits with that status
 int builtin_exit(char **argv, int argc)
 {
-	(void)argv;
-	(void)argc;
-	int i = 0;
+	int i;
+
+	i = 0;
+	if (argc == 1)
+		exit(0);
 	while (argv[1])
 	{
 		if (!ft_isalnum(argv[1][i]))
 		{
-			ft_printf("bash: exit: numeric argument required\n");
-			exit(1);
+			ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
+			exit(2);
 		}
 		i++;
 	}
 	ft_printf("exit\n");
-	exit(1);
-	return (0);
+	if (argc > 2)
+	{
+		ft_printf("minishell: exit: too many arguments\n");
+		return (1);
+	}
+	exit(ft_atoi(argv[1]));
 }
 
 char *ft_strcat(char* dest, const char* src)
 {
 	char* ptr = dest;
-	while (*ptr != '\0') {
+	while (*ptr != '\0')
 		ptr++;
-	}
-	while (*src != '\0') {
+	while (*src != '\0')
+	{
 		*ptr = *src;
 		ptr++;
 		src++;
@@ -312,6 +309,7 @@ char *ft_strcat(char* dest, const char* src)
 	return dest;
 }
 
+// TODO: also change the OLDPWD - variable - this function is also way tooo messy!!!
 int builtin_cd (char **argv, int argc, char **list_envs)
 {
 	char *home;
@@ -319,7 +317,6 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	char *current_dir;
 	char new_pwd[1024];
 
-	// current_dir = getcwd(cwd, sizeof(cwd));
 	if (argc > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
@@ -327,7 +324,7 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	}
 	else if (argc == 1)
 	{
-		home = getenv("HOME");	// TODO: hasn't this to be taken from the list_envs?
+		home = search("HOME", list_envs, NULL);	// TODO: hasn't this to be taken from the list_envs? YES!!!
 		if (!home)
 			return (ft_printf("minishell: cd: HOME not set\n"));
 		if (chdir(home) == -1)
