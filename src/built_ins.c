@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 12:57:47 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:21:21 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,155 +77,6 @@ int builtin_env(char **list_envs)
 	return (0);
 }
 
-t_list *createNode(const char *data)
-{
-    t_list *newNode = (t_list *)malloc(sizeof(t_list));
-    if (!newNode) {
-        exit(EXIT_FAILURE);
-    }
-    newNode->content = strdup(data);
-    if (!newNode->content) {
-        free(newNode);
-        exit(EXIT_FAILURE);
-    }
-    newNode->next = NULL;
-    return newNode;
-}
-
-t_list *createNodeexport(const char *str)
-{
-    t_list *node = (t_list *)malloc(sizeof(t_list));
-    if (!node)
-		return NULL;
-    node->content = (char *)malloc(strlen("declare -x ") + strlen(str) + 1);
-    if (!node->content)
-    {
-        free(node);
-        return NULL;
-    }
-    strcpy(node->content, "declare -x ");
-    strcat(node->content, str);
-    node->next = NULL;
-    return node;
-}
-
-char	**create_list(char **list)
-{
-	list = malloc(sizeof(char *) * 400);
-	if (!list)
-		return (NULL);
-	return (list);
-}
-
-int has_equalsign(char *string)
-{
-	int i = 0;
-	while (string[i])
-	{
-		if (string[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void appendNode(t_list **head, const char *data) {
-    t_list *newNode = createNode(data);
-    if (*head == NULL)
-	{
-        *head = newNode;
-    } else {
-        t_list *temp = *head;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = newNode;
-    }
-}
-//Util function for the export built-in. It sorts the list in alphabetical order.
-//TO DO: also do the difference between 'H' and 'h'
-void sortList(t_list *head)
-{
-    t_list *i;
-    t_list *j;
-    char *temp;
-
-    if (head == NULL) {
-        return;
-    }
-    i = head;
-    while (i->next != NULL)
-	{
-		j = i->next;
-		while (j != NULL) {
-			if (strcmp(i->content, j->content) > 0)
-			{
-				temp = ft_strdup(i->content);
-				free(i->content);
-				i->content = ft_strdup(j->content);
-				free(j->content);
-				j->content = ft_strdup(temp);
-				free(temp);
-			}
-			j = j->next;
-		}
-		i = i->next;
-	}
-}
-
-void printList(t_list *head)
-{
-    t_list *temp = head;
-    while (temp != NULL) {
-        printf("%s\n", (char *)temp->content);
-        temp = temp->next;
-    }
-}
-
-void fill_exportlist(char *argv, t_list **head)
-{
-	size_t len = strlen("declare -x ") + strlen(argv) + 1;
-    char *str = (char *)malloc(len);
-
-    if (!str)
-        return;
-
-    ft_strlcpy(str, "declare -x ",len);
-    ft_strcat(str, argv);
-	appendNode(head, str);
-}
-
-void freeList(t_list *head)
-{
-    t_list *temp;
-
-    while (head != NULL)
-    {
-        temp = head;
-        head = head->next;
-
-        free(temp->content); // Free the dynamically allocated string
-        free(temp);          // Free the node itself
-    }
-}
-
-t_list *arrayToLinkedList(char *arr[])
-{
-	if (arr[0] == NULL) return NULL;
-
-	t_list *head = createNodeexport(arr[0]);
-	t_list *current = head;
-	int i = 1;
-
-	while (arr[i] != NULL)
-	{
-		current->next = createNodeexport(arr[i]);
-		current = current->next;
-		i++;
-	}
-    return head;
-}
-
 int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 {
 	int i;
@@ -269,7 +120,7 @@ int builtin_pwd(void)
 // if one argument, exits with that status
 int builtin_exit(char **argv, int argc)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (argc == 1)
@@ -292,57 +143,52 @@ int builtin_exit(char **argv, int argc)
 	exit(ft_atoi(argv[1]));
 }
 
-char *ft_strcat(char* dest, const char* src)
+//Helper for cd built-in to update PWD and OLDPWD
+int update_env_var(const char *key, const char *value, char **list_envs)
 {
-	char* ptr = dest;
-	while (*ptr != '\0')
-		ptr++;
-	while (*src != '\0')
-	{
-		*ptr = *src;
-		ptr++;
-		src++;
+    char env_var[1024];
+
+	ft_strlcpy(env_var, key, sizeof(env_var));
+	ft_strcat(env_var, value);
+	update_list(env_var, list_envs);
+	return 0;
+}
+
+//Helper for cd built-in for a change to home directory
+int change_to_home(char **list_envs) {
+	 char	*home_dir;
+
+	home_dir = search_env("HOME", list_envs);
+	if (!home_dir) {
+		ft_printf("minishell: cd: HOME not set\n");
+		return -1;
 	}
-	*ptr = '\0';
-	return dest;
+	if (chdir(home_dir) == -1) {
+		ft_printf("minishell: cd: error changing to HOME directory\n");
+		return -1;
+	}
+	return 0;
 }
 
 // TODO: also change the OLDPWD - variable - this function is also way tooo messy!!!
 int builtin_cd (char **argv, int argc, char **list_envs)
 {
-	char *home;
 	char cwd[1024];
 	char *current_dir;
-	char new_pwd[1024];
-	char old_pwd[1024];
-
 	char *previous_pwd;
+
 	previous_pwd = search_env("PWD", list_envs);
-	if (argc > 2)
+	if (argc == 1 && (change_to_home(list_envs) == -1))
+			return (1);
+	else if (argc == 2 && chdir(argv[1]) == -1)
+			ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
+	else if (argc > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
 		return (1);
 	}
-	else if (argc == 1)
-	{
-		home = search("HOME", list_envs, NULL);	// TODO: hasn't this to be taken from the list_envs? YES!!!
-		if (!home)
-			return (ft_printf("minishell: cd: HOME not set\n"));
-		if (chdir(home) == -1)
-			ft_printf("error");
-	}
-	else if (argc == 2)
-	{
-		if (chdir(argv[1]) == -1)
-			ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
-	}
-	current_dir = getcwd(cwd, sizeof(cwd)); // TODO: hasn't this to be taken from the list_envs? No I use this variable to update pwd in the list_envs
-
-	ft_strlcpy(new_pwd, "PWD=", sizeof(new_pwd));
-	ft_strcat(new_pwd, current_dir);
-	update_list(new_pwd, list_envs);
-	ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
-	ft_strcat(old_pwd, previous_pwd);
-	update_list(old_pwd, list_envs);
+	current_dir = getcwd(cwd, sizeof(cwd));
+	if (update_env_var("OLDPWD=", previous_pwd, list_envs) == -1 || update_env_var("PWD=", current_dir, list_envs) == -1)
+		return 1;
 	return (0);
 }

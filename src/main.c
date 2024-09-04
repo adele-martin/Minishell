@@ -6,12 +6,13 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 12:44:57 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:21:33 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
+// saves the status code of the last command
 int	g_signal;
 
 int	main(int argc, char **argv, char **envp)
