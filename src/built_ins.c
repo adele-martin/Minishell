@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 11:02:36 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:28:41 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,9 +270,7 @@ int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 int builtin_pwd(char **argv, char **list_envs)
 {
 	(void)argv;
-	// (void)list_envs;
-	// update_list(getenv("PWD"), list_envs);	// TODO: hasn't this to be taken from the list_envs?
-	ft_printf("%s\n", search("PWD", list_envs, NULL));
+	ft_printf("%s\n", search_env("PWD", list_envs));
 	return (0);
 }
 
@@ -316,7 +314,10 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	char cwd[1024];
 	char *current_dir;
 	char new_pwd[1024];
+	char old_pwd[1024];
 
+	char *previous_pwd;
+	previous_pwd = search_env("PWD", list_envs);
 	if (argc > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
@@ -324,7 +325,7 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	}
 	else if (argc == 1)
 	{
-		home = getenv("HOME");	// TODO: hasn't this to be taken from the list_envs?
+		home = search_env("HOME", list_envs);
 		if (!home)
 			return (ft_printf("minishell: cd: HOME not set\n"));
 		if (chdir(home) == -1)
@@ -335,19 +336,13 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 		if (chdir(argv[1]) == -1)
 			ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
 	}
-	current_dir = getcwd(cwd, sizeof(cwd)); // TODO: hasn't this to be taken from the list_envs?
+	current_dir = getcwd(cwd, sizeof(cwd)); // TODO: hasn't this to be taken from the list_envs? No I use this variable to update pwd in the list_envs
 
 	ft_strlcpy(new_pwd, "PWD=", sizeof(new_pwd));
 	ft_strcat(new_pwd, current_dir);
 	update_list(new_pwd, list_envs);
-	//ft_strlcpy(current_dir, "OLDPWD=", sizeof(new_pwd));
-	//ft_strcat(current_dir, current_dir);
-	//update_list(current_dir, list_envs);
-
-	// ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
-	// ft_strcat(old_pwd, current_dir);
-	// update_list(old_pwd, list_envs);
-	// update_list(getenv("PWD"), list_envs);
-	// update_list(search("PWD", list_envs, NULL), list_envs);
+	ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
+	ft_strcat(old_pwd, previous_pwd);
+	update_list(old_pwd, list_envs);
 	return (0);
 }
