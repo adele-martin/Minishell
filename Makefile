@@ -6,7 +6,7 @@
 #    By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/09/04 11:03:15 by ademarti         ###   ########.fr        #
+#    Updated: 2024/09/04 11:04:31 by ademarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 $(NAME): $(OBJECTS) $(HEADER) $(LIBFT)
 	cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -lft
-	#cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -L/usr/local/opt/readline/lib -lft
+#cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -L/usr/local/opt/readline/lib -lft
 $(LIBFT):
 	$(MAKE) -C src/Libft_extended -f Makefile bonus
 	$(MAKE) -C src/Libft_extended -f Makefile clean
