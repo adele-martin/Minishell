@@ -6,12 +6,10 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/03 13:24:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:02:36 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//All built­in functions except printenv are executed by the parent process
-//Figure out how to deal with the quotes
 #include "../header/minishell.h"
 
 /*TODO: return values of the built-ins
@@ -24,7 +22,6 @@
 We can store in into a global variable or into
 
 */
-
 // int built_ins()
 // {
 // 	if ()
@@ -57,14 +54,6 @@ int	builtin_echo(char **argv, int argc)
 	if (!option_n)
 		write(1, "\n", 1);
 	return (0);
-}
-
-char	**create_list(char **list)
-{
-	list = malloc(sizeof(char *) * 400);
-	if (!list)
-		return (NULL);
-	return (list);
 }
 
 int builtin_unset(char **argv, char **list_envs, t_list *head)
@@ -102,18 +91,6 @@ int builtin_env(char **argv, int argc, char **list_envs)
 	return (0);
 }
 
-int has_equalsign(char *string)
-{
-	int i = 0;
-	while (string[i])
-	{
-		if (string[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 t_list *createNode(const char *data)
 {
     t_list *newNode = (t_list *)malloc(sizeof(t_list));
@@ -129,6 +106,43 @@ t_list *createNode(const char *data)
     return newNode;
 }
 
+t_list *createNodeexport(const char *str)
+{
+    t_list *node = (t_list *)malloc(sizeof(t_list));
+    if (!node)
+		return NULL;
+    node->content = (char *)malloc(strlen("declare -x ") + strlen(str) + 1);
+    if (!node->content)
+    {
+        free(node);
+        return NULL;
+    }
+    strcpy(node->content, "declare -x ");
+    strcat(node->content, str);
+    node->next = NULL;
+    return node;
+}
+
+char	**create_list(char **list)
+{
+	list = malloc(sizeof(char *) * 400);
+	if (!list)
+		return (NULL);
+	return (list);
+}
+
+int has_equalsign(char *string)
+{
+	int i = 0;
+	while (string[i])
+	{
+		if (string[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void appendNode(t_list **head, const char *data) {
     t_list *newNode = createNode(data);
     if (*head == NULL)
@@ -142,8 +156,8 @@ void appendNode(t_list **head, const char *data) {
         temp->next = newNode;
     }
 }
-
-//also do the difference between 'H' and 'h'
+//Util function for the export built-in. It sorts the list in alphabetical order.
+//TO DO: also do the difference between 'H' and 'h'
 void sortList(t_list *head)
 {
     t_list *i;
@@ -172,6 +186,7 @@ void sortList(t_list *head)
 		i = i->next;
 	}
 }
+
 void printList(t_list *head)
 {
     t_list *temp = head;
@@ -192,23 +207,6 @@ void fill_exportlist(char *argv, t_list **head)
     ft_strlcpy(str, "declare -x ",len);
     ft_strcat(str, argv);
 	appendNode(head, str);
-}
-
-t_list *createNodeexport(const char *str)
-{
-    t_list *node = (t_list *)malloc(sizeof(t_list));
-    if (!node)
-		return NULL;
-    node->content = (char *)malloc(strlen("declare -x ") + strlen(str) + 1);
-    if (!node->content)
-    {
-        free(node);
-        return NULL;
-    }
-    strcpy(node->content, "declare -x ");
-    strcat(node->content, str);
-    node->next = NULL;
-    return node;
 }
 
 void freeList(t_list *head)
@@ -319,7 +317,6 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	char *current_dir;
 	char new_pwd[1024];
 
-	// current_dir = getcwd(cwd, sizeof(cwd));
 	if (argc > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
@@ -343,6 +340,9 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	ft_strlcpy(new_pwd, "PWD=", sizeof(new_pwd));
 	ft_strcat(new_pwd, current_dir);
 	update_list(new_pwd, list_envs);
+	//ft_strlcpy(current_dir, "OLDPWD=", sizeof(new_pwd));
+	//ft_strcat(current_dir, current_dir);
+	//update_list(current_dir, list_envs);
 
 	// ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
 	// ft_strcat(old_pwd, current_dir);
