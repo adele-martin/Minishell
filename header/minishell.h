@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 11:42:51 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:16:26 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char	replace_vars(t_list *arg, t_vars *vars);
 // WILDCARD:
 char	add_wildcards(t_list *linked_args);
 
-//ENVIRON_VAR
+//VARIABLES
 // void store_envs(char **envp);
 char	**envs_list(char **envp);
 char	**update_list(char *variable, char **list_envs);
@@ -146,6 +146,14 @@ char	*search_env(char *variable, char **list);
 void	bubble_sort(char *arr[], int n);
 char	**create_list(char **list);
 char	*search(char *variable, char **list, t_list *head);
+
+char	**envs_list(char **envp);
+int expand_list(char **argv, t_list *head);
+
+//LINKED LIST UTILS
+void fill_exportlist(char *argv, t_list **head);
+void printList(t_list *head);
+void sortList(t_list *head);
 
 //BUILT-INS
 int		builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);

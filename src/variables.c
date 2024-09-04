@@ -1,41 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   environ_var.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/03 16:21:26 by ademarti          #+#    #+#             */
-/*   Updated: 2024/08/30 17:18:55 by ademarti         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../header/minishell.h"
 
-char	**envs_list(char **envp)
-{
-	char	**list_envs;
-	int	i;
-
-	list_envs = malloc(sizeof(char *) * 400);
-	if (!list_envs)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		list_envs[i] = ft_strdup(envp[i]);
-		if (!list_envs[i])
-			return NULL;
-		i++;
-	}
-	while (i < 400)
-	{
-		list_envs[i] = NULL;
-		i++;
-	}
-	return (list_envs);
-}
-
+//This function apprends new variables to our env list.
 char	**update_list(char *variable, char **list)
 {
 	int	i;
@@ -69,6 +36,7 @@ char	**update_list(char *variable, char **list)
 	return (list);
 }
 
+//This function deletes variables from our env list.
 char	**delete_env(char *variable, char **list)
 {
 	int	i;
@@ -96,6 +64,8 @@ char	**delete_env(char *variable, char **list)
 	}
 	return (list);
 }
+
+//This function deletes variables from our variables list (expanding).
 t_list *delete_var(char *variable, t_list *head)
 {
 	t_list *temp;
@@ -127,6 +97,7 @@ t_list *delete_var(char *variable, t_list *head)
 	return (head);
 }
 
+//Search function util
 char	*return_value_env(char *variable, char **list)
 {
 	int	i;
@@ -149,6 +120,7 @@ char	*return_value_env(char *variable, char **list)
 	return (NULL);
 }
 
+//Search function util
 char	*return_value_var(char *variable, t_list *head)
 {
 	t_list *temp;
@@ -171,53 +143,6 @@ char	*return_value_var(char *variable, t_list *head)
 	return (NULL);
 }
 
-//TODO: protect malloc in this function
-int expand_list(char **argv, t_list *head)
-{
-	t_list *temp;
-	temp = head;
-	char *str;
-	int len;
-	int found;
-	while (temp != NULL)
-	{
-		str = (char *)temp->content;
-		len = 0;
-		while (argv[1][len] != '=')
-			len++;
-		if (ft_strncmp(str, argv[1], len) == 0)
-		{
-			found = 1;
-			free(temp->content);
-			temp->content = ft_strdup(argv[1]);
-			// if (!temp->content)
-			// 	return NULL;
-		}
-		temp = temp->next;
-	}
-	if (!found)
-	{
-		t_list *new_node = malloc(sizeof(t_list));
-		if (!new_node)
-			return 0;
-		new_node->content = ft_strdup(argv[1]);
-		// if (!new_node->content)
-		// 	return NULL;
-		new_node->next = NULL;
-		if (head == NULL) {
-			head = new_node;
-		} else {
-			temp = head;
-			while (temp->next != NULL)
-				temp = temp->next;
-			temp->next = new_node;
-		}
-	return 1;
-	}
-	else
-		return 0;
-}
-
 //Function searches for a key and returns its value in list of variables.
 char	*search_var(char *variable, t_list *head)
 {
@@ -227,6 +152,7 @@ char	*search_var(char *variable, t_list *head)
 		return (out);
 	return (NULL);
 }
+
 //Function searches for a key and returns its value in the env list.
 char	*search_env(char *variable, char **list)
 {
@@ -237,6 +163,7 @@ char	*search_env(char *variable, char **list)
 	return (NULL);
 }
 
+//Function created for testing purposes.
 char	*search(char *variable, char **list, t_list *head)
 {
 	char	*out;
@@ -249,15 +176,3 @@ char	*search(char *variable, char **list, t_list *head)
 		return (out);
 	return (NULL);
 }
-
-//TODO : Test
-	// t_list *head = NULL;
-
-	// add_node(&head, "USER=john_doe");
-	// add_node(&head, "PATH=/usr/bin");
-	// add_node(&head, "HOME=/home/john");
-	// // print_list(head);
-	// // head = delete_var("PATH=/usr/bin", head);
-	// char *hey= search("HOME", list_envs, head);
-	// ft_printf("%s", hey);
-	// // print_list(head);
