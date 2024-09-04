@@ -74,7 +74,12 @@ static void	append_replace(char *str, t_vars **list, t_data *data)
 	else if (ft_isdigit(*str))
 		(*list)->value_start = NULL;
 	else if (*str == '?')
+	{
+		if (data->status_str)
+			free(data->status_str);
+		data->status_str = ft_itoa(g_signal);
 		(*list)->value_start = data->status_str;
+	}
 	else if (!get_alphaval(ft_strdup(str), list, data))
 		return ;
 	if (!(*list)->value_start)

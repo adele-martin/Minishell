@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/16 21:00:10 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:23:08 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,26 @@ use of kill is allowed
 void	signal_action(int sig)
 {
 	(void)sig;
-	// Print example statement
-	ft_printf("\nPressed CTRL-C\n");
-	// Clear the line buffer
+	ft_printf("\n");
     rl_replace_line("", 0);
-    // Move to a new line
     rl_on_new_line();
-    // Redisplay the prompt
     rl_redisplay();
+	g_signal = 130;
 }
 
+// TODO: different signal handling for different spots in main! And maybe for heredoc too!
 /* SIGINT: ctrl-C; SIGQUIT: ctrl-\ */
-void	handle_signals(void)
+void	handle_signals(char option)
 {
-	struct sigaction	action;
-	struct sigaction	ignore;
+	static struct sigaction	action;
+	static struct sigaction	ignore;
 
 	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, SIGINT);
 	action.sa_flags = SA_RESTART;
+	if (option == 1)
+		action.sa_handler = SIG_IGN;
+	else
 	action.sa_handler = signal_action;
 	sigaction(SIGINT, &action, NULL);
 

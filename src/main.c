@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 16:21:33 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:13:18 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@ int	main(int argc, char **argv, char **envp)
 				end_tokens++;
 			end_tokens--;
 			astRoot = create_ast(tokens, end_tokens);
-			g_signal = parse_ast(astRoot, &data);
-			free(data.status_str);
-			data.status_str = ft_itoa(g_signal);
-			// waitpid(data.id, &g_signal, 0);
-			// printf("Received signal %d\n", g_signal);
+			if (!astRoot)
+				continue ;
+			g_signal = parse_ast(astRoot, &data); // actual execution
 			free(data.input);
 		}
 	}
