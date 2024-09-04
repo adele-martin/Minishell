@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 12:10:28 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:33:00 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,13 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 			ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
 	}
 	current_dir = getcwd(cwd, sizeof(cwd)); // TODO: hasn't this to be taken from the list_envs? No I use this variable to update pwd in the list_envs
+	if (!current_dir)
+	{
+    	ft_printf("minishell: cd: error retrieving current directory\n");
+    	return (1);
+	}
+	ft_printf("PWD: %s\n", current_dir);
+	ft_printf("Previous Directory (OLDPWD): %s\n", previous_pwd);
 
 	ft_strlcpy(new_pwd, "PWD=", sizeof(new_pwd));
 	ft_strcat(new_pwd, current_dir);
@@ -208,5 +215,6 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
 	ft_strcat(old_pwd, previous_pwd);
 	update_list(old_pwd, list_envs);
+
 	return (0);
 }
