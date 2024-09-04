@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 13:10:17 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:38:28 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,15 @@ int builtin_exit(char **argv, int argc)
 	i = 0;
 	if (argc == 1)
 		exit(0);
+	while (argv[1])
+	{
+		if (!ft_isalnum(argv[1][i]))
+		{
+			ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
+			exit(2);
+		}
+		i++;
+	}
 	ft_printf("exit\n");
 	if (argc > 2)
 	{
@@ -170,8 +179,8 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	char *current_dir;
 	char new_pwd[1024];
 	char old_pwd[1024];
-
 	char *previous_pwd;
+	
 	previous_pwd = search_env("PWD", list_envs);
 	if (argc > 2)
 	{
@@ -191,15 +200,12 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 		if (chdir(argv[1]) == -1)
 			ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
 	}
-	current_dir = getcwd(cwd, sizeof(cwd)); // TODO: hasn't this to be taken from the list_envs? No I use this variable to update pwd in the list_envs
-
-	ft_printf("Current Directory: %s\n", current_dir);
-	ft_printf("Previous Directory (OLDPWD): %s\n", previous_pwd);
-	ft_strlcpy(new_pwd, "PWD=", sizeof(new_pwd));
-	ft_strcat(new_pwd, current_dir);
-	update_list(new_pwd, list_envs);
+	current_dir = getcwd(cwd, sizeof(cwd));
 	ft_strlcpy(old_pwd, "OLDPWD=", sizeof(old_pwd));
 	ft_strcat(old_pwd, previous_pwd);
 	update_list(old_pwd, list_envs);
+	ft_strlcpy(new_pwd, "PWD=", sizeof(new_pwd));
+	ft_strcat(new_pwd, current_dir);
+	update_list(new_pwd, list_envs);
 	return (0);
 }
