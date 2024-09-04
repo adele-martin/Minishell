@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/02 16:33:35 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:40:13 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	data->export_list = arrayToLinkedList(data->list_envs);
 	data->tty_name = ttyname(STDIN_FILENO);
 	data->shell_name = ft_strdup("minishell");
-	data->status_str = ft_itoa(123);
+	data->status_str = ft_itoa(0);
 	data->in_pipe = 0;
 	data->id = 1;
 	data->signal_fd = 0;

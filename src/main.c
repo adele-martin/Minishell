@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/03 13:24:56 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:44:57 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	g_signal;
 
-// TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
 int	main(int argc, char **argv, char **envp)
 {
 	char	**tokens;
@@ -40,7 +39,9 @@ int	main(int argc, char **argv, char **envp)
 				end_tokens++;
 			end_tokens--;
 			astRoot = create_ast(tokens, end_tokens);
-			parse_ast(astRoot, &data);
+			g_signal = parse_ast(astRoot, &data);
+			free(data.status_str);
+			data.status_str = ft_itoa(g_signal);
 			// waitpid(data.id, &g_signal, 0);
 			// printf("Received signal %d\n", g_signal);
 			free(data.input);

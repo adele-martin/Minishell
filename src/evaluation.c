@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 11:38:41 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:13:39 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,19 @@ int	execute(char *input, t_data *data)
 		cmd_argc++;
 	// possibilities for executions:
 	if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
-		builtin_echo(data->cmd_argv, cmd_argc);
+		data->status = builtin_echo(data->cmd_argv, cmd_argc);
 	else if (ft_strncmp(*data->cmd_argv, "cd", 3) == 0)
-		builtin_cd(data->cmd_argv, cmd_argc, data->list_envs);
+		data->status = builtin_cd(data->cmd_argv, cmd_argc, data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "pwd", 4) == 0)
-		builtin_pwd();
+		data->status = builtin_pwd();
 	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
-		builtin_export(data->cmd_argv, cmd_argc, data->list_envs, data->export_list);
+		data->status = builtin_export(data->cmd_argv, cmd_argc, data->list_envs, data->export_list);
 	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
-		builtin_unset(data->cmd_argv, data->list_envs, NULL);
+		data->status = builtin_unset(data->cmd_argv, data->list_envs, NULL);
 	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
-		builtin_env(data->list_envs);
+		data->status = builtin_env(data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
-		builtin_exit(data->cmd_argv, cmd_argc);
+		data->status = builtin_exit(data->cmd_argv, cmd_argc);
 	else
 	{
 		data->id = fork();
@@ -95,10 +95,11 @@ int	execute(char *input, t_data *data)
 				data->status = WEXITSTATUS(data->status);
 		}
 	}
-	// builtin_env(data->cmd_argv, data->cmd_argc, data->list_envs);
-	// builtin_pwd(data->cmd_argv, data->list_envs);
 	if (data->id)
-		return (0);
+	{
+		waitpid(data->id, &data->status, 0);
+		return (data->status);
+	}
 	exit (data->status);
 }
 

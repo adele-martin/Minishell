@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 11:55:20 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:57:47 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 127: Command not found
 130: Script terminated by Ctrl+C (SIGINT)
 We can store in into a global variable or into
-
 */
 
 // prints out the arguments passed to it
@@ -275,7 +274,7 @@ int builtin_exit(char **argv, int argc)
 	i = 0;
 	if (argc == 1)
 		exit(0);
-	while (argv[1])
+	while (argv[1][i])
 	{
 		if (!ft_isalnum(argv[1][i]))
 		{

@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 10:33:22 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:20:02 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	parse_ast(t_ast *node, t_data *data)
 		dup2(fd[0], STDIN_FILENO);
 		read(fd[0], &data->in_pipe, sizeof(char));
 		close(fd[0]);
-		ft_printf("waited for left pipe with id %d\n", data->id);
+		// ft_printf("waited for left pipe with id %d\n", data->id);
 		return (parse_ast(node->right, data));
 	}
 	else if (is_redirection(node->value))
@@ -65,22 +65,44 @@ int	parse_ast(t_ast *node, t_data *data)
 
 int	parse_and_or(t_ast *node, t_data *data)
 {
-	data->id = fork();
-	if (data->id == -1)
-		return (1);
-	if (data->id == 0)
-		exit(parse_ast(node->left, data));
-	else
-		waitpid(data->id, &data->status, 0);
+	g_signal = parse_ast(node->left, data);
+	free(data->status_str);
+	data->status_str = ft_itoa(g_signal);
 	if (ft_strncmp(node->value, "&&", 3) == 0)
 	{
-		if (WIFEXITED(data->status) && !WEXITSTATUS(data->status))
-			parse_ast(node->right, data);
+		if (!data->status)
+			return (parse_ast(node->right, data));
+		else
+			return (data->status);
 	}
 	else if (ft_strncmp(node->value, "||", 3) == 0)
 	{
-		if (WIFEXITED(data->status) && WEXITSTATUS(data->status))
-			parse_ast(node->right, data);
+		if (data->status)
+			return (parse_ast(node->right, data));
+		else
+			return (data->status);
 	}
 	return (0);
 }
+
+// int	parse_and_or(t_ast *node, t_data *data)
+// {
+// 	data->id = fork();
+// 	if (data->id == -1)
+// 		return (1);
+// 	if (data->id == 0)
+// 		exit(parse_ast(node->left, data));
+// 	else
+// 		waitpid(data->id, &data->status, 0);
+// 	if (ft_strncmp(node->value, "&&", 3) == 0)
+// 	{
+// 		if (WIFEXITED(data->status) && !WEXITSTATUS(data->status))
+// 			parse_ast(node->right, data);
+// 	}
+// 	else if (ft_strncmp(node->value, "||", 3) == 0)
+// 	{
+// 		if (WIFEXITED(data->status) && WEXITSTATUS(data->status))
+// 			parse_ast(node->right, data);
+// 	}
+// 	return (0);
+// }
