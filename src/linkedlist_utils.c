@@ -88,9 +88,11 @@ void sortList(t_list *head)
 //Second export list util
 void printList(t_list *head)
 {
-    t_list *temp = head;
+    t_list *temp;
+
+    temp = head;
     while (temp != NULL) {
-        printf("%s\n", (char *)temp->content);
+    ft_printf("%s\n", (char *)temp->content);
         temp = temp->next;
     }
 }
