@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 16:20:09 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:19:07 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		parse_ast(t_ast *node, t_data *data);
 // UTILS:
 char	is_redirection(char *str);
 //SIGNALS:
-void	handle_signals(void);
+void	handle_signals(char option);
 void	signal_action(int sig);
 // SPLIT_CMD
 t_list	*get_args(char *str);

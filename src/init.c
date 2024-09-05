@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 12:40:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:19:54 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	// data->cmd_argc = 0;
 	data->exit = 0;
 	// ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
-	handle_signals();
+	handle_signals(0);
 	return (EXIT_SUCCESS);
 }
 

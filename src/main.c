@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 17:13:18 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:19:54 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!restore_stdin_stdout(&data, 2))
 			exit (1);
+		handle_signals(1);
 		data.input = readline("minishell > ");
 		if (!data.input)
 			break ;
 		else
 		{
+			handle_signals(2);
 			add_history(data.input);
 			tokens = split_tokens(data.input);
 			end_tokens = tokens;
