@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 14:18:49 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:00:09 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ void	signal_out_newline(int sig)
 	g_signal = 130;
 }
 
+// idea: kill the child process (heredoc) in the parent process while waiting
 void	signal_heredoc(int sig)
 {
 	(void)sig;
 	ft_printf("\n");
-	rl_replace_line("\1", 0);
+	rl_replace_line("\1\13", 0);
 	ft_printf("SIGNAL IN HEREDOC\n");
 	g_signal = 130;
 	exit (1);
