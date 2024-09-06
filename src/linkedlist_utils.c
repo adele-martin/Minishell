@@ -111,21 +111,6 @@ void fill_exportlist(char *argv, t_list **head)
 	appendNode(head, str);
 }
 
-//Second export list util
-void freeList(t_list *head)
-{
-    t_list *temp;
-
-    while (head != NULL)
-    {
-        temp = head;
-        head = head->next;
-
-        free(temp->content);
-        free(temp);
-    }
-}
-
 //Function to create the second "export" list
 t_list *arrayToLinkedList(char *arr[])
 {

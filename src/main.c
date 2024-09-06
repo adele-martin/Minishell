@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 16:19:08 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:10:43 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ int	g_signal;
 // TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
 int	main(int argc, char **argv, char **envp)
 {
+	//char **list_envs = envs_list(envp);
+	//(void)envp;
+	//builtin_echo(argv, argc);
+
 	char	**tokens;
 	char	**end_tokens;
 	t_ast	*astRoot;
@@ -49,4 +53,5 @@ int	main(int argc, char **argv, char **envp)
 	}
 	printf("Shell ended!\n");
 	return (EXIT_SUCCESS);
+
 }

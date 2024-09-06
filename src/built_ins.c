@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 15:28:33 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:40:06 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,6 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	}
 	current_dir = getcwd(cwd, sizeof(cwd));
 	if (update_env_var("OLDPWD=", previous_pwd, list_envs) == -1 || update_env_var("PWD=", current_dir, list_envs) == -1)
-		return 1;
+		return (1);
 	return (0);
 }
