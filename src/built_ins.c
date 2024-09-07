@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/07 16:07:04 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/07 16:24:05 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,17 @@ int wildcard_match(const char *pattern, const char *str)
 int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 {
 	int i;
-	//int is_wildcard;
 	i = 1;
-	//is_wildcard = (strchr(argv[i], '*') || strchr(argv[i], '?'));
+	printf("Processing argument: %s\n", argv[i]);
 	if (argc >= 2)
-	{
+    {
+        while (argv[i])
+        {
+            // Check for wildcards inside the loop for each argument
+			/*
+            int is_wildcard = (ft_strchr(argv[i], '*') || ft_strchr(argv[i], '?'));
 
-		while (argv[i])
-		{
-		/*
-			if (is_wildcard)
+            if (is_wildcard)
             {
                 for (int j = 0; list_envs[j]; j++)
                 {
@@ -126,33 +127,24 @@ int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
                     }
                 }
             }
-			if (has_equalsign(argv[i]) == 1)
-			{
-				update_list(argv[i], list_envs);
-				fill_exportlist(argv[i], &export_list);
-			}
-			else if (has_equalsign(argv[i]) == 0)
-				fill_exportlist(argv[i], &export_list);
-			i++;
-		}
-	}
-	else
-	*/
-			if (has_equalsign(argv[i]) == 1)
-			{
-				update_list(argv[i], list_envs);
-				fill_exportlist(argv[i], &export_list);
-			}
-			else if (has_equalsign(argv[i]) == 0)
-				fill_exportlist(argv[i], &export_list);
-			i++;
-		}
-	}
-	else
-	{
-		sortList(export_list);
-		printList(export_list);
-	}
+			*/
+                if (has_equalsign(argv[i]) == 1)
+                {
+                    update_list(argv[i], list_envs);
+                    fill_exportlist(argv[i], &export_list);
+                }
+                else if (has_equalsign(argv[i]) == 0)
+                {
+                    fill_exportlist(argv[i], &export_list);
+                }
+            i++;
+        }
+    }
+    else
+    {
+        sortList(export_list);
+        printList(export_list);
+    }
 	return (0);
 }
 
