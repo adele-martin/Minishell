@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 15:40:06 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:21:21 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int builtin_exit(char **argv, int argc)
 	i = 0;
 	if (argc == 1)
 		exit(0);
-	while (argv[1])
+	while (argv[1][i])
 	{
 		if (!ft_isalnum(argv[1][i]))
 		{

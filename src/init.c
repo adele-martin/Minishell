@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 15:54:57 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:19:54 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	data->export_list = arrayToLinkedList(data->list_envs);
 	data->tty_name = ttyname(STDIN_FILENO);
 	data->shell_name = ft_strdup("minishell");
-	data->status_str = ft_itoa(123);
+	data->status_str = ft_itoa(0);
 	data->in_pipe = 0;
 	data->id = 1;
 	data->signal_fd = 0;
 	// data->cmd_argc = 0;
 	data->exit = 0;
 	// ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
-	handle_signals();
+	handle_signals(0);
 	return (EXIT_SUCCESS);
 }
 

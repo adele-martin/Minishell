@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/02 14:33:42 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:27:22 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,46 +86,5 @@ int	redirect_input(char *filename)
 		exit(1);
 	}
 	close(fd);
-	return (0);
-}
-
-// for << operator with child process
-int	heredoc(char *delimiter, t_data *data)
-{
-	char	*line;
-	int 	fd[2];
-	pid_t	id;
-	
-	if (pipe(fd) == -1)
-		return (1);
-	id = fork();
-	if (id == -1)
-		return (1);
-	if (id == 0)
-	{
-		close(fd[0]);
-		if (!restore_stdin_stdout(data, 2))
-			exit (1);
-		while (1)
-		{
-			line = readline("> ");
-			if (!line)
-				break ;
-			if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
-			{
-				free(line);
-				break ;
-			}
-			write(fd[1], line, ft_strlen(line));
-			write(fd[1], "\n", 1);
-			free(line);
-		}
-		close(fd[1]);
-		exit (0);
-	}
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	waitpid(id, NULL, 0);
 	return (0);
 }

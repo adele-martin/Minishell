@@ -8,7 +8,7 @@ char	**envs_list(char **envp)
 	int	i;
 
 	list_envs = malloc(sizeof(char *) * 400);
-	printf("str malloc : %p", list_envs);
+	printf("str malloc : %p\n", list_envs);
 	if (!list_envs)
 		return (NULL);
 	i = 0;

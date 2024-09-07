@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/06 15:10:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:19:54 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 // saves the status code of the last command
 int	g_signal;
 
-// TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
 int	main(int argc, char **argv, char **envp)
 {
 	//char **list_envs = envs_list(envp);
@@ -33,11 +32,13 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!restore_stdin_stdout(&data, 2))
 			exit (1);
+		handle_signals(1);
 		data.input = readline("minishell > ");
 		if (!data.input)
 			break ;
 		else
 		{
+			handle_signals(2);
 			add_history(data.input);
 			tokens = split_tokens(data.input);
 			end_tokens = tokens;
@@ -45,9 +46,9 @@ int	main(int argc, char **argv, char **envp)
 				end_tokens++;
 			end_tokens--;
 			astRoot = create_ast(tokens, end_tokens);
-			parse_ast(astRoot, &data);
-			// waitpid(data.id, &g_signal, 0);
-			// printf("Received signal %d\n", g_signal);
+			if (!astRoot)
+				continue ;
+			g_signal = parse_ast(astRoot, &data); // actual execution
 			free(data.input);
 		}
 	}

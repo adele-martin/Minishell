@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/06 14:57:40 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:19:07 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_data
 {
 	char	*shell_name;
 	int		last_status;
+	int		status;
 	char	*status_str;
 	char	*input;
 	char 	*tty_name;
@@ -84,7 +85,6 @@ typedef struct s_data
 	char	in_pipe;
 	int		signal_fd;
 	pid_t	id;
-	int		status;
 	// int		cmd_argc;
 	char	**cmd_argv;
 	t_list	*linked_args;
@@ -120,7 +120,7 @@ int		parse_ast(t_ast *node, t_data *data);
 // UTILS:
 char	is_redirection(char *str);
 //SIGNALS:
-void	handle_signals(void);
+void	handle_signals(char option);
 void	signal_action(int sig);
 // SPLIT_CMD
 t_list	*get_args(char *str);
@@ -162,7 +162,7 @@ int		builtin_echo(char **argv, int argc);	// DONE
 int		builtin_env(char **list_envs);			// DONE
 int		builtin_unset(char **argv, char **list_envs, t_list *head);
 int		builtin_cd(char **argv, int argc, char **list_envs);
-int		builtin_pwd(void);
+int		builtin_pwd(void);						// DONE
 int		builtin_exit(char **argv, int argc);
 
 //MEMORY
