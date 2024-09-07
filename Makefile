@@ -6,7 +6,7 @@
 #    By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/09/06 15:09:10 by ademarti         ###   ########.fr        #
+#    Updated: 2024/09/07 15:58:07 by ademarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,9 @@ SOURCES = ast.c built_ins.c evaluation.c helpers.c init.c main.c\
 	var_helpers.c wildcard.c linkedlist_utils.c variables.c var_init.c utils.c\
 	memory.c
 OBJECTS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
-#FLAGS = -Wall -Werror -Wextra -g3 -I/usr/local/opt/readline/include -g -O0 -fsanitize=address,undefined
-FLAGS = -Wall -Werror -Wextra -g3
+FLAGS = -Wall -Werror -Wextra -g3 -I/usr/local/opt/readline/include -g -O0
+#-fsanitize=address,undefined
+#FLAGS = -Wall -Werror -Wextra -g3
 
 all:	$(NAME)
 
@@ -30,8 +31,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	gcc $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS) $(HEADER) $(LIBFT)
-	cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -lft
-#cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -L/usr/local/opt/readline/lib -lft -L.
+#cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -lft
+	cc $(FLAGS) $(OBJECTS) -o $@ -lreadline -L./src/Libft_extended -L/usr/local/opt/readline/lib -lft -L.
 $(LIBFT):
 	$(MAKE) -C src/Libft_extended -f Makefile bonus
 	$(MAKE) -C src/Libft_extended -f Makefile clean

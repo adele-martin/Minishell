@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 15:40:06 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/07 16:07:04 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,67 @@ int builtin_env(char **list_envs)
 	return (0);
 }
 
+int wildcard_match(const char *pattern, const char *str)
+{
+    if (*pattern == '\0' && *str == '\0')  // Both strings empty -> match
+        return true;
+    if (*pattern == '*' && *(pattern + 1) == '\0')  // Pattern ends with * -> match
+        return true;
+    if (*pattern == '*' && wildcard_match(pattern + 1, str))  // * matches 0 characters
+        return true;
+    if (*pattern == '*' && *str && wildcard_match(pattern, str + 1))  // * matches 1 character
+        return true;
+    if (*pattern == '?' && *str)  // ? matches exactly 1 character
+        return wildcard_match(pattern + 1, str + 1);
+    if (*pattern == *str)  // Exact match for current character
+        return wildcard_match(pattern + 1, str + 1);
+
+    return 1;
+}
+
 int builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 {
 	int i;
-
+	//int is_wildcard;
 	i = 1;
+	//is_wildcard = (strchr(argv[i], '*') || strchr(argv[i], '?'));
 	if (argc >= 2)
 	{
+
 		while (argv[i])
 		{
+		/*
+			if (is_wildcard)
+            {
+                for (int j = 0; list_envs[j]; j++)
+                {
+                    if (wildcard_match(argv[i], list_envs[j]))
+                    {
+                        // Process matched environment variable
+                        if (has_equalsign(list_envs[j]) == 1)
+                        {
+                            update_list(list_envs[j], list_envs);
+                            fill_exportlist(list_envs[j], &export_list);
+                        }
+                        else if (has_equalsign(list_envs[j]) == 0)
+                        {
+                            fill_exportlist(list_envs[j], &export_list);
+                        }
+                    }
+                }
+            }
+			if (has_equalsign(argv[i]) == 1)
+			{
+				update_list(argv[i], list_envs);
+				fill_exportlist(argv[i], &export_list);
+			}
+			else if (has_equalsign(argv[i]) == 0)
+				fill_exportlist(argv[i], &export_list);
+			i++;
+		}
+	}
+	else
+	*/
 			if (has_equalsign(argv[i]) == 1)
 			{
 				update_list(argv[i], list_envs);
