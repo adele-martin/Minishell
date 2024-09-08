@@ -82,19 +82,18 @@ int	execute(char *input, t_data *data)
 			if (**data->cmd_argv == '.')
 			{
 				if (access(data->cmd_argv[0], X_OK) == 0)
-					execve(data->cmd_argv[0], data->cmd_argv, data->list_envs);
-				ft_printf("minishell: %s: Permission denied\n", data->cmd_argv[0]);
+					exit(execve(data->cmd_argv[0], data->cmd_argv, data->list_envs));
+				errno = EACCES;
+				ft_printf("minishell: ");
+				perror(data->cmd_argv[0]);
 				exit (126);
 			}
 			else
-				run_from_bin_path(data);
+				exit(run_from_bin_path(data));
 		}
-		else
-		{
-			waitpid(data->id, &data->status, 0);
-			if (WIFEXITED(data->status))
-				data->status = WEXITSTATUS(data->status);
-		}
+		waitpid(data->id, &data->status, 0);
+		if (WIFEXITED(data->status))
+			data->status = WEXITSTATUS(data->status);
 	}
 	if (!data->in_child)
 	{
@@ -135,11 +134,13 @@ static int	run_from_bin_path(t_data *data)
 	char	*filepath;
 	char	file_exists;
 
-	path_str = getenv("PATH");
+	path_str = search_env("PATH", data->list_envs);
 	if (!path_str)
 	{
-		perror("getenv");
-		exit(EXIT_FAILURE);
+		errno = ENOENT;
+		ft_printf("minishell: ");
+		perror(data->cmd_argv[0]);
+		return(127);
 	}
 	bin_paths = ft_split(path_str, ':');
 	file_exists = 0;
@@ -150,18 +151,20 @@ static int	run_from_bin_path(t_data *data)
 		if (access(filepath, F_OK) == 0)
 			file_exists = 1;
 		if (access(filepath, X_OK) == 0)
-		{
-			execve(filepath, data->cmd_argv, data->list_envs);
-		}
+			exit(execve(filepath, data->cmd_argv, data->list_envs));
 		bin_paths++;
 	}
 	if (file_exists)
 	{
-		ft_printf("minishell: %s: Permission denied\n", data->cmd_argv[0]);
+		errno = EACCES;
+		ft_printf("minishell: ");
+		perror(data->cmd_argv[0]);
 		exit (126);
 	}
-	ft_printf("%s: command not found\n", data->cmd_argv[0]);
-	exit (127);
+	errno = ENOENT;
+	ft_printf("minishell: ");
+	perror(data->cmd_argv[0]);
+	exit(127);
 }
 
 // TODO: Exit statuses: https://www.redhat.com/sysadmin/exit-codes-demystified
