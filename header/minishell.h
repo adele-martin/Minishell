@@ -82,6 +82,7 @@ typedef struct s_data
 	char	**tokens;
 	char	**end_tokens;
 	char	exit;
+	char	in_child;
 	char	in_pipe;
 	int		signal_fd;
 	pid_t	id;

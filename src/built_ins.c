@@ -122,12 +122,12 @@ int builtin_exit(char **argv, int argc)
 {
 	int	i;
 
-	i = 0;
 	if (argc == 1)
 		exit(0);
+	i = 0;
 	while (argv[1][i])
 	{
-		if (!ft_isalnum(argv[1][i]))
+		if (!ft_isdigit(argv[1][i]))
 		{
 			ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
 			exit(2);

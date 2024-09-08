@@ -73,10 +73,11 @@ int	execute(char *input, t_data *data)
 		data->status = builtin_exit(data->cmd_argv, cmd_argc);
 	else
 	{
-		data->id = fork();
+		if (!data->in_child)
+			data->id = fork();
 		if (data->id == -1)
 			return (1);
-		if (data->id == 0)
+		if (data->in_child || data->id == 0)
 		{
 			if (**data->cmd_argv == '.')
 			{
@@ -95,7 +96,7 @@ int	execute(char *input, t_data *data)
 				data->status = WEXITSTATUS(data->status);
 		}
 	}
-	if (data->id)
+	if (!data->in_child)
 	{
 		waitpid(data->id, &data->status, 0);
 		return (data->status);

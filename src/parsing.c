@@ -37,6 +37,8 @@ int	parse_ast(t_ast *node, t_data *data)
 		}
 		if (data->id == 0)	// child parses left side
 		{
+			data->in_child = 1;
+			handle_signals(3);
 			close(fd[0]);
 			data->signal_fd = fd[1];
 			dup2(fd[1], STDOUT_FILENO);
@@ -56,10 +58,12 @@ int	parse_ast(t_ast *node, t_data *data)
 		tmp_node = node;
 		while (is_redirection(tmp_node->right->value))
 		{
-			redirect(tmp_node->value, tmp_node->right->left->value, data);
+			if (redirect(tmp_node->value, tmp_node->right->left->value, data))
+				return (g_signal);
 			tmp_node = tmp_node->right;
 		}
-		redirect(tmp_node->value, tmp_node->right->value, data);
+		if (redirect(tmp_node->value, tmp_node->right->value, data))
+			return (g_signal);
 		return (parse_ast(node->left, data));
 	}
 	return (execute(node->value, data));

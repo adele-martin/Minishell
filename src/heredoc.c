@@ -34,14 +34,15 @@ int	heredoc(char *delimiter, t_data *data)
 		line = heredoc_child(delimiter);
 		if (line)
 			write(fd[1], line, ft_strlen(line));
+		free(line);
 		close(fd[1]);
 		exit(0);
 	}
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
-	waitpid(id, NULL, 0);
-	return (0);
+	waitpid(id, &data->status, 0);
+	return (WEXITSTATUS(data->status));
 }
 
 static char	*heredoc_child(char *delimiter)
@@ -59,12 +60,6 @@ static char	*heredoc_child(char *delimiter)
 		{
 			ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
 			break ;
-		}
-		else if (!ft_strncmp(new_line, "\1", 2))
-		{
-			free(new_line);
-			free(out);
-			return (NULL);
 		}
 		if (!ft_strncmp(new_line, delimiter, ft_strlen(delimiter) + 1))
 		{

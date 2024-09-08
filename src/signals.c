@@ -36,25 +36,23 @@ void	signal_out_newline(int sig)
 {
 	(void)sig;
 	ft_printf("\n");
-	// also kill the child process here!
+	// ft_printf("\nSIG out of newline\n");
 	g_signal = 130;
 }
 
 // idea: kill the child process (heredoc) in the parent process while waiting
-void	signal_heredoc(int sig)
+void	signal_child(int sig)
 {
 	(void)sig;
-	ft_printf("\n");
-	rl_replace_line("\1\13", 0);
-	ft_printf("SIGNAL IN HEREDOC\n");
+	// ft_printf("SIGNAL IN HEREDOC\n");
 	g_signal = 130;
-	exit (1);
+	exit (130);
 }
 // TODO: different signal handling for different spots in main! And maybe for heredoc too!
 // option 0: initialize: ignore SIGINT, handle SIGQUIT
 // option 1: set SIGINT to signal_in_newline
 // option 2: set SIGINT to signal_out_newline
-
+// option 3: set SIGINT to signal_child
 /* SIGINT: ctrl-C; SIGQUIT: ctrl-\ */
 void	handle_signals(char option)
 {
@@ -78,6 +76,6 @@ void	handle_signals(char option)
 	else if (option == 2)
 		action.sa_handler = signal_out_newline;
 	else if (option == 3)
-		action.sa_handler = signal_heredoc;
+		action.sa_handler = signal_child;
 	sigaction(SIGINT, &action, NULL);
 }
