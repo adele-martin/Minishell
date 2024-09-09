@@ -12,8 +12,9 @@
 
 #include "../header/minishell.h"
 
-static int		run_from_bin_path(t_data *data);
-char	**create_argv(t_list *linked_args);
+static int	get_argc(char **argv);
+static int	run_from_bin_path(t_data *data);
+char		**create_argv(t_list *linked_args);
 
 /*
 The builtins should not be executed in the child process, but in the parent process:
@@ -53,25 +54,24 @@ int	execute(char *input, t_data *data)
 	data->cmd_argv = create_argv(data->linked_args);
 	if (!data->cmd_argv)
 		return (1);
-	char	**argv_tmp = data->cmd_argv;
-	char	cmd_argc = 0;
-	while (*(argv_tmp++))
-		cmd_argc++;
+	data->cmd_argc = get_argc(data->cmd_argv);
+	// if (ft_strncmp(*data->cmd_argv, "~/", 2) == 0)
+	// 	update_home(data);
 	// possibilities for executions:
 	if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
-		data->status = builtin_echo(data->cmd_argv, cmd_argc);
+		data->status = builtin_echo(data->cmd_argv, data->cmd_argc);
 	else if (ft_strncmp(*data->cmd_argv, "cd", 3) == 0)
-		data->status = builtin_cd(data->cmd_argv, cmd_argc, data->list_envs);
+		data->status = builtin_cd(data);
 	else if (ft_strncmp(*data->cmd_argv, "pwd", 4) == 0)
 		data->status = builtin_pwd();
 	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
-		data->status = builtin_export(data->cmd_argv, cmd_argc, data->list_envs, data->export_list);
+		data->status = builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs, data->export_list);
 	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
 		data->status = builtin_unset(data->cmd_argv, data->list_envs, NULL);
 	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
 		data->status = builtin_env(data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
-		data->status = builtin_exit(data->cmd_argv, cmd_argc);
+		data->status = builtin_exit(data->cmd_argv, data->cmd_argc);
 	else
 	{
 		if (!data->in_child)
@@ -82,6 +82,8 @@ int	execute(char *input, t_data *data)
 		{
 			if (**data->cmd_argv == '.' || **data->cmd_argv == '/' || **data->cmd_argv == '~')
 			{
+				if (ft_strncmp(*data->cmd_argv, "~/", 2) == 0)
+					update_home(data, data->cmd_argv);
 				if (access(data->cmd_argv[0], X_OK) == 0)
 					exit(execve(data->cmd_argv[0], data->cmd_argv, data->list_envs));
 				errno = EACCES;
@@ -102,6 +104,41 @@ int	execute(char *input, t_data *data)
 		return (data->status);
 	}
 	exit (data->status);
+}
+
+static int	get_argc(char **argv)
+{
+	int	argc;
+
+	argc = 0;
+	while (*(argv++))
+		argc++;
+	return (argc);
+}
+
+void	update_home(t_data *data, char **argv)
+{
+	char	*str;
+	char	*new_argv;
+	char	*writer;
+
+	str = search_env("HOME", data->list_envs);
+	if (!str)
+		str = getenv("HOME");
+	if (!str)
+		return ;
+	new_argv = malloc(ft_strlen(str) + ft_strlen(*argv));
+	if (!new_argv)
+		return ;
+	writer = new_argv;
+	while (*str)
+		*(writer++) = *(str++);
+	str = *argv + 1;
+	while (*str)
+		*(writer++) = *(str++);
+	*writer = '\0';
+	free(*argv);
+	*argv = new_argv;
 }
 
 char	**create_argv(t_list *linked_args)

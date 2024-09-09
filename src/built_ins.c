@@ -155,43 +155,47 @@ int update_env_var(const char *key, const char *value, char **list_envs)
 }
 
 //Helper for cd built-in for a change to home directory
-int change_to_home(char **list_envs) {
+int	change_to_home(char **list_envs) {
 	 char	*home_dir;
 
 	home_dir = search_env("HOME", list_envs);
-	if (!home_dir) {
+	if (!home_dir) 
+	{
 		ft_printf("minishell: cd: HOME not set\n");
-		return -1;
+		return (1);
 	}
-	if (chdir(home_dir) == -1) {
+	if (chdir(home_dir) == -1)
+	{
 		ft_printf("minishell: cd: error changing to HOME directory\n");
-		return -1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
-// TODO: Seemingly "cd -" and "cd ~/..." should also work!
-int builtin_cd (char **argv, int argc, char **list_envs)
+// TODO: Seemingly "cd -" should also work!??!
+int	builtin_cd (t_data *data)
 {
 	char cwd[1024];
 	char *current_dir;
 	char *previous_pwd;
 
-	previous_pwd = search_env("PWD", list_envs);
-	if (argc == 1 && (change_to_home(list_envs) == -1))
-			return (1);
-	else if (argc > 2)
+	previous_pwd = search_env("PWD", data->list_envs);
+	if (data->cmd_argc == 1)
+		return (change_to_home(data->list_envs));
+	else if (data->cmd_argc > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
 		return (1);
 	}
-	else if (chdir(argv[1]) == -1)
+	if (ft_strncmp(data->cmd_argv[1], "~/", 2) == 0)
+		update_home(data, &data->cmd_argv[1]);
+	if (chdir(data->cmd_argv[1]) == -1)
 	{
-		ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
+		ft_printf("minishell: cd: %s: No such file or directory\n", data->cmd_argv[1]);
 		return (1);
 	}
 	current_dir = getcwd(cwd, sizeof(cwd));
-	if (update_env_var("OLDPWD=", previous_pwd, list_envs) == -1 || update_env_var("PWD=", current_dir, list_envs) == -1)
+	if (update_env_var("OLDPWD=", previous_pwd, data->list_envs) == -1 || update_env_var("PWD=", current_dir, data->list_envs) == -1)
 		return (1);
 	return (0);
 }

@@ -86,7 +86,7 @@ typedef struct s_data
 	char	in_pipe;
 	int		signal_fd;
 	pid_t	id;
-	// int		cmd_argc;
+	int		cmd_argc;
 	char	**cmd_argv;
 	t_list	*linked_args;
 	t_ast	*astRoot;
@@ -109,6 +109,7 @@ int		heredoc(char *delimiter, t_data *data);
 // EXECUTION:
 int		execute(char *input, t_data *data);
 char	**create_argv(t_list *linked_args);
+void	update_home(t_data *data, char **argv);
 // HELPERS:
 void	print_args(char *str, t_list *linked_args);
 void	clean_quotations(char *str);
@@ -162,7 +163,7 @@ t_list	*arrayToLinkedList(char *arr[]);
 int		builtin_echo(char **argv, int argc);	// DONE
 int		builtin_env(char **list_envs);			// DONE
 int		builtin_unset(char **argv, char **list_envs, t_list *head);
-int		builtin_cd(char **argv, int argc, char **list_envs);
+int		builtin_cd (t_data *data);
 int		builtin_pwd(void);						// DONE
 int		builtin_exit(char **argv, int argc);
 

@@ -31,7 +31,7 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	data->id = 1;
 	data->signal_fd = 0;
 	data->in_child = 0;
-	// data->cmd_argc = 0;
+	data->cmd_argc = 0;
 	data->exit = 0;
 	// ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
 	handle_signals(0);
