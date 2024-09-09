@@ -5,6 +5,10 @@ TODO:
  - Write tests to check functionality
  - 
 
+TODO: FAILS:
+ - input "> > > >"
+ - run "/bin/ls" to cast ls
+
 /*
 CARE PRECEDENCE OF OPERATORS!
 

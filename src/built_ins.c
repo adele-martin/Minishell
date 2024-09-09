@@ -170,7 +170,7 @@ int change_to_home(char **list_envs) {
 	return 0;
 }
 
-// TODO: also change the OLDPWD - variable - this function is also way tooo messy!!!
+// TODO: Seemingly "cd -" and "cd ~/..." should also work!
 int builtin_cd (char **argv, int argc, char **list_envs)
 {
 	char cwd[1024];
@@ -180,11 +180,14 @@ int builtin_cd (char **argv, int argc, char **list_envs)
 	previous_pwd = search_env("PWD", list_envs);
 	if (argc == 1 && (change_to_home(list_envs) == -1))
 			return (1);
-	else if (argc == 2 && chdir(argv[1]) == -1)
-			ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
 	else if (argc > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
+		return (1);
+	}
+	else if (chdir(argv[1]) == -1)
+	{
+		ft_printf("minishell: cd: %s: No such file or directory\n", argv[1]);
 		return (1);
 	}
 	current_dir = getcwd(cwd, sizeof(cwd));

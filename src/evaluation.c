@@ -34,6 +34,7 @@ void builtin_exit(char **argv, int argc);
 */
 
 // TODO: else if (is_buildin(cmd_argv[0]))
+// TODO: ~ gets replaced by the HOME-var !!
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
@@ -79,7 +80,7 @@ int	execute(char *input, t_data *data)
 			return (1);
 		if (data->in_child || data->id == 0)
 		{
-			if (**data->cmd_argv == '.')
+			if (**data->cmd_argv == '.' || **data->cmd_argv == '/' || **data->cmd_argv == '~')
 			{
 				if (access(data->cmd_argv[0], X_OK) == 0)
 					exit(execve(data->cmd_argv[0], data->cmd_argv, data->list_envs));
@@ -127,6 +128,8 @@ char	**create_argv(t_list *linked_args)
 	return (out);
 }
 
+// TODO: Can also begin with the directory like "/bin/ls"
+// Also should handle "/bin/ls -laF" and "/bin/ls -l -a -F"
 static int	run_from_bin_path(t_data *data)
 {
 	char	*path_str;
