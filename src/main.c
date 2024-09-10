@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 12:00:00 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:02:49 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	main(int argc, char **argv, char **envp)
 			free(data.input);
 		}
 	}
-	printf("Shell ended!\n");
-	return (EXIT_SUCCESS);
+	printf("Debug: g_signal = %d\n", g_signal);
+	//printf("Shell ended!\n");
+	return (g_signal);
 
 }
