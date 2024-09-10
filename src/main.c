@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 17:09:32 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:59:43 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
 // int	g_signal;
 volatile __sig_atomic_t	g_signal;
 
+static char	build_ast(t_data *data);
+
 int	main(int argc, char **argv, char **envp)
 {
-	char	**tokens;
-	char	**end_tokens;
-	t_ast	*astRoot;
 	t_data	data;
 
 	if (initialize_data(&data, argc, argv, envp))
@@ -44,20 +43,32 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			handle_signals(2);
-			add_history(data.input);
-			tokens = split_tokens(data.input);
-			end_tokens = tokens;
-			while (*end_tokens)
-				end_tokens++;
-			end_tokens--;
-			astRoot = create_ast(tokens, end_tokens);
-			if (!astRoot)
-				continue ;
-			g_signal = parse_ast(astRoot, &data); // actual execution
+			add_history(data.input);			
+			if (build_ast(&data))
+				g_signal = parse_ast(data.astRoot, &data); // actual execution
 			free(data.input);
 		}
 	}
-	printf("Debug: g_signal = %d\n", g_signal);
+	// printf("Debug: g_signal = %d\n", g_signal);
 	//printf("Shell ended!\n");
 	return (g_signal);
+}
+
+// splits the input into tokens and builds the AST
+// returns 1 on success, 0 on empty AST
+static char	build_ast(t_data *data)
+{
+	char	**end_tokens;
+
+	data->tokens = split_tokens(data->input);
+	if (!data->tokens)
+		return (0);
+	end_tokens = data->tokens;
+	while (*end_tokens)
+		end_tokens++;
+	end_tokens--;
+	data->astRoot = create_ast(data->tokens, end_tokens);
+	if (!data->astRoot)
+		return (0);
+	return (1);
 }

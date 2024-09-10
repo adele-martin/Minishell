@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 15:58:22 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:55:46 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,16 @@ typedef struct s_vars
 typedef struct s_data
 {
 	char	*shell_name;
-	int		last_status;
+	char	*input;
+	char	**tokens;
+	t_ast	*astRoot;
+	// int		last_status;
 	int		status;
 	char	*status_str;
-	char	*input;
 	char 	*tty_name;
 	char	**list_envs;
 	t_list	*export_list;
-	char	**tokens;
-	char	**end_tokens;
+	// char	**end_tokens;
 	char	exit;
 	char	in_child;
 	char	in_pipe;
@@ -89,7 +90,6 @@ typedef struct s_data
 	int		cmd_argc;
 	char	**cmd_argv;
 	t_list	*linked_args;
-	t_ast	*astRoot;
 }	t_data;
 
 // global var for received signals
