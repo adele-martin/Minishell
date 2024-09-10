@@ -45,8 +45,8 @@ int expand_list(char **argv, t_list *head)
 			found = 1;
 			free(temp->content);
 			temp->content = ft_strdup(argv[1]);
-			// if (!temp->content)
-			// 	return NULL;
+			if (!temp->content)
+				return 0;
 		}
 		temp = temp->next;
 	}
@@ -56,8 +56,8 @@ int expand_list(char **argv, t_list *head)
 		if (!new_node)
 			return 0;
 		new_node->content = ft_strdup(argv[1]);
-		// if (!new_node->content)
-		// 	return NULL;
+		if (!new_node->content)
+			return 0;
 		new_node->next = NULL;
 		if (head == NULL) {
 			head = new_node;
@@ -67,7 +67,7 @@ int expand_list(char **argv, t_list *head)
 				temp = temp->next;
 			temp->next = new_node;
 		}
-	return 1;
+		return 1;
 	}
 	else
 		return 0;

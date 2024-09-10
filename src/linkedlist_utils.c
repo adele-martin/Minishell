@@ -77,6 +77,7 @@ void sortList(t_list *head)
 				free(i->content);
 				i->content = ft_strdup(j->content);
 				free(j->content);
+                free(i->content);
 				j->content = ft_strdup(temp);
 				free(temp);
 			}
