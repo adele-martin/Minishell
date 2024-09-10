@@ -30,7 +30,7 @@ void freeList(t_list *head)
     }
 }
 
-int free_exit(t_data *data)
+int ft_free(t_data *data, int exit)
 {
 	if (data->list_envs)
 		freeArray(data->list_envs);
@@ -43,5 +43,5 @@ int free_exit(t_data *data)
     if (data->input)
         free(data->input);
     rl_clear_history();
-    exit(EXIT_SUCCESS);
+    return (exit);
 }

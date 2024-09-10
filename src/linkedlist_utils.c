@@ -8,12 +8,13 @@ t_list *createNode(const char *data)
         exit(EXIT_FAILURE);
     }
     newNode->content = strdup(data);
-    if (!newNode->content) {
+    if (!newNode->content)
+    {
         free(newNode);
         exit(EXIT_FAILURE);
     }
     newNode->next = NULL;
-    return newNode;
+    return (newNode);
 }
 
 t_list *createNodeexport(const char *str)
@@ -76,6 +77,7 @@ void sortList(t_list *head)
 				free(i->content);
 				i->content = ft_strdup(j->content);
 				free(j->content);
+                free(i->content);
 				j->content = ft_strdup(temp);
 				free(temp);
 			}

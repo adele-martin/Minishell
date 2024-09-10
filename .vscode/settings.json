@@ -5,6 +5,13 @@
 		"dirent.h": "c",
 		"readline.h": "c",
 		"__locale": "c",
+<<<<<<< HEAD
 		"stdio.h": "c"
+=======
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c"
+>>>>>>> main
 	}
 }

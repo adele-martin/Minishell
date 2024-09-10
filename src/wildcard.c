@@ -6,16 +6,16 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 16:30:40 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:29:19 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-// * (asterisk) this can represent any number of characters (including zero, 
-	// in other words, zero or more characters). If you specified a "cd*" it 
+// * (asterisk) this can represent any number of characters (including zero,
+	// in other words, zero or more characters). If you specified a "cd*" it
 	// would use "cda", "cdrom", "cdrecord" and anything that starts with “cd”
-	// also including “cd” itself. "m*l" could by mill, mull, ml, and anything 
+	// also including “cd” itself. "m*l" could by mill, mull, ml, and anything
 	// that starts with an m and ends with an l.
 
 static t_list	*get_files_list(void);
@@ -77,6 +77,7 @@ static t_list	*get_files_list(void)
 			if (!file_str)
 				return (0);
 			file_node = ft_lstnew(file_str);
+			free(file_str);
 			if (!file_node)
 				return (free(file_str), NULL);
 			ft_lstadd_back(&files_list, file_node);

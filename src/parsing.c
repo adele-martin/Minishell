@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 16:45:46 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:25:44 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	parse_ast(t_ast *node, t_data *data)
 			close(fd[0]);
 			data->signal_fd = fd[1];
 			dup2(fd[1], STDOUT_FILENO);
-			exit(parse_ast(node->left, data));
+			exit(ft_free(data, parse_ast(node->left, data)));
 		}					// parent parses right side
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);

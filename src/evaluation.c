@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 18:17:48 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:22:12 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	execute(char *input, t_data *data)
 	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
 		data->status = builtin_env(data->list_envs);
 	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
-		data->status = builtin_exit(data->cmd_argv, data->cmd_argc);
+		data->status = builtin_exit(data->cmd_argv, data->cmd_argc, data);
 	else
 	{
 		if (!data->in_child)
@@ -88,14 +88,14 @@ int	execute(char *input, t_data *data)
 				if (ft_strncmp(*data->cmd_argv, "~/", 2) == 0)
 					update_home(data, data->cmd_argv);
 				if (access(data->cmd_argv[0], X_OK) == 0)
-					exit(execve(data->cmd_argv[0], data->cmd_argv, data->list_envs));
+					exit(ft_free(data, execve(data->cmd_argv[0], data->cmd_argv, data->list_envs)));
 				errno = EACCES;
 				ft_printf("minishell: ");
 				perror(data->cmd_argv[0]);
-				exit (126);
+				exit (ft_free(data, 126));
 			}
 			else
-				exit(run_from_bin_path(data));
+				exit(ft_free(data, run_from_bin_path(data)));
 		}
 		waitpid(data->id, &data->status, 0);
 		if (WIFEXITED(data->status))
@@ -108,7 +108,8 @@ int	execute(char *input, t_data *data)
 			data->status = 128 + WTERMSIG(data->status);
 		return (data->status);
 	}
-	exit (data->status);
+	ft_printf("error");
+	exit (ft_free(data, data->status));
 }
 
 static int	get_argc(char **argv)
@@ -194,16 +195,16 @@ static int	run_from_bin_path(t_data *data)
 		if (access(filepath, F_OK) == 0)
 			file_exists = 1;
 		if (access(filepath, X_OK) == 0)
-			exit(execve(filepath, data->cmd_argv, data->list_envs));
+			exit(ft_free(data, execve(filepath, data->cmd_argv, data->list_envs)));
 		bin_paths++;
 	}
 	if (file_exists)
 	{
 		ft_printf("minishell: %s: Permission denied", data->cmd_argv[0]);
-		exit (126);
+		exit (ft_free(data, 126));
 	}
 	ft_printf("minishell: %s: command not found\n", data->cmd_argv[0]);
-	exit(127);
+	exit(ft_free(data, 127));
 }
 
 // TODO: Exit statuses: https://www.redhat.com/sysadmin/exit-codes-demystified

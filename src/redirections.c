@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 15:51:23 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:30:21 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	redirect_output(char *filename, t_data *data)
 	{
 		perror("open");
 		if (data->in_child)
-			exit(1);
+			exit(ft_free(data, 1));
 		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -44,7 +44,7 @@ int	redirect_output(char *filename, t_data *data)
 		perror("dup2");
 		close(fd);
 		if (data->in_child)
-			exit(1);
+			exit(ft_free(data, 1));
 		return (1);
 	}
 	close(fd);
@@ -61,7 +61,7 @@ int	append_output(char *filename, t_data *data)
 	{
 		perror("open");
 		if (data->in_child)
-			exit(1);
+			exit(ft_free(data, 1));
 		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -69,7 +69,7 @@ int	append_output(char *filename, t_data *data)
 		perror("dup2");
 		close(fd);
 		if (data->in_child)
-			exit(1);
+			exit(ft_free(data, 1));
 		return (1);
 	}
 	close(fd);
@@ -86,7 +86,7 @@ int	redirect_input(char *filename, t_data *data)
 	{
 		perror("open");
 		if (data->in_child)
-			exit(1);
+			exit(ft_free(data, 1));
 		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
@@ -94,7 +94,7 @@ int	redirect_input(char *filename, t_data *data)
 		perror("dup2");
 		close(fd);
 		if (data->in_child)
-			exit(1);
+			exit(ft_free(data, 1));
 		return (1);
 	}
 	close(fd);
