@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 12:11:19 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:28:44 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parse_and_or(t_ast *node, t_data *data);
 
-// return 0 on success, 1/? on failure
+// 
 int	parse_ast(t_ast *node, t_data *data)
 {
 	if (!node)

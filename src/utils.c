@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/04 17:04:27 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 13:05:34 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int has_equalsign(char *string)
 
 char *ft_strcat(char* dest, const char* src)
 {
+	if (!dest || !src)
+		return (NULL);
 	char* ptr = dest;
 	while (*ptr != '\0')
 		ptr++;

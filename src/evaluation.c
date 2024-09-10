@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 10:10:51 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:51:15 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ static int	run_from_bin_path(t_data *data)
 	path_str = search_env("PATH", data->list_envs);
 	if (!path_str)
 	{
-		ft_printf("minishell: %s: No such file or directory", data->cmd_argv[0]);
+		ft_printf("minishell: %s: No such file or directory\n", data->cmd_argv[0]);
 		return(127);
 	}
 	bin_paths = ft_split(path_str, ':');

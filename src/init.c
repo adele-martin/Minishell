@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 11:19:54 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:34:55 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 {
 	(void)argv;
-	if (argc != 1)
-	{
-		errno = EINVAL;
-		perror("main");
-		exit (EXIT_FAILURE);
-	}
+	(void)argc;
+	// if (argc != 1)
+	// {
+	// 	errno = EINVAL;
+	// 	perror("main");
+	// 	exit (EXIT_FAILURE);
+	// }
 	data->list_envs = envs_list(envp);
 	data->export_list = arrayToLinkedList(data->list_envs);
 	data->tty_name = ttyname(STDIN_FILENO);

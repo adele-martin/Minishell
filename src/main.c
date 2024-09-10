@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 11:19:54 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:56:04 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 // saves the status code of the last command
-int	g_signal;
+// int	g_signal;
+volatile __sig_atomic_t	g_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -33,7 +34,15 @@ int	main(int argc, char **argv, char **envp)
 		if (!restore_stdin_stdout(&data, 2))
 			exit (1);
 		handle_signals(1);
-		data.input = readline("minishell > ");
+		if (isatty(fileno(stdin)))
+			data.input = readline("minishell > ");
+		else	// for non-interactive mode (testing)
+		{
+			char *line;
+			line = get_next_line(fileno(stdin));
+			data.input = ft_strtrim(line, "\n");
+			free(line);
+		}
 		if (!data.input)
 			break ;
 		else
@@ -52,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 			free(data.input);
 		}
 	}
-	printf("Shell ended!\n");
-	return (EXIT_SUCCESS);
+	// printf("Shell ended!\n");
+	return (g_signal);
 
 }

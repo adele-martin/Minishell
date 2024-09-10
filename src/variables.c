@@ -120,6 +120,25 @@ char	*return_value_env(char *variable, char **list)
 	return (NULL);
 }
 
+// //Search function util
+// char	*return_value_env(char *variable, char **list)
+// {
+// 	(void)variable;
+// 	while (*list)
+// 	{
+// 		// printf("%s: %s\n", variable, *list);
+// 		if (ft_strncmp(*list, variable, ft_strlen(variable)) == 0)
+// 		{
+// 			// ft_printf("variable: %s\n", variable);
+// 			// ft_printf("char: %c\n", *list[ft_strlen(variable)]);
+// 			if (*list[ft_strlen(variable)] == '=')
+// 				return (&(*list[ft_strlen(variable) + 1]));
+// 		}
+// 		list++;
+// 	}
+// 	return (NULL);
+// }
+
 //Search function util
 char	*return_value_var(char *variable, t_list *head)
 {
@@ -157,10 +176,11 @@ char	*search_var(char *variable, t_list *head)
 char	*search_env(char *variable, char **list)
 {
 	char	*out;
+
 	out = return_value_env(variable, list);
-	if (out)
-		return (out);
-	return (NULL);
+	if (!out)
+		return (NULL);
+	return (out);
 }
 
 //Function created for testing purposes.

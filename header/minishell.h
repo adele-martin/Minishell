@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 11:19:07 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:55:50 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ typedef struct s_data
 
 // global var for received signals
 // extern volatile __sig_atomic_t	g_signal;
-extern int	g_signal;
+// extern int	g_signal;
+extern volatile __sig_atomic_t	g_signal;
 
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);
