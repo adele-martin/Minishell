@@ -8,7 +8,6 @@ t_list *createNode(const char *data)
         exit(EXIT_FAILURE);
     }
     newNode->content = strdup(data);
-    free(data);
     if (!newNode->content)
     {
         free(newNode);
