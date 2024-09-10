@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 15:39:26 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:58:59 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ volatile __sig_atomic_t	g_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
-	//char **list_envs = envs_list(envp);
-	//(void)envp;
-	//builtin_echo(argv, argc);
-
 	char	**tokens;
 	char	**end_tokens;
 	t_ast	*astRoot;
@@ -61,6 +57,8 @@ int	main(int argc, char **argv, char **envp)
 			free(data.input);
 		}
 	}
-	// printf("Shell ended!\n");
-	return (2);
+	printf("Debug: g_signal = %d\n", g_signal);
+	//printf("Shell ended!\n");
+	return (g_signal);
+
 }

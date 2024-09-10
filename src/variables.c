@@ -97,7 +97,7 @@ t_list *delete_var(char *variable, t_list *head)
 	return (head);
 }
 
-//Search function util
+//Search function which loops through our env list.
 char	*return_value_env(char *variable, char **list)
 {
 	int	i;
@@ -110,7 +110,7 @@ char	*return_value_env(char *variable, char **list)
 		j = 0;
 		while (list[i][j] != '=')
 			j++;
-		if (ft_strncmp(list[i], variable, ft_strlen(variable)) == 0)
+		if (ft_strncmp(list[i], variable, j) == 0)
 		{
 			j = j + 1;
 			return (&list[i][j]);
@@ -152,7 +152,7 @@ char	*return_value_var(char *variable, t_list *head)
 		i = 0;
 		while (str[i] != '=')
 			i++;
-		if (ft_strncmp(str, variable, ft_strlen(variable)) == 0)
+		if (ft_strncmp(str, variable, i) == 0)
 		{
 			i = i + 1;
 			return(&variable[i]);
