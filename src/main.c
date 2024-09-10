@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 15:58:59 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:09:32 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,4 @@ int	main(int argc, char **argv, char **envp)
 	printf("Debug: g_signal = %d\n", g_signal);
 	//printf("Shell ended!\n");
 	return (g_signal);
-
 }
