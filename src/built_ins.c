@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/07 16:24:05 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:07:21 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,8 @@ int builtin_exit(char **argv, int argc)
 	}
 	exit(ft_atoi(argv[1]));
 }
+
+ft_number()
 
 //Helper for cd built-in to update PWD and OLDPWD
 int update_env_var(const char *key, const char *value, char **list_envs)
