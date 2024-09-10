@@ -8,7 +8,6 @@ t_list *createNode(const char *data)
         exit(EXIT_FAILURE);
     }
     newNode->content = strdup(data);
-    free(data);
     if (!newNode->content)
     {
         free(newNode);
@@ -78,6 +77,7 @@ void sortList(t_list *head)
 				free(i->content);
 				i->content = ft_strdup(j->content);
 				free(j->content);
+                free(i->content);
 				j->content = ft_strdup(temp);
 				free(temp);
 			}

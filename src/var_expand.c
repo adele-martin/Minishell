@@ -87,6 +87,7 @@ static void	append_replace(char *str, t_vars **list, t_data *data)
 	else
 		(*list)->len_diff = (int)ft_strlen((*list)->value_start) - (*list)->key_len;
 }
+//TODO : take care of the strdup
 
 static char	get_alphaval(char *str, t_vars **list, t_data *data)
 {
