@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 11:55:50 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:51:37 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ t_ast	*create_ast(char **token_start, char **token_end);
 // int		evaluate(char *input, t_info *info);
 // REDIRECTIONS:
 int		redirect(char *operator, char *word, t_data *data);
-int		redirect_output(char *filename);
-int		append_output(char *filename);
-int		redirect_input(char *filename);
+int		redirect_output(char *filename, t_data *data);
+int		append_output(char *filename, t_data *data);
+int		redirect_input(char *filename, t_data *data);
 int		heredoc(char *delimiter, t_data *data);
 // EXECUTION:
 int		execute(char *input, t_data *data);

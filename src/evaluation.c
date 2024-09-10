@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 12:51:15 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:18:22 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	execute(char *input, t_data *data)
 		}
 		waitpid(data->id, &data->status, 0);
 		if (WIFEXITED(data->status))
-			data->status = WEXITSTATUS(data->status);
+			data->status = WEXITSTATUS(data->status );
 	}
 	if (!data->in_child)
 	{

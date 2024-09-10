@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 15:00:09 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:43:07 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void	handle_signals(char option)
 	{
 		sigemptyset(&action.sa_mask);
 		sigaddset(&action.sa_mask, SIGINT);
-		action.sa_flags = SA_RESTART;
+		// action.sa_flags = SA_RESTART;
 		action.sa_handler = signal_in_newline;
 		sigemptyset(&ignore.sa_mask);
 		sigaddset(&ignore.sa_mask, SIGQUIT);
-		ignore.sa_flags = SA_RESTART;
+		// ignore.sa_flags = SA_RESTART;
 		ignore.sa_handler = SIG_IGN;
 		sigaction(SIGQUIT, &ignore, NULL);
 	}

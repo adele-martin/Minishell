@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 12:27:22 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:51:23 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 int	redirect(char *operator, char *word, t_data *data)
 {
 	if (!ft_strncmp(operator, ">", 2))
-		return (redirect_output(word));
+		return (redirect_output(word, data));
 	else if (!ft_strncmp(operator, ">>", 3))
-		return (append_output(word));
+		return (append_output(word, data));
 	else if (!ft_strncmp(operator, "<", 2))
-		return (redirect_input(word));
+		return (redirect_input(word, data));
 	else if (!ft_strncmp(operator, "<<", 3))
 		return (heredoc(word, data));
 	return (1);
 }
 
 // for > operator
-int	redirect_output(char *filename)
+int	redirect_output(char *filename, t_data *data)
 {
 	int	fd;
 
@@ -35,20 +35,24 @@ int	redirect_output(char *filename)
 	if (fd < 0)
 	{
 		perror("open");
-		exit(1);
+		if (data->in_child)
+			exit(1);
+		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		exit(1);
+		if (data->in_child)
+			exit(1);
+		return (1);
 	}
 	close(fd);
 	return (0);
 }
 
 // for >> operator
-int	append_output(char *filename)
+int	append_output(char *filename, t_data *data)
 {
 	int	fd;
 
@@ -56,20 +60,24 @@ int	append_output(char *filename)
 	if (fd < 0)
 	{
 		perror("open");
-		exit(1);
+		if (data->in_child)
+			exit(1);
+		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		exit(1);
+		if (data->in_child)
+			exit(1);
+		return (1);
 	}
 	close(fd);
 	return (0);
 }
 
 // for < operator
-int	redirect_input(char *filename)
+int	redirect_input(char *filename, t_data *data)
 {
 	int	fd;
 
@@ -77,13 +85,17 @@ int	redirect_input(char *filename)
 	if (fd < 0)
 	{
 		perror("open");
-		exit(1);
+		if (data->in_child)
+			exit(1);
+		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		exit(1);
+		if (data->in_child)
+			exit(1);
+		return (1);
 	}
 	close(fd);
 	return (0);

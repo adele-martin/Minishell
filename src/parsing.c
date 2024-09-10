@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 11:28:44 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:54:52 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,14 @@ int	parse_ast(t_ast *node, t_data *data)
 		tmp_node = node;
 		while (is_redirection(tmp_node->right->value))
 		{
-			if (redirect(tmp_node->value, tmp_node->right->left->value, data))
-				return (g_signal);
+			data->status = redirect(tmp_node->value, tmp_node->right->left->value, data);
+			if (data->status)
+				return (data->status);
 			tmp_node = tmp_node->right;
 		}
-		if (redirect(tmp_node->value, tmp_node->right->value, data))
-			return (g_signal);
+		data->status = redirect(tmp_node->value, tmp_node->right->value, data);
+		if (data->status)
+			return (data->status);
 		return (parse_ast(node->left, data));
 	}
 	return (execute(node->value, data));

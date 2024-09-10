@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 11:56:04 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:39:26 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,5 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	// printf("Shell ended!\n");
-	return (g_signal);
-
+	return (2);
 }

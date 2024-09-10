@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/10 13:09:29 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:56:19 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,8 +184,8 @@ int	builtin_cd (t_data *data)
 		return (change_to_home(data->list_envs));
 	else if (data->cmd_argc > 2)
 	{
-		// ft_printf("minishell: cd: too many arguments\n");
-		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		ft_printf("minishell: cd: too many arguments\n");
+		// ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		return (1);
 	}
 	if (ft_strncmp(data->cmd_argv[1], "~", 1) == 0)
@@ -201,6 +201,5 @@ int	builtin_cd (t_data *data)
 	current_dir = getcwd(cwd, sizeof(cwd));
 	if (update_env_var("OLDPWD=", previous_pwd, data->list_envs) == -1 || update_env_var("PWD=", current_dir, data->list_envs) == -1)
 		return (1);
-	ft_printf("new string: %s\n", data->cmd_argv[1]);
 	return (0);
 }
