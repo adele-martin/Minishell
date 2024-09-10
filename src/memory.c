@@ -40,6 +40,8 @@ int free_exit(t_data *data)
         free(data->shell_name);
     if (data->status_str)
         free(data->status_str);
+    if (data->input)
+        free(data->input);
     rl_clear_history();
     exit(EXIT_SUCCESS);
 }

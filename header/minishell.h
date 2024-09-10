@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 11:19:07 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:53:33 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,5 +176,6 @@ int exit_error(t_data *data);
 char	*ft_strcat(char *dst, const char *src);
 int has_equalsign(char *string);
 int free_exit(t_data *data);
+int handle_symbol(char c);
 
 #endif

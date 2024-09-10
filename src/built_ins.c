@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/04 16:21:21 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:53:43 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,14 @@ int builtin_pwd(void)
 	return (0);
 }
 
+int handle_symbol(char c)
+{
+	if (c == '+' || c == '-')
+		return (1);
+	else
+		return (0);
+}
+
 // with no arguments, exits with status 0
 // with args, checks for numeric (first) argument, optional error message
 // if more than one argument, prints error
@@ -122,9 +130,11 @@ int builtin_exit(char **argv, int argc)
 {
 	int	i;
 
+	i = 0;
 	if (argc == 1)
 		exit(0);
-	i = 0;
+	if (handle_symbol(argv[1][i]))
+		i++;
 	while (argv[1][i])
 	{
 		if (!ft_isdigit(argv[1][i]))
@@ -159,7 +169,7 @@ int	change_to_home(char **list_envs) {
 	 char	*home_dir;
 
 	home_dir = search_env("HOME", list_envs);
-	if (!home_dir) 
+	if (!home_dir)
 	{
 		ft_printf("minishell: cd: HOME not set\n");
 		return (1);

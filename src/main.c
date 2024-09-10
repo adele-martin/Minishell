@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 11:02:35 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:00:00 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ int	g_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
-	//char **list_envs = envs_list(envp);
-	//(void)envp;
-	//builtin_echo(argv, argc);
-
 	char	**tokens;
 	char	**end_tokens;
 	t_ast	*astRoot;
