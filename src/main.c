@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 18:25:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:39:32 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(data.input);			
 			if (build_ast(&data))
 				g_signal = parse_ast(data.astRoot, &data); // actual execution
+			ft_split_free(data.tokens);
 			free(data.input);
 		}
 	}
