@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 15:59:08 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:45:46 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parse_and_or(t_ast *node, t_data *data);
 
-// 
+// parse_ast is the main function for parsing the AST
 int	parse_ast(t_ast *node, t_data *data)
 {
 	if (!node)

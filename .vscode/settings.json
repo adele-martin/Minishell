@@ -4,6 +4,7 @@
 		"sstream": "c",
 		"dirent.h": "c",
 		"readline.h": "c",
-		"__locale": "c"
+		"__locale": "c",
+		"stdio.h": "c"
 	}
 }

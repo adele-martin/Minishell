@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/10 15:58:38 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:42:33 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,9 @@ int update_env_var(const char *key, const char *value, char **list_envs)
 }
 
 //Helper for cd built-in for a change to home directory
-int	change_to_home(char **list_envs) {
-	 char	*home_dir;
+int	change_to_home(char **list_envs)
+{
+	char	*home_dir;
 
 	home_dir = search_env("HOME", list_envs);
 	if (!home_dir)
@@ -189,27 +190,24 @@ int	builtin_cd (t_data *data)
 	char *current_dir;
 	char *previous_pwd;
 
-	previous_pwd = search_env("PWD", data->list_envs);
-	if (data->cmd_argc == 1)
-		return (change_to_home(data->list_envs));
-	else if (data->cmd_argc > 2)
+	if (data->cmd_argc > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
-		// ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		return (1);
 	}
-	if (ft_strncmp(data->cmd_argv[1], "~", 1) == 0)
+	previous_pwd = search_env("PWD", data->list_envs);
+	if (data->cmd_argc == 1 && change_to_home(data->list_envs))
+		return (1);
+	if (data->cmd_argc == 2 && !ft_strncmp(data->cmd_argv[1], "~", 1))
 		update_home(data, &data->cmd_argv[1]);
-	if (chdir(data->cmd_argv[1]) == -1)
+	if (data->cmd_argc == 2 && chdir(data->cmd_argv[1]) == -1)
 	{
 		ft_printf("minishell: cd: %s: No such file or directory\n", data->cmd_argv[1]);
-		// errno = ENOENT;
-		// perror("minishell: cd: ");
-		// ft_putstr_fd("\n", 2);
 		return (1);
 	}
 	current_dir = getcwd(cwd, sizeof(cwd));
-	if (update_env_var("OLDPWD=", previous_pwd, data->list_envs) == -1 || update_env_var("PWD=", current_dir, data->list_envs) == -1)
+	if (update_env_var("OLDPWD=", previous_pwd, data->list_envs) == -1
+		|| update_env_var("PWD=", current_dir, data->list_envs) == -1)
 		return (1);
 	return (0);
 }

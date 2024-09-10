@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 15:18:22 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:05:46 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void builtin_pwd(char **argv, int argc);
 void builtin_exit(char **argv, int argc);
 */
 
-// TODO: else if (is_buildin(cmd_argv[0]))
-// TODO: ~ gets replaced by the HOME-var !!
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
@@ -46,17 +44,22 @@ int	execute(char *input, t_data *data)
 	}
 	if (!input || !*input)
 		return (0);
+	data->linked_args = NULL;
 	data->linked_args = get_args(input);
 	if (!add_wildcards(data->linked_args))
+	{
+		ft_lstclear(&data->linked_args, free);
 		return (perror("Error in wildcards"), 1);
+	}
 	if (!expand_variables(data->linked_args, data))
+	{
+		ft_lstclear(&data->linked_args, free);
 		return (perror("Error in expanding variables"), 1);
+	}
 	data->cmd_argv = create_argv(data->linked_args);
 	if (!data->cmd_argv)
 		return (1);
 	data->cmd_argc = get_argc(data->cmd_argv);
-	// if (ft_strncmp(*data->cmd_argv, "~/", 2) == 0)
-	// 	update_home(data);
 	// possibilities for executions:
 	if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
 		data->status = builtin_echo(data->cmd_argv, data->cmd_argc);
@@ -96,7 +99,7 @@ int	execute(char *input, t_data *data)
 		}
 		waitpid(data->id, &data->status, 0);
 		if (WIFEXITED(data->status))
-			data->status = WEXITSTATUS(data->status );
+			data->status = WEXITSTATUS(data->status);
 	}
 	if (!data->in_child)
 	{
