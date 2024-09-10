@@ -8,12 +8,14 @@ t_list *createNode(const char *data)
         exit(EXIT_FAILURE);
     }
     newNode->content = strdup(data);
-    if (!newNode->content) {
+    free(data);
+    if (!newNode->content)
+    {
         free(newNode);
         exit(EXIT_FAILURE);
     }
     newNode->next = NULL;
-    return newNode;
+    return (newNode);
 }
 
 t_list *createNodeexport(const char *str)
