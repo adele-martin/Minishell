@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 12:02:49 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:17:13 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 
 	if (initialize_data(&data, argc, argv, envp))
-		return (EXIT_FAILURE);
+		exit (ft_free(&data, 1));
 	while (!data.exit)
 	{
 		if (!restore_stdin_stdout(&data, 2))
-			exit (1);
+			exit (ft_free(&data, 1));
 		handle_signals(1);
 		data.input = readline("minishell > ");
 		if (!data.input)
@@ -45,11 +45,10 @@ int	main(int argc, char **argv, char **envp)
 			if (!astRoot)
 				continue ;
 			g_signal = parse_ast(astRoot, &data); // actual execution
-			free(data.input);
+			//free(data.input);
 		}
 	}
-	printf("Debug: g_signal = %d\n", g_signal);
+	ft_free(&data, 0);
 	//printf("Shell ended!\n");
 	return (g_signal);
-
 }

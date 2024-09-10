@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/10 12:46:05 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:33:24 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int builtin_pwd(void)
 	return (0);
 }
 
-int handle_symbol(char c)
+int handle_plus_or_minus(char c)
 {
 	if (c == '+' || c == '-')
 		return (1);
@@ -126,21 +126,21 @@ int handle_symbol(char c)
 // with args, checks for numeric (first) argument, optional error message
 // if more than one argument, prints error
 // if one argument, exits with that status
-int builtin_exit(char **argv, int argc)
+int builtin_exit(char **argv, int argc, t_data *data)
 {
 	int	i;
 
 	i = 0;
 	if (argc == 1)
 		exit(0);
-	if (handle_symbol(argv[1][i]))
+	if (handle_plus_or_minus(argv[1][i]))
 		i++;
 	while (argv[1][i])
 	{
 		if (!ft_isdigit(argv[1][i]))
 		{
 			ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
-			exit(2);
+			exit (ft_free(data, 2));
 		}
 		i++;
 	}
@@ -150,7 +150,7 @@ int builtin_exit(char **argv, int argc)
 		ft_printf("minishell: exit: too many arguments\n");
 		return (1);
 	}
-	exit(ft_atoi(argv[1]));
+	exit(ft_free(data, ft_atoi(argv[1])));
 }
 
 //Helper for cd built-in to update PWD and OLDPWD

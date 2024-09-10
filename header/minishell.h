@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 11:53:33 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:40:19 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,11 @@ t_ast	*create_ast(char **token_start, char **token_end);
 // int		evaluate(char *input, t_info *info);
 // REDIRECTIONS:
 int		redirect(char *operator, char *word, t_data *data);
-int		redirect_output(char *filename);
-int		append_output(char *filename);
-int		redirect_input(char *filename);
+int		redirect_output(char *filename,  t_data *data);
+int		append_output(char *filename,  t_data *data);
+int	redirect_input(char *filename, t_data *data);
 int		heredoc(char *delimiter, t_data *data);
+
 // EXECUTION:
 int		execute(char *input, t_data *data);
 char	**create_argv(t_list *linked_args);
@@ -165,7 +166,7 @@ int		builtin_env(char **list_envs);			// DONE
 int		builtin_unset(char **argv, char **list_envs, t_list *head);
 int		builtin_cd (t_data *data);
 int		builtin_pwd(void);						// DONE
-int		builtin_exit(char **argv, int argc);
+int builtin_exit(char **argv, int argc, t_data *data);
 
 //MEMORY
 void freeList(t_list *head);
@@ -175,7 +176,7 @@ int exit_error(t_data *data);
 //UTILS
 char	*ft_strcat(char *dst, const char *src);
 int has_equalsign(char *string);
-int free_exit(t_data *data);
-int handle_symbol(char c);
+int ft_free(t_data *data, int exit);
+int handle_plus_or_minus(char c);
 
 #endif

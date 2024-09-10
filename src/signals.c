@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 15:00:09 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:44:27 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	signal_child(int sig)
 	g_signal = 130;
 	exit (130);
 }
+//Add exit correction here
 // TODO: different signal handling for different spots in main! And maybe for heredoc too!
 // option 0: initialize: ignore SIGINT, handle SIGQUIT
 // option 1: set SIGINT to signal_in_newline

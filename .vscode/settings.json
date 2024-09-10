@@ -4,6 +4,10 @@
 		"sstream": "c",
 		"dirent.h": "c",
 		"readline.h": "c",
-		"__locale": "c"
+		"__locale": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c"
 	}
 }

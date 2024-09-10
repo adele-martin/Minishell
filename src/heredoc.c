@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 12:25:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/05 14:47:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:26:43 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	heredoc(char *delimiter, t_data *data)
 	int 	fd[2];
 	pid_t	id;
 	char	*line;
-	
+
 	if (pipe(fd) == -1)
 		return (1);
 	id = fork();
@@ -30,13 +30,13 @@ int	heredoc(char *delimiter, t_data *data)
 	{
 		close(fd[0]);
 		if (!restore_stdin_stdout(data, 2))
-			exit (1);
+			exit (ft_free(data, 1));
 		line = heredoc_child(delimiter);
 		if (line)
 			write(fd[1], line, ft_strlen(line));
 		free(line);
 		close(fd[1]);
-		exit(0);
+		exit(ft_free(data,(0)));
 	}
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
@@ -50,7 +50,7 @@ static char	*heredoc_child(char *delimiter)
 	char	*new_line;
 	char	*tmp_line;
 	char	*out;
-	
+
 	handle_signals(3);
 	out = ft_strdup("");
 	while (1)
