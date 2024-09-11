@@ -20,12 +20,12 @@ int	change_to_home(char **list_envs)
 	home_dir = search_env("HOME", list_envs);
 	if (!home_dir)
 	{
-		ft_printf("minishell: cd: HOME not set\n");
+		error_message("cd", "", ": HOME not set\n");
 		return (1);
 	}
 	if (chdir(home_dir) == -1)
 	{
-		ft_printf("minishell: cd: error changing to HOME directory\n");
+		error_message("cd", "", ": error changing to HOME directory\n");
 		return (1);
 	}
 	return (0);

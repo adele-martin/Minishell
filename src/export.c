@@ -46,51 +46,13 @@ void fill_exportlist(char *argv, t_list **head)
 	ft_strcat(str, argv);
 	appendNode(head, str);
 }
-/*
-int wrong_syntax(char **arg)
-{
-	int i;
-	int str;
-
-	str = 1;
-	i = 0;
-	if (arg[0] == '=')
-	{
-		error_message("export", arg[str], ": not a valid identifier\n");
-		return (1);
-	}
-	while (arg[str])
-	{
-		while (arg[str][i] && arg[str][i] != '=')
-		{
-			if (!(isalpha_space(arg[str][i])))
-			{
-				error_message("export", arg[str], ": not a valid identifier\n");
-				return (1);
-			}
-			i++;
-		}
-		if (arg[str][i] == '=')
-		{
-			i++;
-			if (arg[str][i] && !(isalnum_space(arg[str][i])))
-			{
-				error_message("export", arg[str], ": not a valid identifier\n");
-				return (1);
-			}
-		}
-		str++;
-	}
-	return (0);
-}
-*/
 
 int is_valid_identifier(const char *arg)
 {
-    int i = 0;
+	int i = 0;
 
-    if (arg[0] == '=')
-        return 0;
+	if (arg[0] == '=')
+		return 0;
     while (arg[i] && arg[i] != '=')
     {
         if (!isalpha_space(arg[i]))
