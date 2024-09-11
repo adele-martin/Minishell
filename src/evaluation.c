@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 11:44:45 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:01:12 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	execute(char *input, t_data *data)
 	}
 	if (!input || !*input)
 		return (0);
-	data->linked_args = NULL;
 	data->linked_args = get_args(input);
 	if (!add_wildcards(data->linked_args))
 	{
@@ -108,7 +107,6 @@ int	execute(char *input, t_data *data)
 		// 	data->status = 128 + WTERMSIG(data->status);
 		return (data->status);
 	}
-	ft_printf("error");
 	exit (ft_free(data, data->status));
 }
 
