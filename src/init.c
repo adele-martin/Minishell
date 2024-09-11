@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 18:22:19 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:23:25 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 {
 	(void)argv;
-	(void)argc;
-	// if (argc != 1)
-	// {
-	// 	errno = EINVAL;
-	// 	perror("main");
-	// 	exit (EXIT_FAILURE);
-	// }
+	if (argc != 1)
+	{
+		errno = EINVAL;
+		perror("main");
+		exit (EXIT_FAILURE);
+	}
 	data->list_envs = envs_list(envp);
 	data->export_list = arrayToLinkedList(data->list_envs);
 	data->tty_name = ttyname(STDIN_FILENO);
@@ -34,6 +33,8 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	data->in_child = 0;
 	data->cmd_argc = 0;
 	data->exit = 0;
+	data->stdin = dup(STDIN_FILENO);
+	data->stdout = dup(STDOUT_FILENO);
 	// ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
 	handle_signals(0);
 	return (EXIT_SUCCESS);
@@ -44,17 +45,21 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 // Returns 1 on success, 0 on failure
 int	restore_stdin_stdout(t_data *data, char option)
 {
-	int	tty_fd;
+	// int	tty_fd;
 
-	tty_fd = open(data->tty_name, O_RDWR);
-	if (tty_fd == -1) {
-		perror("open terminal");
-		return (0);
-	}
+	// tty_fd = open(data->tty_name, O_RDWR);
+	// if (tty_fd == -1) {
+	// 	perror("open terminal");
+	// 	return (0);
+	// }
+	// if (option == 0 || option == 2)
+	// 	dup2(tty_fd, STDIN_FILENO);  // Restore STDIN
+	// if (option == 1 || option == 2)
+	// 	dup2(tty_fd, STDOUT_FILENO); // Restore STDOUT
+	// close(tty_fd);
 	if (option == 0 || option == 2)
-		dup2(tty_fd, STDIN_FILENO);  // Restore STDIN
+		dup2(data->stdin, STDIN_FILENO);  // Restore STDIN
 	if (option == 1 || option == 2)
-		dup2(tty_fd, STDOUT_FILENO); // Restore STDOUT
-	close(tty_fd);
+		dup2(data->stdout, STDOUT_FILENO); // Restore STDOUT
 	return (1);
 }

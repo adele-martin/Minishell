@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:33 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 19:34:07 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:31:38 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,36 @@ char	is_redirection(char *str)
 
 char	*has_space(char *str)
 {
+	char	in_sgl;
+	char	in_dbl;
+
+	in_sgl = 0;
+	in_dbl = 0;
 	while (*str)
 	{
-		if (*str == ' ')
+		if (in_sgl || in_dbl)
+		{
+			if ((in_sgl && *str == '\'') || (in_dbl && *str == '"'))
+			{
+				in_sgl = 0;
+				in_dbl = 0;
+			}
+		}
+		else if (*str == '\'' || *str == '"')
+		{
+			if (*str == '\'')
+				in_sgl = 1;
+			else if (*str == '"')
+				in_dbl = 1;
+		}
+		else if (*str == ' ')
 			return (str);
 		str++;
 	}
 	return (0);
 }
 
+//
 char	clean_tokens(char **tokens)
 {
 	char	**writer;

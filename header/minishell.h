@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 12:02:48 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:42:51 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef struct s_data
 	char	**tokens;
 	t_ast	*astRoot;
 	// int		last_status;
+	int		stdin;
+	int		stdout;
 	int		status;
 	char	*status_str;
 	char 	*tty_name;

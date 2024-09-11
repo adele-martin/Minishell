@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 18:30:21 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:33:16 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // not really sure what this function does and not right!
 int	redirect(char *operator, char *word, t_data *data)
 {
+	clean_quotations(word);
 	if (!ft_strncmp(operator, ">", 2))
 		return (redirect_output(word, data));
 	else if (!ft_strncmp(operator, ">>", 3))

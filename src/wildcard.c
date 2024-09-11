@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 18:29:19 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:44:01 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static t_list	*get_files_list(void)
 			if (!file_str)
 				return (0);
 			file_node = ft_lstnew(file_str);
-			free(file_str);
 			if (!file_node)
 				return (free(file_str), NULL);
 			ft_lstadd_back(&files_list, file_node);
