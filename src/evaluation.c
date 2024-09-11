@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 13:01:12 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:14:50 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void builtin_exit(char **argv, int argc);
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
+	// ft_putstr_fd(data->in_child, 2);
+	// ft_putstr_fd(input, 2);
 	if (data->signal_fd)
 	{
 		write(data->signal_fd, &data->in_pipe, sizeof(char));
@@ -96,15 +98,19 @@ int	execute(char *input, t_data *data)
 			else
 				exit(ft_free(data, run_from_bin_path(data)));
 		}
-		waitpid(data->id, &data->status, 0);
-		if (WIFEXITED(data->status))
-			data->status = WEXITSTATUS(data->status);
+		// waitpid(data->id, &data->status, 0);
+		// if (WIFEXITED(data->status))
+		// 	data->status = WEXITSTATUS(data->status);
 	}
 	if (!data->in_child)
+	TODO: Care if a builtin was run and handle wait differently?!
 	{
 		waitpid(data->id, &data->status, 0);
 		// if (WIFSIGNALED(data->status))
 		// 	data->status = 128 + WTERMSIG(data->status);
+		if (WIFEXITED(data->status))
+			data->status = WEXITSTATUS(data->status);
+		// ft_printf("exit status: %d\n", data->status);
 		return (data->status);
 	}
 	exit (ft_free(data, data->status));

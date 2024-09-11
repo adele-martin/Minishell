@@ -30,7 +30,7 @@ void freeList(t_list *head)
     }
 }
 
-int ft_free(t_data *data, int exit)
+int	ft_free(t_data *data, int exit)
 {
 	if (data->list_envs)
 		freeArray(data->list_envs);
