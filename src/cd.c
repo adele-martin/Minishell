@@ -38,9 +38,9 @@ int	builtin_cd (t_data *data)
 	char *current_dir;
 	char *previous_pwd;
 
-	if (data->cmd_argc > 2)
+	if (data->cmd_argc >= 3)
 	{
-		ft_printf("minishell: cd: too many arguments\n");
+		error_message("cd", "", "too many arguments\n");
 		return (1);
 	}
 	previous_pwd = search_env("PWD", data->list_envs);
@@ -50,7 +50,7 @@ int	builtin_cd (t_data *data)
 		update_home(data, &data->cmd_argv[1]);
 	if (data->cmd_argc == 2 && chdir(data->cmd_argv[1]) == -1)
 	{
-		ft_printf("minishell: cd: %s: No such file or directory\n", data->cmd_argv[1]);
+		error_message("cd", data->cmd_argv[1], ": No such file or directory\n");
 		return (1);
 	}
 	current_dir = getcwd(cwd, sizeof(cwd));

@@ -45,21 +45,41 @@ void	fill_exportlist(char *argv, t_list **head)
 	appendNode(head, str);
 }
 
+
+int check_syntax(char **str)
+{
+	int i;
+
+	i = 1;
+	while (str)
+	{
+		if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z') && !(str[i] == 32) && !(str[i] >= '0' && str[i] <= '9'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 {
 	int	i;
 
 	i = 1;
+	if (check_syntax(&argv))
+	{
+		error_message("export", argv[i], ": not a valid identifier\n");
+		return (1);
+	}
 	if (argc >= 2)
 	{
 		while (argv[i])
 		{
-			if (has_equalsign(argv[i]) == 1)
+			if (iskey_and_value(argv[i]))
 			{
 				update_list(argv[i], list_envs);
 				fill_exportlist(argv[i], &export_list);
 			}
-			else if (has_equalsign(argv[i]) == 0)
+			else if (!(iskey_and_value(argv[i])))
 				fill_exportlist(argv[i], &export_list);
 			i++;
 		}
