@@ -38,7 +38,7 @@ int	builtin_cd (t_data *data)
 	char *current_dir;
 	char *previous_pwd;
 
-	if (data->cmd_argc >= 2)
+	if (data->cmd_argc >= 3)
 	{
 		error_message("cd", "", ": too many arguments\n");
 		return (1);

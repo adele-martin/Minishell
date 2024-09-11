@@ -46,8 +46,9 @@ void	fill_exportlist(char *argv, t_list **head)
 }
 
 
-int correct_syntax(char **arg)
+int wrong_syntax(char **arg)
 {
+	int i;
 	int str;
 
 	str = 1;
@@ -57,8 +58,20 @@ int correct_syntax(char **arg)
 		while (arg[str][i] && arg[str][i] != '=')
 		{
 			if (!(ft_isalpha(arg[str][i])))
-				return (1);
+				{
+					error_message("export", arg[str], ": not a valid identifier\n");
+					return (1);
+				}
 			i++;
+		}
+		if (arg[str][i] == '=')
+		{
+			i++;
+			if (arg[str][i] && !(ft_isalnum(arg[str][i])))
+				{
+					error_message("export", arg[str], ": not a valid identifier\n");
+					return (1);
+				}
 		}
 		str++;
 	}
@@ -71,7 +84,7 @@ int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 
 	i = 1;
 
-	if (!(correct_syntax(argv)))
+	if (wrong_syntax(argv))
 		return (1);
 	if (argc >= 2)
 	{
