@@ -45,9 +45,24 @@ void	fill_exportlist(char *argv, t_list **head)
 	appendNode(head, str);
 }
 
-correct_syntax()
-{
 
+int correct_syntax(char **arg)
+{
+	int str;
+
+	str = 1;
+	int i = 1;
+	while (arg[str])
+	{
+		while (arg[str][i] && arg[str][i] != '=')
+		{
+			if (!(ft_isalpha(arg[str][i])))
+				return (1);
+			i++;
+		}
+		str++;
+	}
+	return (0);
 }
 
 int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
@@ -56,18 +71,18 @@ int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 
 	i = 1;
 
-	if (check_syntax(argv))
-		error_message()
+	if (!(correct_syntax(argv)))
+		return (1);
 	if (argc >= 2)
 	{
 		while (argv[i])
 		{
-			if (has_equalsign(argv[i]) == 1)
+			if (with_value(argv[i]))
 			{
 				update_list(argv[i], list_envs);
 				fill_exportlist(argv[i], &export_list);
 			}
-			else if (has_equalsign(argv[i]) == 0)
+			else if (!(with_value(argv[i])))
 				fill_exportlist(argv[i], &export_list);
 			i++;
 		}
