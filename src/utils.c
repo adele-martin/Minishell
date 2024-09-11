@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 15:13:32 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:58:27 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ int with_value(char *string)
 		i++;
 	}
 	return (0);
+}
+
+int	isalnum_space(int c)
+{
+	return (ft_isalpha(c) || ft_isdigit(c) || c == 32);
+}
+
+
+int	isalpha_space(int c)
+{
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')|| c == 32);
 }
 
 char *ft_strcat(char* dest, const char* src)
