@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/10 18:22:04 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:55:34 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,8 @@ int builtin_exit(char **argv, int argc, t_data *data)
 	{
 		if (!ft_isdigit(argv[1][i]))
 		{
-			ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
+			// ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
+			ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
 			exit (ft_free(data, 2));
 		}
 		i++;
@@ -147,7 +148,7 @@ int builtin_exit(char **argv, int argc, t_data *data)
 	ft_printf("exit\n");
 	if (argc > 2)
 	{
-		ft_printf("minishell: exit: too many arguments\n");
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
 	exit(ft_free(data, ft_atoi(argv[1])));
