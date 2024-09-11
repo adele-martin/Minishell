@@ -55,37 +55,6 @@ void appendNode(t_list **head, const char *data) {
         temp->next = newNode;
     }
 }
-//Util function for the export built-in. It sorts the list in alphabetical order.
-//TO DO: also do the difference between 'H' and 'h'
-void sortList(t_list *head)
-{
-    t_list *i;
-    t_list *j;
-    char *temp;
-
-    if (head == NULL) {
-        return;
-    }
-    i = head;
-    while (i->next != NULL)
-	{
-		j = i->next;
-		while (j != NULL) {
-			if (strcmp(i->content, j->content) > 0)
-			{
-				temp = ft_strdup(i->content);
-				free(i->content);
-				i->content = ft_strdup(j->content);
-				free(j->content);
-                free(i->content);
-				j->content = ft_strdup(temp);
-				free(temp);
-			}
-			j = j->next;
-		}
-		i = i->next;
-	}
-}
 
 //Second export list util
 void printList(t_list *head)
@@ -97,20 +66,6 @@ void printList(t_list *head)
     ft_printf("%s\n", (char *)temp->content);
         temp = temp->next;
     }
-}
-
-//Second export list util
-void fill_exportlist(char *argv, t_list **head)
-{
-	size_t len = strlen("declare -x ") + strlen(argv) + 1;
-    char *str = (char *)malloc(len);
-
-    if (!str)
-        return;
-
-    ft_strlcpy(str, "declare -x ",len);
-    ft_strcat(str, argv);
-	appendNode(head, str);
 }
 
 //Function to create the second "export" list
