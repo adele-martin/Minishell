@@ -46,18 +46,36 @@ void	fill_exportlist(char *argv, t_list **head)
 }
 
 
-int check_syntax(char **str)
+int wrong_syntax(char **arg)
 {
 	int i;
+	int str;
 
-	i = 1;
-	while (str)
+	str = 1;
+	int i = 1;
+	while (arg[str])
 	{
-		if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z') && !(str[i] == 32) && !(str[i] >= '0' && str[i] <= '9'))
-			return (0);
-		i++;
+		while (arg[str][i] && arg[str][i] != '=')
+		{
+			if (!(ft_isalpha(arg[str][i])))
+				{
+					error_message("export", arg[str], ": not a valid identifier\n");
+					return (1);
+				}
+			i++;
+		}
+		if (arg[str][i] == '=')
+		{
+			i++;
+			if (arg[str][i] && !(ft_isalnum(arg[str][i])))
+				{
+					error_message("export", arg[str], ": not a valid identifier\n");
+					return (1);
+				}
+		}
+		str++;
 	}
-	return (1);
+	return (0);
 }
 
 int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
@@ -65,21 +83,19 @@ int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 	int	i;
 
 	i = 1;
-	if (check_syntax(&argv))
-	{
-		error_message("export", argv[i], ": not a valid identifier\n");
+
+	if (wrong_syntax(argv))
 		return (1);
-	}
 	if (argc >= 2)
 	{
 		while (argv[i])
 		{
-			if (iskey_and_value(argv[i]))
+			if (with_value(argv[i]))
 			{
 				update_list(argv[i], list_envs);
 				fill_exportlist(argv[i], &export_list);
 			}
-			else if (!(iskey_and_value(argv[i])))
+			else if (!(with_value(argv[i])))
 				fill_exportlist(argv[i], &export_list);
 			i++;
 		}

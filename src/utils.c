@@ -6,13 +6,13 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 14:41:36 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:33:59 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int iskey_and_value(char *string)
+int with_value(char *string)
 {
 	int i = 0;
 	while (string[i])

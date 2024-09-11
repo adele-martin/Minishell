@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 14:47:07 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:37:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ void error_message(char *cmd, char *arg, char *message);
 
 //UTILS
 char	*ft_strcat(char *dst, const char *src);
-int iskey_and_value(char *string);
+int with_value(char *string);
 int ft_free(t_data *data, int exit);
 int handle_plus_or_minus(char c);
 
