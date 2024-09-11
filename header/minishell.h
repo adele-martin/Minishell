@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 11:59:22 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:02:48 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int expand_list(char **argv, t_list *head);
 void fill_exportlist(char *argv, t_list **head);
 void printList(t_list *head);
 void sortList(t_list *head);
+void appendNode(t_list **head, const char *data);
 
 //BUILT-INS
 int		builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);

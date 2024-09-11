@@ -34,9 +34,10 @@ int	change_to_home(char **list_envs)
 // TODO: Seemingly "cd -" should also work!??!
 int	builtin_cd (t_data *data)
 {
-	char	cwd[1024];
-	char	*current_dir;
-	char	*previous_pwd;
+	char cwd[1024];
+	char *current_dir;
+	char *previous_pwd;
+
 	if (data->cmd_argc > 2)
 	{
 		ft_printf("minishell: cd: too many arguments\n");

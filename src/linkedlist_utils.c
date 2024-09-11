@@ -42,7 +42,8 @@ char	**create_list(char **list)
 	return (list);
 }
 
-void appendNode(t_list **head, const char *data) {
+void appendNode(t_list **head, const char *data) 
+{
     t_list *newNode = createNode(data);
     if (*head == NULL)
 	{
