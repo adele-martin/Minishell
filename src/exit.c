@@ -25,7 +25,6 @@ int builtin_exit(char **argv, int argc, t_data *data)
 	{
 		if (!ft_isdigit(argv[1][i]))
 		{
-			// ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
 			ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
 			exit (ft_free(data, 2));
 		}

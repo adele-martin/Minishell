@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:41:15 by bschneid          #+#    #+#             */
-/*   Updated: 2024/05/27 15:41:49 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:58:58 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isalpha(int c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+
+int	isalnum_space(int c)
+{
+    return (ft_isalpha(c) || ft_isdigit(c) || c == 32);
 }
