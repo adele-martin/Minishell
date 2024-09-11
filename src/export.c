@@ -45,11 +45,19 @@ void	fill_exportlist(char *argv, t_list **head)
 	appendNode(head, str);
 }
 
+correct_syntax()
+{
+
+}
+
 int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 {
 	int	i;
 
 	i = 1;
+
+	if (check_syntax(argv))
+		error_message()
 	if (argc >= 2)
 	{
 		while (argv[i])

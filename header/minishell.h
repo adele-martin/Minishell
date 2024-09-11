@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 12:02:48 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:54:15 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,9 @@ int builtin_exit(char **argv, int argc, t_data *data);
 void freeList(t_list *head);
 void freeArray(char **array);
 int exit_error(t_data *data);
+
+//ERROR HANDLING
+void error_message(char *cmd, char *arg, char *message);
 
 //UTILS
 char	*ft_strcat(char *dst, const char *src);

@@ -40,7 +40,7 @@ int	builtin_cd (t_data *data)
 
 	if (data->cmd_argc >= 2)
 	{
-		ft_printf("minishell: cd: too many arguments\n");
+		error("minishell: cd: too many arguments\n");
 		return (1);
 	}
 	previous_pwd = search_env("PWD", data->list_envs);

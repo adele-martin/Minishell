@@ -30,6 +30,16 @@ void freeList(t_list *head)
     }
 }
 
+void error_message(char *cmd, char *arg, char *message)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(message, 2);
+}
+
+
 int ft_free(t_data *data, int exit)
 {
 	if (data->list_envs)
