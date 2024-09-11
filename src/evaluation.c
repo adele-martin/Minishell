@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 18:22:12 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:44:45 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int	execute(char *input, t_data *data)
 	if (!data->in_child)
 	{
 		waitpid(data->id, &data->status, 0);
-		if (WIFSIGNALED(data->status))
-			data->status = 128 + WTERMSIG(data->status);
+		// if (WIFSIGNALED(data->status))
+		// 	data->status = 128 + WTERMSIG(data->status);
 		return (data->status);
 	}
 	ft_printf("error");

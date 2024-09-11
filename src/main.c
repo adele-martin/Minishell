@@ -6,15 +6,15 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 18:39:32 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:56:18 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 // saves the status code of the last command
-// int	g_signal;
-volatile __sig_atomic_t	g_signal;
+int	g_signal;
+// volatile __sig_atomic_t	g_signal;
 
 static char	build_ast(t_data *data);
 
@@ -26,33 +26,19 @@ int	main(int argc, char **argv, char **envp)
 		exit (ft_free(&data, 1));
 	while (!data.exit)
 	{
-		if (!restore_stdin_stdout(&data, 2))
-			exit (ft_free(&data, 1));
+		// if (!restore_stdin_stdout(&data, 2))		// needs to be set later again, but differently!!!
+			// exit (ft_free(&data, 1));
 		handle_signals(1);
-		if (isatty(fileno(stdin)))
-			data.input = readline("minishell > ");
-		else	// for non-interactive mode (testing)
-		{
-			char *line;
-			line = get_next_line(fileno(stdin));
-			data.input = ft_strtrim(line, "\n");
-			free(line);
-		}
+		data.input = readline("minishell > ");
 		if (!data.input)
 			break ;
-		else
-		{
-			handle_signals(2);
-
-			add_history(data.input);			
-			if (build_ast(&data))
-				g_signal = parse_ast(data.astRoot, &data); // actual execution
-			ft_split_free(data.tokens);
-			free(data.input);
-		}
+		handle_signals(2);
+		add_history(data.input);			
+		if (build_ast(&data))
+			g_signal = parse_ast(data.astRoot, &data); // actual execution
+		ft_split_free(data.tokens);
+		free(data.input);
 	}
-	// printf("Debug: g_signal = %d\n", g_signal);
-	//printf("Shell ended!\n");
 	ft_free(&data, 0);
 	return (g_signal);
 }

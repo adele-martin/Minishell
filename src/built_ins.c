@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:32:57 by ademarti          #+#    #+#             */
-/*   Updated: 2024/09/11 11:50:23 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:00:00 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,3 +88,93 @@ int	builtin_pwd(void)
 }
 
 
+// with no arguments, exits with status 0
+// with args, checks for numeric (first) argument, optional error message
+// if more than one argument, prints error
+// if one argument, exits with that status
+int builtin_exit(char **argv, int argc, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (argc == 1)
+		exit(0);
+	if (handle_plus_or_minus(argv[1][i]))
+		i++;
+	while (argv[1][i])
+	{
+		if (!ft_isdigit(argv[1][i]))
+		{
+			// ft_printf("minishell: exit: %s: numeric argument required\n", argv[1]);
+			ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
+			exit (ft_free(data, 2));
+		}
+		i++;
+	}
+	ft_printf("exit\n");
+	if (argc > 2)
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (1);
+	}
+	exit(ft_free(data, ft_atoi(argv[1])));
+}
+
+//Helper for cd built-in to update PWD and OLDPWD
+int update_env_var(const char *key, const char *value, char **list_envs)
+{
+    char env_var[1024];
+
+	ft_strlcpy(env_var, key, sizeof(env_var));
+	ft_strcat(env_var, value);
+	update_list(env_var, list_envs);
+	return 0;
+}
+
+//Helper for cd built-in for a change to home directory
+int	change_to_home(char **list_envs)
+{
+	char	*home_dir;
+
+	home_dir = search_env("HOME", list_envs);
+	if (!home_dir)
+	{
+		ft_printf("minishell: cd: HOME not set\n");
+		return (1);
+	}
+	if (chdir(home_dir) == -1)
+	{
+		ft_printf("minishell: cd: error changing to HOME directory\n");
+		return (1);
+	}
+	return (0);
+}
+
+// TODO: Seemingly "cd -" should also work!??!
+int	builtin_cd (t_data *data)
+{
+	char cwd[1024];
+	char *current_dir;
+	char *previous_pwd;
+
+	if (data->cmd_argc > 2)
+	{
+		ft_printf("minishell: cd: too many arguments\n");
+		return (1);
+	}
+	previous_pwd = search_env("PWD", data->list_envs);
+	if (data->cmd_argc == 1 && change_to_home(data->list_envs))
+		return (1);
+	if (data->cmd_argc == 2 && !ft_strncmp(data->cmd_argv[1], "~", 1))
+		update_home(data, &data->cmd_argv[1]);
+	if (data->cmd_argc == 2 && chdir(data->cmd_argv[1]) == -1)
+	{
+		ft_printf("minishell: cd: %s: No such file or directory\n", data->cmd_argv[1]);
+		return (1);
+	}
+	current_dir = getcwd(cwd, sizeof(cwd));
+	if (update_env_var("OLDPWD=", previous_pwd, data->list_envs) == -1
+		|| update_env_var("PWD=", current_dir, data->list_envs) == -1)
+		return (1);
+	return (0);
+}
