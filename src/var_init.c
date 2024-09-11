@@ -45,8 +45,8 @@ int expand_list(char **argv, t_list *head)
 			found = 1;
 			free(temp->content);
 			temp->content = ft_strdup(argv[1]);
-			if (!temp->content)
-				return 0;
+			//if (!temp->content)
+			//	return 0;
 		}
 		temp = temp->next;
 	}
