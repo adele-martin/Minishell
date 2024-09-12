@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 14:42:51 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:31:23 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,10 +177,15 @@ void freeList(t_list *head);
 void freeArray(char **array);
 int exit_error(t_data *data);
 
+//ERROR HANDLING
+void error_message(char *cmd, char *arg, char *message);
+
 //UTILS
 char	*ft_strcat(char *dst, const char *src);
-int has_equalsign(char *string);
+int with_value(char *string);
 int ft_free(t_data *data, int exit);
 int handle_plus_or_minus(char c);
+int	isalnum_space(int c);
+int	isalpha_space(int c);
 
 #endif
