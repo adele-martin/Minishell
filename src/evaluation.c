@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 16:46:16 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:29:56 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,16 @@ int	execute(char *input, t_data *data)
 		ft_lstclear(&data->linked_args, free);
 		return (error_message(NULL, NULL, "Error in expanding variables"), 1);
 	}
-	clean_args(&data->linked_args); // remove empty strings
+	clean_args(&data->linked_args);
 	if (!data->linked_args)
 		return (0);
 	data->cmd_argv = create_argv(data->linked_args);
 	if (!data->cmd_argv)
 		return (1);
 	data->cmd_argc = get_argc(data->cmd_argv);
-	if (!run_builtin(data))
-		data->status = run_extern(data);
-	else if (!data->in_child)	// if builtin was run in child, don't wait for it
+	if (!run_builtin(data))					// run builtin if given
+		data->status = run_extern(data);	// run external command
+	else if (!data->in_child)		// if builtin was run in child, don't wait for it
 		return (data->status);
 	waitpid(data->id, &data->status, 0);
 	if (WIFEXITED(data->status))
@@ -143,18 +143,23 @@ static int	run_extern(t_data *data)
 
 int	action_in_child(t_data *data)
 {
-	if (**data->cmd_argv == '.' || **data->cmd_argv == '/' || **data->cmd_argv == '~')
+	struct stat	path_stat;
+	
+	if (ft_strncmp(data->cmd_argv[0], "~/", 2) == 0)
+		update_home(data, data->cmd_argv);
+	if (**data->cmd_argv == '.' || **data->cmd_argv == '/')
 	{
-		if (ft_strncmp(*data->cmd_argv, "~/", 2) == 0)
-			update_home(data, data->cmd_argv);
+		if (stat(data->cmd_argv[0], &path_stat) != 0)
+			return(error_message(data->cmd_argv[0], NULL, "No such file or directory"), 127);
+		if (S_ISDIR(path_stat.st_mode))
+			return(error_message(data->cmd_argv[0], NULL, "Is a directory"), 126);
+		
 		if (access(data->cmd_argv[0], X_OK) == 0)
 			exit(ft_free(data, execve(data->cmd_argv[0], data->cmd_argv, data->list_envs)));
-		error_message(data->cmd_argv[0], NULL, strerror(errno));
-
-		exit (ft_free(data, 127));	// meaning no such file or directory
+		return (error_message(data->cmd_argv[0], NULL, "Permission denied"), 126);
 	}
 	else
-		exit(ft_free(data, run_from_bin_path(data)));
+		return(ft_free(data, run_from_bin_path(data)));
 	return (0);
 }
 
