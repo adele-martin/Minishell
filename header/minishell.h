@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 16:31:23 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:40:50 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,13 +154,13 @@ char	**create_list(char **list);
 char	*search(char *variable, char **list, t_list *head);
 
 char	**envs_list(char **envp);
-int expand_list(char **argv, t_list *head);
+int		expand_list(char **argv, t_list *head);
 
 //LINKED LIST UTILS
-void fill_exportlist(char *argv, t_list **head);
-void printList(t_list *head);
-void sortList(t_list *head);
-void appendNode(t_list **head, const char *data);
+void	fill_exportlist(char *argv, t_list **head);
+void	printList(t_list *head);
+void	sortList(t_list *head);
+void	appendNode(t_list **head, const char *data);
 
 //BUILT-INS
 int		builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);
@@ -170,22 +170,20 @@ int		builtin_env(char **list_envs);			// DONE
 int		builtin_unset(char **argv, char **list_envs, t_list *head);
 int		builtin_cd (t_data *data);
 int		builtin_pwd(void);						// DONE
-int builtin_exit(char **argv, int argc, t_data *data);
+int		builtin_exit(char **argv, int argc, t_data *data);
 
 //MEMORY
-void freeList(t_list *head);
-void freeArray(char **array);
-int exit_error(t_data *data);
+int		exit_error(t_data *data);
 
 //ERROR HANDLING
-void error_message(char *cmd, char *arg, char *message);
+void	error_message(char *cmd, char *arg, char *message);
 
 //UTILS
 char	*ft_strcat(char *dst, const char *src);
-int with_value(char *string);
-int ft_free(t_data *data, int exit);
-int handle_plus_or_minus(char c);
-int	isalnum_space(int c);
-int	isalpha_space(int c);
+int		with_value(char *string);
+int		ft_free(t_data *data, int exit);
+int		handle_plus_or_minus(char c);
+int		isalnum_space(int c);
+int		isalpha_space(int c);
 
 #endif

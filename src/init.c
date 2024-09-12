@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 12:23:25 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:14:55 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	}
 	data->list_envs = envs_list(envp);
 	data->export_list = arrayToLinkedList(data->list_envs);
-	data->tty_name = ttyname(STDIN_FILENO);
+	// data->tty_name = ttyname(STDIN_FILENO);
 	data->shell_name = ft_strdup("minishell");
 	data->status_str = ft_itoa(0);
+	data->linked_args = NULL;
 	data->in_pipe = 0;
 	data->id = 1;
 	data->signal_fd = 0;
@@ -45,18 +46,6 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 // Returns 1 on success, 0 on failure
 int	restore_stdin_stdout(t_data *data, char option)
 {
-	// int	tty_fd;
-
-	// tty_fd = open(data->tty_name, O_RDWR);
-	// if (tty_fd == -1) {
-	// 	perror("open terminal");
-	// 	return (0);
-	// }
-	// if (option == 0 || option == 2)
-	// 	dup2(tty_fd, STDIN_FILENO);  // Restore STDIN
-	// if (option == 1 || option == 2)
-	// 	dup2(tty_fd, STDOUT_FILENO); // Restore STDOUT
-	// close(tty_fd);
 	if (option == 0 || option == 2)
 		dup2(data->stdin, STDIN_FILENO);  // Restore STDIN
 	if (option == 1 || option == 2)

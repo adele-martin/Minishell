@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 16:31:14 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/12 09:59:12 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int with_value(char *string)
 
 int	isalnum_space(int c)
 {
-	return (ft_isalpha(c) || ft_isdigit(c) || c == 32);
+	return (ft_isalpha(c) || ft_isdigit(c) || c == ' ');
 }
 
 
 int	isalpha_space(int c)
 {
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')|| c == 32);
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ');
 }
 
 char *ft_strcat(char* dest, const char* src)

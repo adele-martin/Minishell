@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 09:45:45 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:32:02 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	execute(char *input, t_data *data)
 	if (!add_wildcards(data->linked_args))
 	{
 		ft_lstclear(&data->linked_args, free);
-		return (perror("Error in wildcards"), 1);
+		return (error_message(NULL, NULL, "Error in wildcards"), 1);
 	}
 	if (!expand_variables(data->linked_args, data))
 	{
 		ft_lstclear(&data->linked_args, free);
-		return (perror("Error in expanding variables"), 1);
+		return (error_message(NULL, NULL, "Error in expanding variables"), 1);
 	}
 	data->cmd_argv = create_argv(data->linked_args);
 	if (!data->cmd_argv)
@@ -90,9 +90,7 @@ int	execute(char *input, t_data *data)
 					update_home(data, data->cmd_argv);
 				if (access(data->cmd_argv[0], X_OK) == 0)
 					exit(ft_free(data, execve(data->cmd_argv[0], data->cmd_argv, data->list_envs)));
-				errno = EACCES;
-				ft_printf("minishell: ");
-				perror(data->cmd_argv[0]);
+				error_message(data->cmd_argv[0], NULL, strerror(errno));
 				exit (ft_free(data, 126));
 			}
 			else
