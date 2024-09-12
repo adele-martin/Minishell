@@ -50,7 +50,7 @@ t_list	*delete_var(char *variable, t_list *head)
 		i = 0;
 		while (variable[i] && variable[i] != '=')
 			i++;
-		if (ft_strncmp(str, variable, i) == 0)
+		if (!(ft_strncmp(str, variable, i)))
 		{
 			if (prev == NULL)
 				head = temp->next;
