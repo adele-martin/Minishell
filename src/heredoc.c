@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 12:25:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 11:18:48 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:06:00 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,16 @@ int	heredoc(char *delimiter, t_data *data)
 			write(fd[1], line, ft_strlen(line));
 		free(line);
 		close(fd[1]);
-		exit(ft_free(data,(0)));
+		g_signal = 0;
+		exit(ft_free(data, 0));
 	}
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	waitpid(id, &data->status, 0);
-	return (WEXITSTATUS(data->status));
+	if (g_signal)
+		restore_stdin_stdout(data, 2);
+	return (g_signal);
 }
 
 static char	*heredoc_child(char *delimiter)
@@ -58,7 +61,7 @@ static char	*heredoc_child(char *delimiter)
 		new_line = readline("> ");
 		if (!new_line)
 		{
-			error_message("warning", delimiter, ": here-document delimited by end-of-file\n");
+			error_message("warning", "here-document delimited by end-of-file - wanted", delimiter);
 			break ;
 		}
 		if (!ft_strncmp(new_line, delimiter, ft_strlen(delimiter) + 1))
