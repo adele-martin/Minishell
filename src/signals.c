@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 18:29:10 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:05:08 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,13 @@ void	signal_out_newline(int sig)
 {
 	(void)sig;
 	ft_printf("\n");
-	// ft_printf("\nSIG out of newline\n");
 	g_signal = 130;
 }
 
-// idea: kill the child process (heredoc) in the parent process while waiting
+// Handles signals in child processes like in heredocs or piping
 void	signal_child(int sig)
 {
 	(void)sig;
-	// ft_printf("SIGNAL IN HEREDOC\n");
 	g_signal = 130;
 	exit (130);
 }
