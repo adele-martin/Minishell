@@ -6,14 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 11:34:37 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:08:25 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	g_signal;
-// volatile __sig_atomic_t	g_signal;
+// int	g_signal;
+volatile __sig_atomic_t	g_signal;
 
 static void	free_prompt_data(t_data *data);
 static char	build_ast(t_data *data);
@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data.input);
 		if (build_ast(&data))
 			g_signal = parse_ast(data.astRoot, &data); // actual execution
+		// ft_printf("Signal: %d\n", g_signal);
 		free_prompt_data(&data);
 		if (!restore_stdin_stdout(&data, 2))		// needs to be set later again, but differently!!!
 			exit (ft_free(&data, 1));
