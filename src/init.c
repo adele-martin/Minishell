@@ -6,16 +6,15 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 10:14:55 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:20:18 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 // for getting key-value: char	*expanding(char *variable, char **list, t_list *head)
-int	initialize_data(t_data *data, int argc, char **argv, char **envp)
+int	initialize_data(t_data *data, int argc, char **envp)
 {
-	(void)argv;
 	if (argc != 1)
 	{
 		errno = EINVAL;
@@ -24,19 +23,21 @@ int	initialize_data(t_data *data, int argc, char **argv, char **envp)
 	}
 	data->list_envs = envs_list(envp);
 	data->export_list = arrayToLinkedList(data->list_envs);
-	// data->tty_name = ttyname(STDIN_FILENO);
 	data->shell_name = ft_strdup("minishell");
+	data->status = 0;
 	data->status_str = ft_itoa(0);
+	data->input = NULL;
+	data->tokens = NULL;
+	data->astRoot = NULL;
 	data->linked_args = NULL;
 	data->in_pipe = 0;
 	data->id = 1;
 	data->signal_fd = 0;
 	data->in_child = 0;
 	data->cmd_argc = 0;
-	data->exit = 0;
+	data->cmd_argv = NULL;
 	data->stdin = dup(STDIN_FILENO);
 	data->stdout = dup(STDOUT_FILENO);
-	// ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
 	handle_signals(0);
 	return (EXIT_SUCCESS);
 }

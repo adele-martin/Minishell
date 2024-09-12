@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 10:40:50 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:21:21 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_data
 	char	**list_envs;
 	t_list	*export_list;
 	// char	**end_tokens;
-	char	exit;
+	// char	exit;
 	char	in_child;
 	char	in_pipe;
 	int		signal_fd;
@@ -119,7 +119,7 @@ void	print_args(char *str, t_list *linked_args);
 void	clean_quotations(char *str);
 void	print_ast(t_ast *root);
 // INIT:
-int		initialize_data(t_data *data, int argc, char **argv, char **envp);
+int		initialize_data(t_data *data, int argc, char **envp);
 int		restore_stdin_stdout(t_data *data, char option);
 // PARSING:
 int		parse_ast(t_ast *node, t_data *data);
@@ -176,6 +176,7 @@ int		builtin_exit(char **argv, int argc, t_data *data);
 int		exit_error(t_data *data);
 
 //ERROR HANDLING
+void	free_array(char ***array);
 void	error_message(char *cmd, char *arg, char *message);
 
 //UTILS
