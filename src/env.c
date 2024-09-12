@@ -53,11 +53,8 @@ char	*return_value_env(char *variable, char **list)
 		j = 0;
 		while (list[i][j] != '=')
 			j++;
-		if (ft_strncmp(list[i], variable, j) == 0)
-		{
-			j = j + 1;
-			return (&list[i][j]);
-		}
+		if (!ft_strncmp(list[i], variable, j) && !variable[j])
+			return (&list[i][j + 1]);
 		i++;
 	}
 	return (NULL);
