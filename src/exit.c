@@ -12,7 +12,7 @@ int	handle_plus_or_minus(char c)
 // with args, checks for numeric (first) argument, optional error message
 // if more than one argument, prints error
 // if one argument, exits with that status
-int builtin_exit(char **argv, int argc, t_data *data)
+int	builtin_exit(char **argv, int argc, t_data *data)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ int builtin_exit(char **argv, int argc, t_data *data)
 	{
 		if (!ft_isdigit(argv[1][i]))
 		{
-			error_message("exit", NULL, ": numeric argument required\n");
+			error_message("exit", argv[1], ": numeric argument required\n");
 			exit (ft_free(data, 2));
 		}
 		i++;
@@ -33,7 +33,7 @@ int builtin_exit(char **argv, int argc, t_data *data)
 	ft_printf("exit\n");
 	if (argc > 2)
 	{
-		error_message("exit", NULL,": exit: too many arguments\n");
+		error_message("exit", NULL, ": exit: too many arguments\n");
 		return (1);
 	}
 	exit(ft_free(data, ft_atoi(argv[1])));

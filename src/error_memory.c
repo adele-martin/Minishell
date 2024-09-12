@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 11:31:06 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:03:56 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_array(char ***array)
 	size_t	i;
 
 	if (!*array)
-		return;
+		return ;
 	i = 0;
 	while (array[0][i])
 		free(array[0][i++]);
@@ -58,10 +58,8 @@ int	ft_free(t_data *data, int exit)
 		free_array(&data->tokens);
 	// if (data->astRoot) // TODO: Implement function to free the AST
 	// 	free(data->astRoot);
-	
 	// if (data->linked_args)
 	// 	ft_lstclear(&data->linked_args, free);	// TODO: CARE HOW TO FREE LINKED LIST
-
 	close(data->stdin);
 	close(data->stdout);
 	rl_clear_history();
