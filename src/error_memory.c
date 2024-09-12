@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 11:31:06 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:24:47 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	error_message(char *cmd, char *arg, char *message)
 		ft_putstr_fd(": ", 2);
 	}
 	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\n", 2);
 }
 
 // TODO: Implement function to free the AST
