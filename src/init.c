@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 14:21:25 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:40:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ int	initialize_data(t_data *data, int argc, char **envp)
 {
 	if (argc != 1)
 	{
-		errno = EINVAL;
-		perror("main");
-		exit (EXIT_FAILURE);
+		error_message(NULL, "main", "Too many arguments");
+		exit(EXIT_FAILURE);
 	}
 	data->list_envs = envs_list(envp);
 	data->export_list = array_to_linkedlist(data->list_envs);
