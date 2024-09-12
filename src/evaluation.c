@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 11:15:20 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:11:37 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,40 @@ void builtin_pwd(char **argv, int argc);
 void builtin_exit(char **argv, int argc);
 */
 
+void	print_argv(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		ft_printf("ARG: -->%s<--\n", argv[i++]);
+}
+
+void	clean_args(t_list **args)
+{
+	t_list	*tmp;
+	t_list	*prev;
+
+	tmp = *args;
+	prev = NULL;
+	while (tmp)
+	{
+		if (!tmp->content || !*(char *)tmp->content)
+		{
+			if (prev)
+				prev->next = tmp->next;
+			else
+				*args = tmp->next;
+			free(tmp->content);
+			free(tmp);
+			tmp = prev;
+		}
+		prev = tmp;
+		if (tmp)
+			tmp = tmp->next;
+	}
+}
+
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
@@ -57,9 +91,17 @@ int	execute(char *input, t_data *data)
 		ft_lstclear(&data->linked_args, free);
 		return (error_message(NULL, NULL, "Error in expanding variables"), 1);
 	}
+
+	clean_args(&data->linked_args); // remove empty strings
+	if (!data->linked_args)
+		return (0);
+
 	data->cmd_argv = create_argv(data->linked_args);
 	if (!data->cmd_argv)
 		return (1);
+
+	// print_argv(data->cmd_argv);
+	
 	data->cmd_argc = get_argc(data->cmd_argv);
 	// possibilities for executions:
 	if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
@@ -157,6 +199,8 @@ char	**create_argv(t_list *linked_args)
 	char	**writer;
 
 	size = ft_lstsize(linked_args);
+	if (!size)
+		return (NULL);
 	out = (char **)malloc((size + 1) * sizeof(char *));
 	if (!out)
 		return (NULL);
@@ -185,7 +229,7 @@ static int	run_from_bin_path(t_data *data)
 	path_str = search_env("PATH", data->list_envs);
 	if (!path_str)
 	{
-		error_message(NULL, data->cmd_argv[0], ": No such file or directory\n");
+		error_message(data->cmd_argv[0], NULL, "No such file or directory");
 		return(127);
 	}
 	bin_paths = ft_split(path_str, ':');
@@ -202,10 +246,10 @@ static int	run_from_bin_path(t_data *data)
 	}
 	if (file_exists)
 	{
-		error_message(NULL, data->cmd_argv[0], ": Permission denied\n");
+		error_message(data->cmd_argv[0], NULL, "Permission denied");	
 		exit (ft_free(data, 126));
 	}
-	error_message(NULL, data->cmd_argv[0], ": command not found\n");
+	error_message(data->cmd_argv[0], NULL, "command not found");
 	exit(ft_free(data, 127));
 }
 
