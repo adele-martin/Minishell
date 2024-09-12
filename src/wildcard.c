@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 12:44:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:24:10 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_list	*get_files_list(void)
 	files_list = NULL;
 	dir = opendir(".");
 	if (!dir)
-		return (ft_printf("ERROR WILDCARD"), NULL);
+		return (error_message(NULL, NULL, "ERROR WILDCARD"), NULL);
 	entry = readdir(dir);
 	while (entry)
 	{

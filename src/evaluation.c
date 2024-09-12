@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 10:32:02 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:15:20 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ static int	run_from_bin_path(t_data *data)
 	path_str = search_env("PATH", data->list_envs);
 	if (!path_str)
 	{
-		ft_printf("minishell: %s: No such file or directory\n", data->cmd_argv[0]);
+		error_message(NULL, data->cmd_argv[0], ": No such file or directory\n");
 		return(127);
 	}
 	bin_paths = ft_split(path_str, ':');
@@ -202,10 +202,10 @@ static int	run_from_bin_path(t_data *data)
 	}
 	if (file_exists)
 	{
-		ft_printf("minishell: %s: Permission denied", data->cmd_argv[0]);
+		error_message(NULL, data->cmd_argv[0], ": Permission denied\n");
 		exit (ft_free(data, 126));
 	}
-	ft_printf("minishell: %s: command not found\n", data->cmd_argv[0]);
+	error_message(NULL, data->cmd_argv[0], ": command not found\n");
 	exit(ft_free(data, 127));
 }
 

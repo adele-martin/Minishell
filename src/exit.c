@@ -25,7 +25,7 @@ int builtin_exit(char **argv, int argc, t_data *data)
 	{
 		if (!ft_isdigit(argv[1][i]))
 		{
-			ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
+			error_message("exit", NULL, ": numeric argument required\n");
 			exit (ft_free(data, 2));
 		}
 		i++;
@@ -33,7 +33,7 @@ int builtin_exit(char **argv, int argc, t_data *data)
 	ft_printf("exit\n");
 	if (argc > 2)
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		error_message("exit", NULL,": exit: too many arguments\n");
 		return (1);
 	}
 	exit(ft_free(data, ft_atoi(argv[1])));
