@@ -80,7 +80,7 @@ char	*return_value_var(char *variable, t_list *head)
 		i = 0;
 		while (str[i] != '=')
 			i++;
-		if (ft_strncmp(str, variable, i) == 0)
+		if (!ft_strncmp(str, variable, i) && !variable[i])
 		{
 			i = i + 1;
 			return (&variable[i]);
