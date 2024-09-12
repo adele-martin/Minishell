@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 13:07:46 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:16:41 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ void builtin_pwd(char **argv, int argc);
 void builtin_exit(char **argv, int argc);
 */
 
-void	print_argv(char **argv)
-{
-	int	i;
+// just for debugging
+// static void	print_argv(char **argv)
+// {
+// 	int	i;
 
-	i = 0;
-	while (argv[i])
-		ft_printf("ARG: -->%s<--\n", argv[i++]);
-}
+// 	i = 0;
+// 	while (argv[i])
+// 		ft_printf("ARG: -->%s<--\n", argv[i++]);
+// }
 
 void	clean_args(t_list **args)
 {
@@ -71,8 +72,6 @@ void	clean_args(t_list **args)
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
-	// ft_putstr_fd(data->in_child, 2);
-	// ft_putstr_fd(input, 2);
 	if (data->signal_fd)
 	{
 		write(data->signal_fd, &data->in_pipe, sizeof(char));
