@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:43:42 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 14:19:28 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:42:05 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	is_wrong_syntax(char **arg)
 	{
 		if (!is_valid_identifier(arg[arg_idx]))
 		{
-			error_message("export", arg[arg_idx], ": not a valid identifier\n");
+			error_message("export", arg[arg_idx], "not a valid identifier");
 			return (1);
 		}
 		arg_idx++;
