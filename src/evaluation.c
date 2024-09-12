@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 20:14:50 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 09:45:45 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	execute(char *input, t_data *data)
 		// 	data->status = WEXITSTATUS(data->status);
 	}
 	if (!data->in_child)
-	TODO: Care if a builtin was run and handle wait differently?!
+	// TODO: Care if a builtin was run and handle wait differently?!
 	{
 		waitpid(data->id, &data->status, 0);
 		// if (WIFSIGNALED(data->status))
