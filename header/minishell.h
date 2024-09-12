@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 11:21:21 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:21:12 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,14 +158,14 @@ int		expand_list(char **argv, t_list *head);
 
 //LINKED LIST UTILS
 void	fill_exportlist(char *argv, t_list **head);
-void	printList(t_list *head);
-void	sortList(t_list *head);
-void	appendNode(t_list **head, const char *data);
+void	print_list(t_list *head);
+void	sort_list(t_list *head);
+void	append_node(t_list **head, const char *data);
 
 //BUILT-INS
 int		builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);
-t_list	*arrayToLinkedList(char *arr[]);
-int		builtin_echo(char **argv, int argc);	// DONE
+t_list	*array_to_linkedlist(char *arr[]);
+int	builtin_echo(char **argv, int argc);	// DONE
 int		builtin_env(char **list_envs);			// DONE
 int		builtin_unset(char **argv, char **list_envs, t_list *head);
 int		builtin_cd (t_data *data);

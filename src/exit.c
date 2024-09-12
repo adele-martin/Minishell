@@ -12,7 +12,7 @@ int	handle_plus_or_minus(char c)
 // with args, checks for numeric (first) argument, optional error message
 // if more than one argument, prints error
 // if one argument, exits with that status
-int builtin_exit(char **argv, int argc, t_data *data)
+int	builtin_exit(char **argv, int argc, t_data *data)
 {
 	int	i;
 

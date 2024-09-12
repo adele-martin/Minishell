@@ -9,7 +9,7 @@ int	update_env_var(const char *key, const char *value, char **list_envs)
 	ft_strlcpy(env_var, key, sizeof(env_var));
 	ft_strcat(env_var, value);
 	update_list(env_var, list_envs);
-	return 0;
+	return (0);
 }
 
 //Helper for cd built-in for a change to home directory
@@ -32,11 +32,11 @@ int	change_to_home(char **list_envs)
 }
 
 // TODO: Seemingly "cd -" should also work!??!
-int	builtin_cd (t_data *data)
+int	builtin_cd (t_data	*data)
 {
-	char cwd[1024];
-	char *current_dir;
-	char *previous_pwd;
+	char	cwd[1024];
+	char	*current_dir;
+	char	*previous_pwd;
 
 	if (data->cmd_argc >= 3)
 	{

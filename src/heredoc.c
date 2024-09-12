@@ -6,7 +6,7 @@
 /*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 12:25:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/10 16:26:43 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:18:48 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*heredoc_child(char *delimiter)
 		new_line = readline("> ");
 		if (!new_line)
 		{
-			ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
+			error_message("warning", delimiter, ": here-document delimited by end-of-file\n");
 			break ;
 		}
 		if (!ft_strncmp(new_line, delimiter, ft_strlen(delimiter) + 1))

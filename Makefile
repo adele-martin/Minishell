@@ -6,7 +6,7 @@
 #    By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/09/11 15:37:47 by ademarti         ###   ########.fr        #
+#    Updated: 2024/09/12 13:43:30 by ademarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@ HEADER = header/minishell.h
 LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
-SOURCES = ast.c built_ins.c evaluation.c helpers.c heredoc.c init.c main.c\
+SOURCES = ast.c evaluation.c helpers.c heredoc.c init.c main.c\
 	parsing.c redirections.c signals.c split_cmd.c tokenization.c var_expand.c\
 	var_helpers.c wildcard.c linkedlist_utils.c variables.c var_init.c utils.c\
-	error_memory.c cd.c exit.c export.c
+	error_memory.c cd.c exit.c export.c pwd.c env.c unset.c echo.c
 OBJECTS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
 FLAGS = -Wall -Werror -Wextra -g3 -I/usr/local/opt/readline/include -g -O0
 #FLAGS = -Wall -Werror -Wextra -g3
