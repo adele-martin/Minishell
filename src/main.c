@@ -6,25 +6,26 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 14:34:37 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:26:09 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-// saves the status code of the last command
 int	g_signal;
 // volatile __sig_atomic_t	g_signal;
 
+static void	free_prompt_data(t_data *data);
 static char	build_ast(t_data *data);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
-	if (initialize_data(&data, argc, argv, envp))
+	(void)argv;
+	if (initialize_data(&data, argc, envp))
 		exit (ft_free(&data, 1));
-	while (!data.exit)
+	while (1) //!data.exit)
 	{
 		handle_signals(1);
 		data.input = readline("minishell > ");
@@ -34,13 +35,37 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data.input);
 		if (build_ast(&data))
 			g_signal = parse_ast(data.astRoot, &data); // actual execution
-		ft_split_free(data.tokens);
-		free(data.input);
+		free_prompt_data(&data);
 		if (!restore_stdin_stdout(&data, 2))		// needs to be set later again, but differently!!!
 			exit (ft_free(&data, 1));
 	}
 	ft_free(&data, 0);
 	return (g_signal);
+}
+// build specific functions for freeing the data in each while loop
+static void	free_prompt_data(t_data *data)
+{
+	if (data->input)
+	{
+		free(data->input);
+		data->input = NULL;
+	}
+	if (data->tokens)
+	{
+		ft_split_free(data->tokens);
+		data->tokens = NULL;
+	}
+	// if (data->astRoot)
+	// {
+	// 	free_ast(data->astRoot);	// TODO: FREE FUNC FOR AST
+	// 	data->astRoot = NULL;
+	// }
+
+	// if (data->linked_args)			// free linked_args
+		// ft_lstclear(&data->linked_args, free);
+	
+	if (data->cmd_argv)				// free cmd_argv STILL SEGFAULTS
+		free_array(&data->cmd_argv);
 }
 
 // static void	print_tokens(char **tokens)
