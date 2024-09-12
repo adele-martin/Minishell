@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 19:07:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:13:24 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,16 @@ void	signal_in_newline(int sig)
 void	signal_out_newline(int sig)
 {
 	(void)sig;
-	// ft_printf("\n");
+	ft_printf("\n");
 	g_signal = 130;
 }
 
+// TODO: Add exit correction here - signal in HEREDOC !!
 // Handles signals in child processes like in heredocs or piping
 void	signal_child(int sig)
 {
 	(void)sig;
-	ft_printf("\n");
+	// ft_printf("\n");
 	g_signal = 130;
 	exit (130);
 }
