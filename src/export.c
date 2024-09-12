@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/12 11:43:42 by bschneid          #+#    #+#             */
+/*   Updated: 2024/09/12 11:43:48 by bschneid         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 // Util function for the export built-in. It sorts the list in alphabetical order.
@@ -20,12 +32,9 @@ void sortList(t_list *head)
 		{
 			if (strcmp(i->content, j->content) > 0)
 			{
-				temp = ft_strdup(i->content);
-				free(i->content);
-				i->content = ft_strdup(j->content);
-				free(j->content);
-				j->content = ft_strdup(temp);
-				free(temp);
+				temp = i->content;
+				i->content = j->content;
+				j->content = temp;
 			}
 			j = j->next;
 		}
