@@ -20,13 +20,9 @@ void sortList(t_list *head)
 		{
 			if (strcmp(i->content, j->content) > 0)
 			{
-				temp = ft_strdup(i->content);
-				free(i->content);
-				i->content = ft_strdup(j->content);
-				free(j->content);
-				free(i->content);
-				j->content = ft_strdup(temp);
-				free(temp);
+				temp = i->content;
+				i->content = j->content;
+				j->content = temp;
 			}
 			j = j->next;
 		}
