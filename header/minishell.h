@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 15:39:14 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:15:18 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <readline/readline.h>
 # include <dirent.h>
 # include <sys/stat.h>
+# include <sys/ioctl.h>
 
 typedef struct s_ast	t_ast;
 
@@ -75,7 +76,6 @@ typedef struct s_data
 	char	*input;
 	char	**tokens;
 	t_ast	*astRoot;
-	// int		last_status;
 	int		stdin;
 	int		stdout;
 	int		status;

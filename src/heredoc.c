@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 12:25:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 19:06:00 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:07:50 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	heredoc(char *delimiter, t_data *data)
 		return (1);
 	if (id == 0)
 	{
+		handle_signals(3);
 		close(fd[0]);
 		if (!restore_stdin_stdout(data, 2))
 			exit (ft_free(data, 1));
@@ -36,16 +37,13 @@ int	heredoc(char *delimiter, t_data *data)
 			write(fd[1], line, ft_strlen(line));
 		free(line);
 		close(fd[1]);
-		g_signal = 0;
 		exit(ft_free(data, 0));
 	}
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	waitpid(id, &data->status, 0);
-	if (g_signal)
-		restore_stdin_stdout(data, 2);
-	return (g_signal);
+	return (WEXITSTATUS(data->status));
 }
 
 static char	*heredoc_child(char *delimiter)
@@ -54,7 +52,6 @@ static char	*heredoc_child(char *delimiter)
 	char	*tmp_line;
 	char	*out;
 
-	handle_signals(3);
 	out = ft_strdup("");
 	while (1)
 	{
@@ -65,10 +62,7 @@ static char	*heredoc_child(char *delimiter)
 			break ;
 		}
 		if (!ft_strncmp(new_line, delimiter, ft_strlen(delimiter) + 1))
-		{
-			free(new_line);
-			break ;
-		}
+			return (free(new_line), out);
 		tmp_line = ft_strjoin(out, new_line);
 		free(out);
 		free(new_line);

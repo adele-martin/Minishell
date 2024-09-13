@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 12:03:40 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:18:43 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (initialize_data(&data, argc, envp))
 		exit (ft_free(&data, 1));
-	while (1) //!data.exit)
+	while (1)
 	{
 		handle_signals(1);
 		data.input = readline("minishell > ");
@@ -35,7 +35,6 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data.input);
 		if (build_ast(&data))
 			g_signal = parse_ast(data.astRoot, &data); // actual execution
-		// ft_printf("Signal: %d\n", g_signal);
 		free_prompt_data(&data);
 		if (!restore_stdin_stdout(&data, 2))		// needs to be set later again, but differently!!!
 			exit (ft_free(&data, 1));
