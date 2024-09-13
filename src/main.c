@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 19:08:25 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:03:40 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	free_prompt_data(t_data *data)
 
 	// if (data->linked_args)			// free linked_args
 		// ft_lstclear(&data->linked_args, free);
-	
+
 	if (data->cmd_argv)				// free cmd_argv STILL SEGFAULTS
 		free_array(&data->cmd_argv);
 }

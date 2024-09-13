@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:43:42 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 17:42:05 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:50:23 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,53 @@ void	sort_list(t_list *head)
 	}
 }
 
+t_list	*update_exportlist(char *variable, t_list *head)
+{
+	t_list	*temp;
+	t_list	*prev;
+	char	*str;
+	int		i;
+
+	prev = NULL;
+	temp = head;
+	while (temp != NULL)
+	{
+		str = (char *)temp->content;
+		i = 0;
+		while (variable[i] && variable[i] != '=')
+			i++;
+		if (!(ft_strncmp(str, variable, i)))
+		{
+			if (prev == NULL)
+				head = temp->next;
+			else
+				prev->next = temp->next;
+			free(temp->content);
+			append_node(&head, variable);
+			return (head);
+		}
+		prev = temp;
+		temp = temp->next;
+	}
+	append_node(&head, variable);
+	return (head);
+}
+
 // Second export list util
-void	fill_exportlist(char *argv, t_list **head)
+void	fill_exportlist(char *arg, t_list *export_list)
 {
 	size_t	len;
 	char	*str;
 
-	len = strlen("declare -x ") + strlen(argv) + 1;
+	len = strlen("declare -x ") + strlen(arg) + 1;
 	str = (char *)malloc(len);
 	if (!str)
 		return ;
 	ft_strlcpy(str, "declare -x ", len);
-	ft_strcat(str, argv);
-	append_node(head, str);
+	ft_strcat(str, arg);
+	update_exportlist(str, export_list);
 }
+
 
 int	is_valid_identifier(const char *arg)
 {
@@ -110,10 +143,10 @@ int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 			if (with_value(argv[i]))
 			{
 				update_list(argv[i], list_envs);
-				fill_exportlist(argv[i], &export_list);
+				fill_exportlist(argv[i], export_list);
 			}
 			else if (!(with_value(argv[i])))
-				fill_exportlist(argv[i], &export_list);
+				fill_exportlist(argv[i], export_list);
 			i++;
 		}
 	}

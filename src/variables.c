@@ -5,11 +5,9 @@ char	**update_list(char *variable, char **list)
 {
 	int	i;
 	int	j;
-	int	found_value;
 
 	j = 0;
 	i = 0;
-	found_value = 0;
 	while (list[i])
 	{
 		j = 0;
@@ -17,18 +15,17 @@ char	**update_list(char *variable, char **list)
 			j++;
 		if (!ft_strncmp(list[i], variable, j))
 		{
-			found_value = 1;
 			free(list[i]);
 			list[i] = ft_strdup(variable);
+			if (!list[i])
+				return (NULL);
 			return (list);
 		}
 		i++;
 	}
-	if (!found_value)
-	{
-		list[i] = ft_strdup(variable);
-		found_value = 0;
-	}
+	list[i] = ft_strdup(variable);
+	if (!list[i])
+		return (NULL);
 	return (list);
 }
 

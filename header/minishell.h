@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 19:08:44 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:39:14 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ char	**envs_list(char **envp);
 int		expand_list(char **argv, t_list *head);
 
 //LINKED LIST UTILS
-void	fill_exportlist(char *argv, t_list **head);
+void	fill_exportlist(char *arg, t_list *export_list);
 void	print_list(t_list *head);
 void	sort_list(t_list *head);
 void	append_node(t_list **head, const char *data);
