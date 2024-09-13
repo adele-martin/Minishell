@@ -15,14 +15,12 @@ char	**update_list(char *variable, char **list)
 		j = 0;
 		while (list[i][j] != '=')
 			j++;
-		if (ft_strncmp(list[i], variable, j) == 0)
+		if (!ft_strncmp(list[i], variable, j))
 		{
 			found_value = 1;
 			free(list[i]);
 			list[i] = ft_strdup(variable);
-			if (!list[i])
-				return (NULL);
-			break ;
+			return (list);
 		}
 		i++;
 	}
