@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:42:33 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:42:34 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:08:17 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	builtin_unset(char **argv, char **list_envs, t_list *head)
 	{
 		delete_env(argv[i], list_envs);
 		i++;
-		delete_env(argv[i], list_envs);
 	}
 	i = 0;
 	while (argv[i])

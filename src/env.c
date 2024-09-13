@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:41:45 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:41:48 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:09:03 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**delete_env(char *variable, char **list)
 				i++;
 			}
 			list[i] = NULL;
-			break;
+			break ;
 		}
 		i++;
 	}

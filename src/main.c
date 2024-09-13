@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 19:30:54 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:14:47 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static char	build_ast(t_data *data)
 	while (*end_tokens)
 		end_tokens++;
 	end_tokens--;
+	if (!right_parenthesis(data->tokens, end_tokens))
+		return (error_message("Syntax error", NULL, "Wrong parenthesis"), 0);
 	data->ast_root = create_ast(data->tokens, end_tokens);
 	if (!data->ast_root)
 		return (0);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   evaluation_helpers.c                               :+:      :+:    :+:   */
+/*   exec_help.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:46:53 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 19:36:02 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:56:06 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**create_argv(t_list *linked_args)
 	while (linked_args)
 	{
 		tmp = linked_args;
-		clean_quotations(linked_args->content);
+		clean_quotations(linked_args->content, linked_args->content, 0, 0);
 		*(writer++) = linked_args->content;
 		linked_args = linked_args->next;
 		free(tmp);

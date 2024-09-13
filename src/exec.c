@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   evaluation.c                                       :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 19:20:15 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:53:40 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	execute(char *input, t_data *data)
 {
 	if (data->signal_fd)
 	{
-		write(data->signal_fd, &data->in_pipe, sizeof(char));
+		write(data->signal_fd, &data->stdin, sizeof(int));
 		close(data->signal_fd);
 	}
 	if (!input || !*input)

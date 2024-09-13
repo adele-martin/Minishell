@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:31:35 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:53:27 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->tokens = NULL;
 	data->ast_root = NULL;
 	data->linked_args = NULL;
-	data->in_pipe = 0;
 	data->id = 1;
 	data->signal_fd = 0;
 	data->in_child = 0;

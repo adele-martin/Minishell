@@ -6,13 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 19:01:29 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 21:03:15 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 static int	parse_and_or(t_ast *node, t_data *data);
+static int	create_pipe_child(t_ast *node, t_data *data);
 static int	handle_redirection(t_ast *node, t_data *data);
 
 // parse_ast is the main function for parsing the AST
@@ -23,34 +24,7 @@ int	parse_ast(t_ast *node, t_data *data)
 	if (!ft_strncmp(node->value, "&&", 3) || !ft_strncmp(node->value, "||", 3))
 		return (parse_and_or(node, data));
 	else if (ft_strncmp(node->value, "|", 2) == 0)
-	{
-		int		fd[2];
-
-		if (pipe(fd) == -1)
-			return (1);
-		data->in_pipe = 1;
-		data->id = fork();
-		if (data->id == -1)
-		{
-			close(fd[0]);
-			close(fd[1]);
-			return (1);
-		}
-		if (data->id == 0)
-		{
-			data->in_child = 1;
-			handle_signals(3);
-			close(fd[0]);
-			data->signal_fd = fd[1];
-			dup2(fd[1], STDOUT_FILENO);
-			exit(ft_free(data, parse_ast(node->left, data)));
-		}
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		read(fd[0], &data->in_pipe, sizeof(char));
-		close(fd[0]);
-		return (parse_ast(node->right, data));
-	}
+		return (create_pipe_child(node, data));
 	else if (is_redirection(node->value))
 		return (handle_redirection(node, data));
 	return (execute(node->value, data));
@@ -74,6 +48,33 @@ static int	parse_and_or(t_ast *node, t_data *data)
 			return (g_signal);
 	}
 	return (0);
+}
+
+static int	create_pipe_child(t_ast *node, t_data *data)
+{
+	if (pipe(data->fd) == -1)
+		return (1);
+	data->id = fork();
+	if (data->id == -1)
+	{
+		close(data->fd[0]);
+		close(data->fd[1]);
+		return (1);
+	}
+	if (data->id == 0)
+	{
+		data->in_child = 1;
+		handle_signals(3);
+		close(data->fd[0]);
+		data->signal_fd = data->fd[1];
+		dup2(data->fd[1], STDOUT_FILENO);
+		exit(ft_free(data, parse_ast(node->left, data)));
+	}
+	close(data->fd[1]);
+	dup2(data->fd[0], STDIN_FILENO);
+	read(data->fd[0], &data->stdin, sizeof(int));
+	close(data->fd[0]);
+	return (parse_ast(node->right, data));
 }
 
 static int	handle_redirection(t_ast *node, t_data *data)

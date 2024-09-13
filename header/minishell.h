@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 20:16:26 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 22:17:33 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,10 @@ typedef struct s_data
 	int		stdout;
 	int		status;
 	char	*status_str;
-	char	*tty_name;
 	char	**list_envs;
 	t_list	*export_list;
 	char	in_child;
-	char	in_pipe;
+	int		fd[2];
 	int		signal_fd;
 	pid_t	id;
 	int		cmd_argc;
@@ -108,8 +107,12 @@ char	**create_argv(t_list *linked_args);
 int		get_argc(char **argv);
 void	clean_args(t_list **args);
 // HELPERS:
+void	clean_quotations(char *str, char *writer, char in_sgl, char in_dbl);
+char	right_parenthesis(char **token_start, char **token_end);
+char	is_redirection(char *str);
+char	is_operator(char *str);
+// DEBUG_FUNCS:
 void	print_args(char *str, t_list *linked_args);
-void	clean_quotations(char *str);
 void	print_ast(t_ast *root);
 // INIT:
 int		initialize_data(t_data *data, int argc, char **envp);
@@ -123,8 +126,10 @@ void	handle_signals(char option);
 void	signal_action(int sig);
 // SPLIT_CMD
 t_list	*get_args(char *str);
-// TOKENIZATION:
+// TOKENS:
 char	**split_tokens(char *str);
+// TOKENS_HELP:
+char	write_all_tokens(char *str, char **tokens_out, size_t tokens);
 // VAR_EXPAND:
 char	expand_variables(t_list *linked_args, t_data *data);
 // VAR_HELPERS:

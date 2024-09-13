@@ -6,35 +6,15 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:13 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:38:23 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 22:32:33 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-static void	print_ast_level(t_ast *node, int level);
-
-// helper function to print out the elements of a linked list
-void	print_args(char *str, t_list *linked_args)
-{
-	ft_printf("\t%s\n", str);
-	while (linked_args)
-	{
-		ft_printf("%s\n", linked_args->content);
-		linked_args = linked_args->next;
-	}
-}
-
 // removes quotations from a string (but no quotes inside quotes) 
-void	clean_quotations(char *str)
+void	clean_quotations(char *str, char *writer, char in_sgl, char in_dbl)
 {
-	char	*writer;
-	char	in_sgl;
-	char	in_dbl;
-
-	in_sgl = 0;
-	in_dbl = 0;
-	writer = str;
 	while (*str)
 	{
 		if (in_sgl || in_dbl)
@@ -61,33 +41,8 @@ void	clean_quotations(char *str)
 	*writer = '\0';
 }
 
-// Print the AST structure
-void	print_ast(t_ast *root)
-{
-	if (!root)
-		return ;
-	printf("%s\n", root->value);
-	print_ast_level(root->left, 1);
-	print_ast_level(root->right, 1);
-}
-
-static void	print_ast_level(t_ast *node, int level)
-{
-	int	i;
-
-	i = 0;
-	if (node)
-	{
-		while (i++ < level)
-			printf("    ");
-		printf("%s\n", node->value);
-		print_ast_level(node->left, level + 1);
-		print_ast_level(node->right, level + 1);
-	}
-}
-
 // checks for right usage of parenthesis in token strings
-char	check_parenthesis(char **token_start, char **token_end)
+char	right_parenthesis(char **token_start, char **token_end)
 {
 	int		par;
 
@@ -105,4 +60,32 @@ char	check_parenthesis(char **token_start, char **token_end)
 	if (par)
 		return (0);
 	return (1);
+}
+
+// returns 1 if >, >>, <, <<; else 0
+char	is_redirection(char *str)
+{
+	if (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1))
+		return (1);
+	else if (!ft_strncmp(str, ">>", 2) || !ft_strncmp(str, "<<", 2))
+		return (1);
+	return (0);
+}
+
+// 0 : no operator
+// 1 : ( ) | < >
+// 2 : && || << >>
+char	is_operator(char *str)
+{
+	if (!ft_strncmp(str, "&&", 2) || !ft_strncmp(str, "||", 2))
+		return (2);
+	else if (!ft_strncmp(str, ">>", 2) || !ft_strncmp(str, "<<", 2))
+		return (2);
+	else if (!ft_strncmp(str, "(", 1) || !ft_strncmp(str, ")", 1))
+		return (1);
+	else if (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1))
+		return (1);
+	else if (!ft_strncmp(str, "|", 1))
+		return (1);
+	return (0);
 }
