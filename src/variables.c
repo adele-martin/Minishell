@@ -3,14 +3,15 @@
 //This function apprends new variables to our env list.
 char	**update_list(char *variable, char **list)
 {
-	char **current;
+	char	**current;
 	char	*equal_sign;
 
 	current = list;
 	while (*current)
 	{
 		equal_sign = ft_strchr(*current, '=');
-		if (equal_sign && !ft_strncmp(*current, variable, equal_sign - *current))
+		if (equal_sign && !ft_strncmp(*current, variable,
+				equal_sign - *current))
 		{
 			free(*current);
 			*current = ft_strdup(variable);
