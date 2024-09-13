@@ -9,6 +9,7 @@ int	builtin_unset(char **argv, char **list_envs, t_list *head)
 	{
 		delete_env(argv[i], list_envs);
 		i++;
+		delete_env(argv[i], list_envs);
 	}
 	i = 0;
 	while (argv[i])
