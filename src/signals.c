@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 17:17:12 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:59:13 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	signal_out_newline(int sig)
 {
 	g_signal = 130;
 	write(2, "\n", 1);
-	// rl_on_new_line();
 	(void)sig;
 }
 
