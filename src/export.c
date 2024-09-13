@@ -6,41 +6,11 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:43:42 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 15:50:23 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:22:46 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-//Util function for the export built-in. It sorts the list in alphabetical order.
-// TO DO: also do the difference between 'H' and 'h'
-void	sort_list(t_list *head)
-{
-	t_list	*i;
-	t_list	*j;
-	char	*temp;
-
-	if (head == NULL)
-	{
-		return ;
-	}
-	i = head;
-	while (i->next != NULL)
-	{
-		j = i->next;
-		while (j != NULL)
-		{
-			if (strcmp(i->content, j->content) > 0)
-			{
-				temp = i->content;
-				i->content = j->content;
-				j->content = temp;
-			}
-			j = j->next;
-		}
-		i = i->next;
-	}
-}
 
 t_list	*update_exportlist(char *variable, t_list *head)
 {
@@ -59,10 +29,7 @@ t_list	*update_exportlist(char *variable, t_list *head)
 			i++;
 		if (!(ft_strncmp(str, variable, i)))
 		{
-			if (prev == NULL)
-				head = temp->next;
-			else
-				prev->next = temp->next;
+			prev->next = temp->next;
 			free(temp->content);
 			append_node(&head, variable);
 			return (head);
@@ -89,7 +56,6 @@ void	fill_exportlist(char *arg, t_list *export_list)
 	update_exportlist(str, export_list);
 }
 
-
 int	is_valid_identifier(const char *arg)
 {
 	int	i;
@@ -99,14 +65,14 @@ int	is_valid_identifier(const char *arg)
 		return (0);
 	while (arg[i] && arg[i] != '=')
 	{
-		if (!isalpha_space(arg[i]))
+		if (!(isalpha(arg[i])) && arg[i] != ' ')
 			return (0);
 		i++;
 	}
 	if (arg[i] == '=')
 	{
 		i++;
-		if (arg[i] && !isalnum_space(arg[i]))
+		if (arg[i] && (!(isalnum(arg[i])) && arg[i] != ' '))
 			return (0);
 	}
 	return (1);
@@ -151,9 +117,6 @@ int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 		}
 	}
 	else
-	{
-		sort_list(export_list);
 		print_list(export_list);
-	}
 	return (0);
 }

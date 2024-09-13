@@ -47,10 +47,7 @@ t_list	*delete_var(char *variable, t_list *head)
 			i++;
 		if (!(ft_strncmp(str, variable, i)))
 		{
-			if (prev == NULL)
-				head = temp->next;
-			else
-				prev->next = temp->next;
+			prev->next = temp->next;
 			free(temp->content);
 			free(temp);
 			return (head);

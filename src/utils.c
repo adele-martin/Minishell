@@ -3,14 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 15:35:51 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:18:57 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+//Util function for the export built-in. It sorts the list in alphabetical order.
+// TO DO: also do the difference between 'H' and 'h'
+void	sort_list(t_list *head)
+{
+	t_list	*i;
+	t_list	*j;
+	char	*temp;
+
+	if (head == NULL)
+	{
+		return ;
+	}
+	i = head;
+	while (i->next != NULL)
+	{
+		j = i->next;
+		while (j != NULL)
+		{
+			if (strcmp(i->content, j->content) > 0)
+			{
+				temp = i->content;
+				i->content = j->content;
+				j->content = temp;
+			}
+			j = j->next;
+		}
+		i = i->next;
+	}
+}
 
 //Second export list util
 void	print_list(t_list *head)
@@ -18,6 +48,7 @@ void	print_list(t_list *head)
 	t_list	*temp;
 
 	temp = head;
+	sort_list(head);
 	while (temp != NULL)
 	{
 		ft_printf("%s\n", (char *)temp->content);
@@ -37,16 +68,6 @@ int	with_value(char *string)
 		i++;
 	}
 	return (0);
-}
-
-int	isalnum_space(int c)
-{
-	return (ft_isalpha(c) || ft_isdigit(c) || c == ' ');
-}
-
-int	isalpha_space(int c)
-{
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ');
 }
 
 char	*ft_strcat(char *dest, const char *src)
