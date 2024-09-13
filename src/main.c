@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:18:43 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 19:30:54 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,16 @@ int	main(int argc, char **argv, char **envp)
 		handle_signals(2);
 		add_history(data.input);
 		if (build_ast(&data))
-			g_signal = parse_ast(data.astRoot, &data); // actual execution
+			g_signal = parse_ast(data.ast_root, &data);
 		free_prompt_data(&data);
-		if (!restore_stdin_stdout(&data, 2))		// needs to be set later again, but differently!!!
+		if (!restore_stdin_stdout(&data, 2))
 			exit (ft_free(&data, 1));
 	}
 	ft_free(&data, 0);
 	return (g_signal);
 }
+
+// TODO: Implement function to free the AST and linked_args
 // build specific functions for freeing the data in each while loop
 static void	free_prompt_data(t_data *data)
 {
@@ -55,16 +57,7 @@ static void	free_prompt_data(t_data *data)
 		ft_split_free(data->tokens);
 		data->tokens = NULL;
 	}
-	// if (data->astRoot)
-	// {
-	// 	free_ast(data->astRoot);	// TODO: FREE FUNC FOR AST
-	// 	data->astRoot = NULL;
-	// }
-
-	// if (data->linked_args)			// free linked_args
-		// ft_lstclear(&data->linked_args, free);
-
-	if (data->cmd_argv)				// free cmd_argv STILL SEGFAULTS
+	if (data->cmd_argv)
 		free_array(&data->cmd_argv);
 }
 
@@ -87,13 +80,12 @@ static char	build_ast(t_data *data)
 	data->tokens = split_tokens(data->input);
 	if (!data->tokens)
 		return (0);
-	// print_tokens(data->tokens);
 	end_tokens = data->tokens;
 	while (*end_tokens)
 		end_tokens++;
 	end_tokens--;
-	data->astRoot = create_ast(data->tokens, end_tokens);
-	if (!data->astRoot)
+	data->ast_root = create_ast(data->tokens, end_tokens);
+	if (!data->ast_root)
 		return (0);
 	return (1);
 }

@@ -6,18 +6,15 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 17:29:56 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 19:20:15 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-static int	get_argc(char **argv);
-static char	run_builtin(t_data *data);
 static int	run_extern(t_data *data);
 int			action_in_child(t_data *data);
 static int	run_from_bin_path(t_data *data);
-char		**create_argv(t_list *linked_args);
 
 // just for debugging
 // static void	print_argv(char **argv)
@@ -28,32 +25,6 @@ char		**create_argv(t_list *linked_args);
 // 	while (argv[i])
 // 		ft_printf("ARG: -->%s<--\n", argv[i++]);
 // }
-
-// remove list elements containing empty/no strings
-void	clean_args(t_list **args)
-{
-	t_list	*tmp;
-	t_list	*prev;
-
-	tmp = *args;
-	prev = NULL;
-	while (tmp)
-	{
-		if (!tmp->content || !*(char *)tmp->content)
-		{
-			if (prev)
-				prev->next = tmp->next;
-			else
-				*args = tmp->next;
-			free(tmp->content);
-			free(tmp);
-			tmp = prev;
-		}
-		prev = tmp;
-		if (tmp)
-			tmp = tmp->next;
-	}
-}
 
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
@@ -91,37 +62,6 @@ int	execute(char *input, t_data *data)
 	if (WIFEXITED(data->status))
 		data->status = WEXITSTATUS(data->status);
 	return (data->status);
-}
-
-static int	get_argc(char **argv)
-{
-	int	argc;
-
-	argc = 0;
-	while (*(argv++))
-		argc++;
-	return (argc);
-}
-
-static char	run_builtin(t_data *data)
-{
-	if (ft_strncmp(*data->cmd_argv, "echo", 5) == 0)
-		data->status = builtin_echo(data->cmd_argv, data->cmd_argc);
-	else if (ft_strncmp(*data->cmd_argv, "cd", 3) == 0)
-		data->status = builtin_cd(data);
-	else if (ft_strncmp(*data->cmd_argv, "pwd", 4) == 0)
-		data->status = builtin_pwd();
-	else if (ft_strncmp(*data->cmd_argv, "export", 7) == 0)
-		data->status = builtin_export(data->cmd_argv, data->cmd_argc, data->list_envs, data->export_list);
-	else if (ft_strncmp(*data->cmd_argv, "unset", 6) == 0)
-		data->status = builtin_unset(data->cmd_argv, data->list_envs, NULL);
-	else if (ft_strncmp(*data->cmd_argv, "env", 4) == 0)
-		data->status = builtin_env(data->list_envs);
-	else if (ft_strncmp(*data->cmd_argv, "exit", 5) == 0)
-		data->status = builtin_exit(data->cmd_argv, data->cmd_argc, data);
-	else
-		return (0);
-	return (1);
 }
 
 static int	run_extern(t_data *data)
@@ -188,31 +128,6 @@ void	update_home(t_data *data, char **argv)
 	*argv = new_argv;
 }
 
-char	**create_argv(t_list *linked_args)
-{
-	int		size;
-	t_list	*tmp;
-	char	**out;
-	char	**writer;
-
-	size = ft_lstsize(linked_args);
-	if (!size)
-		return (NULL);
-	out = (char **)malloc((size + 1) * sizeof(char *));
-	if (!out)
-		return (NULL);
-	writer = out;
-	while (linked_args)
-	{
-		tmp = linked_args;
-		clean_quotations(linked_args->content);
-		*(writer++) = linked_args->content;
-		linked_args = linked_args->next;
-		free(tmp);
-	}
-	*writer = NULL;
-	return (out);
-}
 
 // TODO: Can also begin with the directory like "/bin/ls"
 // Also should handle "/bin/ls -laF" and "/bin/ls -l -a -F"

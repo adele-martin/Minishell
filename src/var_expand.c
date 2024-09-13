@@ -1,5 +1,14 @@
-
-// TODO: variable declarations also expand wildcards, variables and clean quotations!
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_expand.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/13 20:08:13 by bschneid          #+#    #+#             */
+/*   Updated: 2024/09/13 20:09:12 by bschneid         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../header/minishell.h"
 
@@ -86,9 +95,10 @@ static void	append_replace(char *str, t_vars **list, t_data *data)
 		(*list)->len_diff = 0 - (*list)->key_len;
 	else
 		(*list)->len_diff = (int)ft_strlen((*list)->value_start) - (*list)->key_len;
-}
-//TODO : take care of the strdup
 
+}
+
+//TODO : take care of the strdup
 static char	get_alphaval(char *str, t_vars **list, t_data *data)
 {
 	if (!str)

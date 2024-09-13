@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+         #
+#    By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/09/12 13:43:30 by ademarti         ###   ########.fr        #
+#    Updated: 2024/09/13 19:24:53 by bschneid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,11 @@ HEADER = header/minishell.h
 LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
-SOURCES = ast.c evaluation.c helpers.c heredoc.c init.c main.c\
-	parsing.c redirections.c signals.c split_cmd.c tokenization.c var_expand.c\
-	var_helpers.c wildcard.c linkedlist_utils.c variables.c var_init.c utils.c\
-	error_memory.c cd.c exit.c export.c pwd.c env.c unset.c echo.c
+SOURCES = ast.c cd.c echo.c env.c error_memory.c evaluation_helpers.c\
+	evaluation.c exit.c export.c helpers.c heredoc.c init.c linkedlist_utils.c\
+	main.c parsing.c pwd.c redirections.c signals.c split_cmd.c tokenization.c\
+	unset.c utils.c var_expand.c var_helpers.c var_init.c variables.c wildcard.c
+	 
 OBJECTS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
 FLAGS = -Wall -Werror -Wextra -g3 -I/usr/local/opt/readline/include -g -O0
 #FLAGS = -Wall -Werror -Wextra -g3

@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:18:34 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:16:26 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,16 @@ typedef struct s_ast	t_ast;
 // struct for the Abstract syntax tree nodes
 struct s_ast
 {
-	char	*value;	// command, operator, filename
-	t_ast	*left;	// Left child node
-	t_ast	*right;	// Right child node
+	char	*value;
+	t_ast	*left;
+	t_ast	*right;
 };
 
-typedef struct
-{
-    char **keys;
-    char **values;
-}	EnvVars;
-
-// struct for linked lists from Libft:
-// typedef struct s_list
+// typedef struct s_env_vars
 // {
-// 	void			*content;
-// 	struct s_list	*next;
-// }	t_list;
+// 	char **keys;
+// 	char **values;
+// }	t_env_vars;
 
 typedef struct s_vars	t_vars;
 
@@ -75,16 +68,14 @@ typedef struct s_data
 	char	*shell_name;
 	char	*input;
 	char	**tokens;
-	t_ast	*astRoot;
+	t_ast	*ast_root;
 	int		stdin;
 	int		stdout;
 	int		status;
 	char	*status_str;
-	char 	*tty_name;
+	char	*tty_name;
 	char	**list_envs;
 	t_list	*export_list;
-	// char	**end_tokens;
-	// char	exit;
 	char	in_child;
 	char	in_pipe;
 	int		signal_fd;
@@ -95,13 +86,11 @@ typedef struct s_data
 }	t_data;
 
 // global var for received signals
-extern volatile __sig_atomic_t	g_signal;
 // extern int	g_signal;
+extern volatile __sig_atomic_t	g_signal;
 
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);
-// // EVALUATION:
-// int		evaluate(char *input, t_info *info);
 // REDIRECTIONS:
 int		redirect(char *operator, char *word, t_data *data);
 int		redirect_output(char *filename, t_data *data);
@@ -109,10 +98,15 @@ int		append_output(char *filename, t_data *data);
 int		redirect_input(char *filename, t_data *data);
 int		heredoc(char *delimiter, t_data *data);
 
-// EXECUTION:
+// EVALUATION:
 int		execute(char *input, t_data *data);
 char	**create_argv(t_list *linked_args);
 void	update_home(t_data *data, char **argv);
+// EVALUATION_HELPERS:
+char	run_builtin(t_data *data);
+char	**create_argv(t_list *linked_args);
+int		get_argc(char **argv);
+void	clean_args(t_list **args);
 // HELPERS:
 void	print_args(char *str, t_list *linked_args);
 void	clean_quotations(char *str);
@@ -162,13 +156,14 @@ void	sort_list(t_list *head);
 void	append_node(t_list **head, const char *data);
 
 //BUILT-INS
-int		builtin_export(char **argv, int argc, char **list_envs, t_list *export_list);
+int		builtin_export(char **argv, int argc, 
+			char **list_envs, t_list *export_list);
 t_list	*array_to_linkedlist(char *arr[]);
-int	builtin_echo(char **argv, int argc);	// DONE
-int		builtin_env(char **list_envs);			// DONE
+int		builtin_echo(char **argv, int argc);
+int		builtin_env(char **list_envs);
 int		builtin_unset(char **argv, char **list_envs, t_list *head);
-int		builtin_cd (t_data *data);
-int		builtin_pwd(void);						// DONE
+int		builtin_cd(t_data *data);
+int		builtin_pwd(void);
 int		builtin_exit(char **argv, int argc, t_data *data);
 
 //MEMORY

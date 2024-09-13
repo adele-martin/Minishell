@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 15:40:34 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:31:35 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->status_str = ft_itoa(0);
 	data->input = NULL;
 	data->tokens = NULL;
-	data->astRoot = NULL;
+	data->ast_root = NULL;
 	data->linked_args = NULL;
 	data->in_pipe = 0;
 	data->id = 1;

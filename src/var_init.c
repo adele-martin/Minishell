@@ -54,10 +54,10 @@ int expand_list(char **argv, t_list *head)
 	{
 		t_list *new_node = malloc(sizeof(t_list));
 		if (!new_node)
-			return 0;
+			return (0);
 		new_node->content = ft_strdup(argv[1]);
 		if (!new_node->content)
-			return 0;
+			return (0);
 		new_node->next = NULL;
 		if (head == NULL) {
 			head = new_node;
@@ -67,8 +67,8 @@ int expand_list(char **argv, t_list *head)
 				temp = temp->next;
 			temp->next = new_node;
 		}
-		return 1;
+		return (1);
 	}
 	else
-		return 0;
+		return (0);
 }

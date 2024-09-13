@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/13 18:25:57 by bschneid          #+#    #+#             */
+/*   Updated: 2024/09/13 20:04:55 by bschneid         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../header/minishell.h"
 
@@ -32,7 +43,7 @@ int	change_to_home(char **list_envs)
 }
 
 // TODO: Seemingly "cd -" should also work!??!
-int	builtin_cd (t_data	*data)
+int	builtin_cd(t_data *data)
 {
 	char	cwd[1024];
 	char	*current_dir;

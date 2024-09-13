@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 16:18:57 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:00:26 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-//Util function for the export built-in. It sorts the list in alphabetical order.
+// Util function for the export built-in. Sorts the list in alphabetical order.
 // TO DO: also do the difference between 'H' and 'h'
 void	sort_list(t_list *head)
 {

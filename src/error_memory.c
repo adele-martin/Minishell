@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 15:41:11 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:10:32 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_array(char ***array)
 	*array = NULL;
 }
 
+// Function to print error messages
 void	error_message(char *cmd, char *arg, char *message)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -43,7 +44,7 @@ void	error_message(char *cmd, char *arg, char *message)
 	ft_putstr_fd("\n", 2);
 }
 
-// TODO: Implement function to free the AST
+// TODO: Implement function to free the AST and linked_args
 int	ft_free(t_data *data, int exit)
 {
 	free(data->shell_name);
@@ -57,10 +58,6 @@ int	ft_free(t_data *data, int exit)
 		free(data->input);
 	if (data->tokens)
 		free_array(&data->tokens);
-	// if (data->astRoot) // TODO: Implement function to free the AST
-	// 	free(data->astRoot);
-	// if (data->linked_args)
-	// 	ft_lstclear(&data->linked_args, free);	// TODO: CARE HOW TO FREE LINKED LIST
 	close(data->stdin);
 	close(data->stdout);
 	rl_clear_history();

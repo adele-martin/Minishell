@@ -6,22 +6,13 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 17:59:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:03:33 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-/*
-• Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
-• In interactive mode:
-◦ ctrl-C displays a new prompt on a new line.
-◦ ctrl-D exits the shell.
-◦ ctrl-\ does nothing.
-
-use of kill is allowed
-*/
-
+// Handles signals in main loop while reading input
 void	signal_in_newline(int sig)
 {
 	g_signal = 130;
@@ -32,6 +23,7 @@ void	signal_in_newline(int sig)
 	(void)sig;
 }
 
+// Handles signals in main loop while executing commands
 void	signal_out_newline(int sig)
 {
 	g_signal = 130;
@@ -39,29 +31,19 @@ void	signal_out_newline(int sig)
 	(void)sig;
 }
 
-// TODO: Add exit correction here - signal in HEREDOC !!
 // Handles signals in child processes like in heredocs or piping
 void	signal_child(int sig)
 {
 	(void)sig;
 	g_signal = 130;
-	// rl_clear_history();
-	// ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	exit (130);
-	// ft_printf("EXIT IN CHILD\n");
 }
-// void	signal_heredoc(int sig)
-// {
-// 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-// }
 
 //Add exit correction here
-// TODO: different signal handling for different spots in main! And maybe for heredoc too!
 // option 0: initialize: ignore SIGINT, handle SIGQUIT
 // option 1: set SIGINT to signal_in_newline
 // option 2: set SIGINT to signal_out_newline
 // option 3: set SIGINT to signal_child
-/* SIGINT: ctrl-C; SIGQUIT: ctrl-\ */
 void	handle_signals(char option)
 {
 	static struct sigaction	action;

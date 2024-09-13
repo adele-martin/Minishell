@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:33 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/11 14:31:38 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:21:02 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	is_redirection(char *str)
 	return (0);
 }
 
+// returns the address of the first space outside of quotes
 char	*has_space(char *str)
 {
 	char	in_sgl;
@@ -79,10 +80,10 @@ char	*has_space(char *str)
 			return (str);
 		str++;
 	}
-	return (0);
+	return (NULL);
 }
 
-//
+// moves something behind redirection operators in front of them
 char	clean_tokens(char **tokens)
 {
 	char	**writer;
@@ -146,12 +147,12 @@ static size_t	count_tokens(char *str)
 	{
 		if (*str == ' ')
 			str++;
-		else if (is_operator(str))				// cases with operators
+		else if (is_operator(str))
 		{
 			amount++;
 			str += is_operator(str);
 		}
-		else									// inside token-string
+		else
 		{
 			amount++;
 			while (*str)
@@ -203,9 +204,9 @@ static	char	write_all_tokens(char *str, char **tokens_out, size_t tokens)
 	{
 		while (*str == ' ')
 			str++;
-		if (is_operator(str))					// cases with operators
+		if (is_operator(str))
 			len = is_operator(str);
-		else									// inside token-string
+		else
 		{
 			len = 0;
 			in_single = 0;
