@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 19:08:25 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:07:17 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(int argc, char **argv, char **envp)
 		add_history(data.input);
 		if (build_ast(&data))
 			g_signal = parse_ast(data.astRoot, &data); // actual execution
-		// ft_printf("Signal: %d\n", g_signal);
 		free_prompt_data(&data);
 		if (!restore_stdin_stdout(&data, 2))		// needs to be set later again, but differently!!!
 			exit (ft_free(&data, 1));
