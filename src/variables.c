@@ -3,28 +3,25 @@
 //This function apprends new variables to our env list.
 char	**update_list(char *variable, char **list)
 {
-	int	i;
-	int	j;
+	char **current;
+	char	*equal_sign;
 
-	j = 0;
-	i = 0;
-	while (list[i])
+	current = list;
+	while (*current)
 	{
-		j = 0;
-		while (list[i][j] != '=')
-			j++;
-		if (!ft_strncmp(list[i], variable, j))
+		equal_sign = ft_strchr(*current, '=');
+		if (equal_sign && !ft_strncmp(*current, variable, equal_sign - *current))
 		{
-			free(list[i]);
-			list[i] = ft_strdup(variable);
-			if (!list[i])
+			free(*current);
+			*current = ft_strdup(variable);
+			if (!*current)
 				return (NULL);
 			return (list);
 		}
-		i++;
+		current++;
 	}
-	list[i] = ft_strdup(variable);
-	if (!list[i])
+	*current = ft_strdup(variable);
+	if (!*current)
 		return (NULL);
 	return (list);
 }
