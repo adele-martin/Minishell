@@ -34,7 +34,7 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->in_child = 0;
 	data->argc = 0;
 	data->argv = NULL;
-	data->files_list = NULL;
+	data->linked_args = NULL;
 	data->bin_paths = NULL;
 	data->stdin = dup(STDIN_FILENO);
 	data->stdout = dup(STDOUT_FILENO);

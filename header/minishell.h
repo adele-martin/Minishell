@@ -81,8 +81,8 @@ typedef struct s_data
 	pid_t	id;
 	int		argc;
 	char	**argv;
+	t_list	*linked_args;	// function arguments
 	t_list	*files_list;
-	t_list	*linked_args;
 	char	**bin_paths;
 }	t_data;
 
@@ -136,7 +136,8 @@ char	expand_variables(t_list *linked_args, t_data *data);
 // VAR_HELPERS:
 char	replace_vars(t_list *arg, t_vars *vars);
 // WILDCARD:
-char	add_wildcards(t_data *data);
+char	add_wildcards(t_list *linked_args);
+// char	add_wildcards(t_data *data, t_list *linked_args);
 
 //VARIABLES
 // void store_envs(char **envp);

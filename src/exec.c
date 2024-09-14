@@ -26,7 +26,7 @@ int	execute(char *input, t_data *data)
 	if (!input || !*input)
 		return (0);
 	data->linked_args = get_args(input);
-	if (!add_wildcards(data))
+	if (!add_wildcards(data->linked_args))
 	{
 		ft_lstclear(&data->linked_args, free);
 		return (error_message(NULL, NULL, "Error in wildcards"), 1);

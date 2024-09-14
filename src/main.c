@@ -73,8 +73,10 @@ static void	free_prompt_data(t_data *data)
 		data->files_list = NULL;
 	}
 	if (data->argv)
+	{
 		free_array(&data->argv);
-	ft_printf("TEST\n");
+		data->argv = NULL;
+	}
 }
 
 // static void	print_tokens(char **tokens)
