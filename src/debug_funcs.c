@@ -48,3 +48,13 @@ void	print_ast(t_ast *root)
 	print_ast_level(root->left, 1);
 	print_ast_level(root->right, 1);
 }
+
+// Prints out the argv array
+static void	print_argv(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		ft_printf("ARG: -->%s<--\n", argv[i++]);
+}

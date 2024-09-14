@@ -57,8 +57,8 @@ static void	free_prompt_data(t_data *data)
 		ft_split_free(data->tokens);
 		data->tokens = NULL;
 	}
-	if (data->cmd_argv)
-		free_array(&data->cmd_argv);
+	if (data->argv)
+		free_array(&data->argv);
 }
 
 // static void	print_tokens(char **tokens)

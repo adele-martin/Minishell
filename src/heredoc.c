@@ -60,7 +60,7 @@ static char	*heredoc_child(char *delimiter, t_data *data)
 		new_line = readline("> ");
 		if (!new_line)
 		{
-			error_message("warning", 
+			error_message("warning",
 				"here-document delimited by end-of-file - wanted", delimiter);
 			break ;
 		}

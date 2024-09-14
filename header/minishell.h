@@ -79,8 +79,8 @@ typedef struct s_data
 	int		fd[2];
 	int		signal_fd;
 	pid_t	id;
-	int		cmd_argc;
-	char	**cmd_argv;
+	int		argc;
+	char	**argv;
 	t_list	*linked_args;
 }	t_data;
 
@@ -97,15 +97,13 @@ int		append_output(char *filename, t_data *data);
 int		redirect_input(char *filename, t_data *data);
 int		heredoc(char *delimiter, t_data *data);
 
-// EVALUATION:
+// EXEC:
 int		execute(char *input, t_data *data);
-char	**create_argv(t_list *linked_args);
 void	update_home(t_data *data, char **argv);
-// EVALUATION_HELPERS:
+// EXEC_HELPERS:
 char	run_builtin(t_data *data);
-char	**create_argv(t_list *linked_args);
-int		get_argc(char **argv);
-void	clean_args(t_list **args);
+char	create_argv_argc(t_data *data, t_list *linked_args);
+t_list	*clean_args(t_list **args);
 // HELPERS:
 void	clean_quotations(char *str, char *writer, char in_sgl, char in_dbl);
 char	right_parenthesis(char **token_start, char **token_end);
@@ -161,7 +159,7 @@ void	sort_list(t_list *head);
 void	append_node(t_list **head, const char *data);
 
 //BUILT-INS
-int		builtin_export(char **argv, int argc, 
+int		builtin_export(char **argv, int argc,
 			char **list_envs, t_list *export_list);
 t_list	*array_to_linkedlist(char *arr[]);
 int		builtin_echo(char **argv, int argc);
