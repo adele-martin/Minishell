@@ -40,7 +40,6 @@ char	run_builtin(t_data *data)
 char	create_argv_argc(t_data *data, t_list *linked_args)
 {
 	int		size;
-	t_list	*tmp;
 	char	**writer;
 
 	size = ft_lstsize(linked_args);
@@ -52,15 +51,15 @@ char	create_argv_argc(t_data *data, t_list *linked_args)
 	writer = data->argv;
 	while (linked_args)
 	{
-		tmp = linked_args;
 		clean_quotations(linked_args->content, linked_args->content, 0, 0);
-		*(writer++) = linked_args->content;
+		*writer = ft_strdup(linked_args->content);
+		if (!*writer)
+			return (0);
 		linked_args = linked_args->next;
-		free(tmp);
+		writer++;
 	}
 	*writer = NULL;
 	data->argc = size;
-	data->linked_args = NULL;
 	return (1);
 }
 
