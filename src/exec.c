@@ -26,7 +26,7 @@ int	execute(char *input, t_data *data)
 	if (!input || !*input)
 		return (0);
 	data->linked_args = get_args(input);
-	if (!add_wildcards(data->linked_args))
+	if (!add_wildcards(data, data->linked_args))
 	{
 		ft_lstclear(&data->linked_args, free);
 		return (error_message(NULL, NULL, "Error in wildcards"), 1);
@@ -38,7 +38,7 @@ int	execute(char *input, t_data *data)
 	}
 	if (!clean_args(&data->linked_args))
 		return (0);
-	if (!create_argv_argc(data, data->linked_args)) // also clears linked args
+	if (!create_argv_argc(data, data->linked_args))
 		return (1);
 	if (!run_builtin(data))
 		data->status = run_extern(data);

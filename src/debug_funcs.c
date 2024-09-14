@@ -58,3 +58,13 @@ void	print_argv(char **argv)
 	while (argv[i])
 		ft_printf("ARG: -->%s<--\n", argv[i++]);
 }
+
+// static void	print_tokens(char **tokens)
+// {
+// 	ft_printf("Tokens:\n");
+// 	while (*tokens)
+// 	{
+// 		ft_printf("%s\n", *tokens);
+// 		tokens++;
+// 	}
+// }

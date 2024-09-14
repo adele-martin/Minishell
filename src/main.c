@@ -47,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 // build specific functions for freeing the data in each while loop
 static void	free_prompt_data(t_data *data)
 {
+	(void)data;
 	if (data->input)
 	{
 		free(data->input);
@@ -78,16 +79,6 @@ static void	free_prompt_data(t_data *data)
 		data->argv = NULL;
 	}
 }
-
-// static void	print_tokens(char **tokens)
-// {
-// 	ft_printf("Tokens:\n");
-// 	while (*tokens)
-// 	{
-// 		ft_printf("%s\n", *tokens);
-// 		tokens++;
-// 	}
-// }
 
 // splits the input into tokens and builds the AST
 // returns 1 on success, 0 on empty AST
