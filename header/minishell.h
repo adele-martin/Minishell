@@ -81,7 +81,9 @@ typedef struct s_data
 	pid_t	id;
 	int		argc;
 	char	**argv;
+	t_list	*files_list;
 	t_list	*linked_args;
+	char	**bin_paths;
 }	t_data;
 
 // global var for received signals
@@ -95,8 +97,8 @@ int		redirect(char *operator, char *word, t_data *data);
 int		redirect_output(char *filename, t_data *data);
 int		append_output(char *filename, t_data *data);
 int		redirect_input(char *filename, t_data *data);
+// HEREDOC:
 int		heredoc(char *delimiter, t_data *data);
-
 // EXEC:
 int		execute(char *input, t_data *data);
 void	update_home(t_data *data, char **argv);
@@ -104,6 +106,7 @@ void	update_home(t_data *data, char **argv);
 char	run_builtin(t_data *data);
 char	create_argv_argc(t_data *data, t_list *linked_args);
 t_list	*clean_args(t_list **args);
+int		run_from_bin_path(t_data *data);
 // HELPERS:
 void	clean_quotations(char *str, char *writer, char in_sgl, char in_dbl);
 char	right_parenthesis(char **token_start, char **token_end);
@@ -133,7 +136,7 @@ char	expand_variables(t_list *linked_args, t_data *data);
 // VAR_HELPERS:
 char	replace_vars(t_list *arg, t_vars *vars);
 // WILDCARD:
-char	add_wildcards(t_list *linked_args);
+char	add_wildcards(t_data *data);
 
 //VARIABLES
 // void store_envs(char **envp);

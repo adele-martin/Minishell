@@ -15,16 +15,16 @@
 // helper function to print out the elements of a linked list
 void	print_args(char *str, t_list *linked_args)
 {
-	ft_printf("\t%s\n", str);
+	ft_printf("\t%s:\n", str);
 	while (linked_args)
 	{
-		ft_printf("%s\n", linked_args->content);
+		ft_printf("CONTENT: %s\n", linked_args->content);
 		linked_args = linked_args->next;
 	}
 }
 
 // for debugging, print the AST structure
-static void	print_ast_level(t_ast *node, int level)
+void	print_ast_level(t_ast *node, int level)
 {
 	int	i;
 
@@ -50,7 +50,7 @@ void	print_ast(t_ast *root)
 }
 
 // Prints out the argv array
-static void	print_argv(char **argv)
+void	print_argv(char **argv)
 {
 	int	i;
 

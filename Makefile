@@ -15,7 +15,7 @@ HEADER = header/minishell.h
 LIBFT = src/Libft_extended/libft.a
 SRC_DIR = src
 OBJ_DIR = obj
-SOURCES = ast.c cd.c echo.c env.c error_memory.c exec_help.c exec.c\
+SOURCES = ast.c cd.c debug_funcs.c echo.c env.c error_memory.c exec_help.c exec.c\
 	exit.c export.c helpers.c heredoc.c init.c linkedlist_utils.c\
 	main.c parsing.c pwd.c redirections.c signals.c split_cmd.c tokens_help.c\
 	tokens.c unset.c utils.c var_expand.c var_helpers.c var_init.c variables.c\

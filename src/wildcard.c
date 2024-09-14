@@ -18,31 +18,32 @@
 	// also including “cd” itself. "m*l" could by mill, mull, ml, and anything
 	// that starts with an m and ends with an l.
 
-static t_list	*get_files_list(void);
+static t_list	*get_files_list(t_data *data);
 static char		has_wildcards(char *str);
 static char		replace_wildcards(t_list ***writer, t_list *files_list);
 static char		hits_wc(char *wc, char *str, char in_sgl, char in_dbl);
 
 // appends the arguments-linked-list through wildcard-hits
-char	add_wildcards(t_list *linked_args)
+char	add_wildcards(t_data *data)
 {
-	t_list	*files_list;
 	t_list	*tmp;
 	t_list	**writer;
 
-	if (!linked_args)
+	if (!data->linked_args)
 		return (0);
-	files_list = get_files_list();
-	if (!files_list)
+	if (!get_files_list(data))
 		return (1);
-	writer = &(linked_args->next);
+	print_args("files_list", data->linked_args);
+	writer = &(data->linked_args->next);
 	while (*writer)
 	{
 		if (has_wildcards((*writer)->content))
 		{
 			tmp = *writer;
-			if (replace_wildcards(&writer, files_list))
+			if (replace_wildcards(&writer, data->files_list))
 			{
+				print_args("REPLACE linked_args", data->linked_args);
+				print_args("REPLACE files_list", data->linked_args);
 				*writer = tmp->next;
 				free(tmp->content);
 				free(tmp);
@@ -51,20 +52,19 @@ char	add_wildcards(t_list *linked_args)
 		}
 		writer = &((*writer)->next);
 	}
+	print_args("files_list", data->linked_args);
 	return (1);
 }
 
 // TODO:  should open the current dir in $PWD
-// returns a linked list with the file-names in the current directory
-static t_list	*get_files_list(void)
+// returns the linked_files list with the file-names in the current directory
+static t_list	*get_files_list(t_data *data)
 {
-	t_list			*files_list;
 	t_list			*file_node;
 	char			*file_str;
 	DIR				*dir;
 	struct dirent	*entry;
 
-	files_list = NULL;
 	dir = opendir(".");
 	if (!dir)
 		return (error_message(NULL, NULL, "ERROR WILDCARD"), NULL);
@@ -75,37 +75,37 @@ static t_list	*get_files_list(void)
 		{
 			file_str = ft_strdup(entry->d_name);
 			if (!file_str)
-				return (0);
+				return (NULL);
 			file_node = ft_lstnew(file_str);
 			if (!file_node)
 				return (free(file_str), NULL);
-			ft_lstadd_back(&files_list, file_node);
+			ft_lstadd_back(&data->files_list, file_node);
 		}
 		entry = readdir(dir);
 	}
 	closedir(dir);
-	return (files_list);
+	return (data->files_list);
 }
 
 // checks, if a given string (str) includes a wildcard (*)
 static char	has_wildcards(char *str)
 {
-	char	in_single;
-	char	in_double;
+	char	in_sgl;
+	char	in_dbl;
 
-	in_single = 0;
-	in_double = 0;
+	in_sgl = 0;
+	in_dbl = 0;
 	while (*str)
 	{
-		if (!in_single && !in_double && *str == '\'')
-			in_single = 1;
-		else if (!in_single && !in_double && *str == '"')
-			in_double = 1;
-		else if (in_single && *str == '\'')
-			in_single = 0;
-		else if (in_double && *str == '"')
-			in_double = 0;
-		else if (!in_single && !in_double && *str == '*')
+		if (!in_sgl && !in_dbl && *str == '\'')
+			in_sgl = 1;
+		else if (!in_sgl && !in_dbl && *str == '"')
+			in_dbl = 1;
+		else if (in_sgl && *str == '\'')
+			in_sgl = 0;
+		else if (in_dbl && *str == '"')
+			in_dbl = 0;
+		else if (!in_sgl && !in_dbl && *str == '*')
 			return (1);
 		str++;
 	}

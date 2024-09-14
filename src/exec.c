@@ -13,8 +13,7 @@
 #include "../header/minishell.h"
 
 static int	run_extern(t_data *data);
-int			action_in_child(t_data *data);
-static int	run_from_bin_path(t_data *data);
+static int	action_in_child(t_data *data);
 
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
@@ -27,7 +26,7 @@ int	execute(char *input, t_data *data)
 	if (!input || !*input)
 		return (0);
 	data->linked_args = get_args(input);
-	if (!add_wildcards(data->linked_args))
+	if (!add_wildcards(data))
 	{
 		ft_lstclear(&data->linked_args, free);
 		return (error_message(NULL, NULL, "Error in wildcards"), 1);
@@ -39,7 +38,7 @@ int	execute(char *input, t_data *data)
 	}
 	if (!clean_args(&data->linked_args))
 		return (0);
-	if (!create_argv_argc(data, data->linked_args))
+	if (!create_argv_argc(data, data->linked_args)) // also clears linked args
 		return (1);
 	if (!run_builtin(data))
 		data->status = run_extern(data);
@@ -68,7 +67,7 @@ static int	run_extern(t_data *data)
 	return (data->status);
 }
 
-int	action_in_child(t_data *data)
+static int	action_in_child(t_data *data)
 {
 	struct stat	path_stat;
 
@@ -114,40 +113,4 @@ void	update_home(t_data *data, char **argv)
 	*writer = '\0';
 	free(*argv);
 	*argv = new_argv;
-}
-
-// TODO: Can also begin with the directory like "/bin/ls"
-// Also should handle "/bin/ls -laF" and "/bin/ls -l -a -F"
-static int	run_from_bin_path(t_data *data)
-{
-	char	*path_str;
-	char	**bin_paths;
-	char	*filepath;
-	char	file_exists;
-
-	path_str = search_env("PATH", data->list_envs);
-	if (!path_str)
-	{
-		error_message(data->argv[0], NULL, "No such file or directory");
-		return (127);
-	}
-	bin_paths = ft_split(path_str, ':');
-	file_exists = 0;
-	while (*bin_paths)
-	{
-		filepath = ft_strjoin(*bin_paths, "/");
-		filepath = ft_strjoin(filepath, data->argv[0]);
-		if (access(filepath, F_OK) == 0)
-			file_exists = 1;
-		if (access(filepath, X_OK) == 0)
-			exit(ft_free(data, execve(filepath, data->argv, data->list_envs)));
-		bin_paths++;
-	}
-	if (file_exists)
-	{
-		error_message(data->argv[0], NULL, "Permission denied");
-		exit(ft_free(data, 126));
-	}
-	error_message(data->argv[0], NULL, "command not found");
-	exit(ft_free(data, 127));
 }

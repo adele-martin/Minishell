@@ -36,6 +36,7 @@ char	run_builtin(t_data *data)
 }
 
 // creates an array of cmd-strings from a linked list of strings
+// Also frees the linked_args list
 char	create_argv_argc(t_data *data, t_list *linked_args)
 {
 	int		size;
@@ -59,6 +60,7 @@ char	create_argv_argc(t_data *data, t_list *linked_args)
 	}
 	*writer = NULL;
 	data->argc = size;
+	data->linked_args = NULL;
 	return (1);
 }
 
@@ -87,4 +89,40 @@ t_list	*clean_args(t_list **args)
 			tmp = tmp->next;
 	}
 	return (*args);
+}
+
+// Also should handle "/bin/ls -laF" and "/bin/ls -l -a -F"
+int	run_from_bin_path(t_data *data)
+{
+	char	*path_str;
+	char	*filepath;
+	char	file_exists;
+	char	**tmp;
+
+	path_str = search_env("PATH", data->list_envs);
+	if (!path_str)
+	{
+		error_message(data->argv[0], NULL, "No such file or directory");
+		return (127);
+	}
+	data->bin_paths = ft_split(path_str, ':');
+	tmp = data->bin_paths;
+	file_exists = 0;
+	while (tmp && *tmp)
+	{
+		filepath = ft_strjoin(*tmp, "/");
+		filepath = ft_strjoin(filepath, data->argv[0]);
+		if (access(filepath, F_OK) == 0)
+			file_exists = 1;
+		if (access(filepath, X_OK) == 0)
+			exit(ft_free(data, execve(filepath, data->argv, data->list_envs)));
+		tmp++;
+	}
+	if (file_exists)
+	{
+		error_message(data->argv[0], NULL, "Permission denied");
+		exit(ft_free(data, 126));
+	}
+	error_message(data->argv[0], NULL, "command not found");
+	exit(ft_free(data, 127));
 }
