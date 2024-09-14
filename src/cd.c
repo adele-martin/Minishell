@@ -49,19 +49,19 @@ int	builtin_cd(t_data *data)
 	char	*current_dir;
 	char	*previous_pwd;
 
-	if (data->cmd_argc >= 3)
+	if (data->argc >= 3)
 	{
 		error_message("cd", "", ": too many arguments\n");
 		return (1);
 	}
 	previous_pwd = search_env("PWD", data->list_envs);
-	if (data->cmd_argc == 1 && change_to_home(data->list_envs))
+	if (data->argc == 1 && change_to_home(data->list_envs))
 		return (1);
-	if (data->cmd_argc == 2 && !ft_strncmp(data->cmd_argv[1], "~", 1))
-		update_home(data, &data->cmd_argv[1]);
-	if (data->cmd_argc == 2 && chdir(data->cmd_argv[1]) == -1)
+	if (data->argc == 2 && !ft_strncmp(data->argv[1], "~", 1))
+		update_home(data, &data->argv[1]);
+	if (data->argc == 2 && chdir(data->argv[1]) == -1)
 	{
-		error_message("cd", data->cmd_argv[1], ": No such file or directory\n");
+		error_message("cd", data->argv[1], ": No such file or directory\n");
 		return (1);
 	}
 	current_dir = getcwd(cwd, sizeof(cwd));

@@ -32,8 +32,10 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->id = 1;
 	data->signal_fd = 0;
 	data->in_child = 0;
-	data->cmd_argc = 0;
-	data->cmd_argv = NULL;
+	data->argc = 0;
+	data->argv = NULL;
+	data->linked_args = NULL;
+	data->bin_paths = NULL;
 	data->stdin = dup(STDIN_FILENO);
 	data->stdout = dup(STDOUT_FILENO);
 	handle_signals(0);
