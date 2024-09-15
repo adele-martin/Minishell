@@ -12,6 +12,8 @@
 
 #include "../../header/minishell.h"
 
+static char	try_run_path(char **path, char file_exists, t_data *data);
+
 // run a built-in command if it is one of the following:
 char	run_builtin(t_data *data)
 {
@@ -90,13 +92,10 @@ t_list	*clean_args(t_list **args)
 	return (*args);
 }
 
-// Also should handle "/bin/ls -laF" and "/bin/ls -l -a -F"
+// Checks for binaries in PATH
 int	run_from_bin_path(t_data *data)
 {
 	char	*path_str;
-	char	file_exists;
-	char	**path;
-	char	*tmp;
 
 	path_str = search_env("PATH", data->list_envs);
 	if (!path_str)
@@ -107,8 +106,20 @@ int	run_from_bin_path(t_data *data)
 	data->bin_paths = ft_split(path_str, ':');
 	if (!data->bin_paths)
 		return (1);
-	path = data->bin_paths;
-	file_exists = 0;
+	if (try_run_path(data->bin_paths, 0, data))
+	{
+		error_message(data->argv[0], NULL, "Permission denied");
+		exit(ft_free(data, 126));
+	}
+	error_message(data->argv[0], NULL, "command not found");
+	exit(ft_free(data, 127));
+}
+
+// Searches all path strings for cmd; returns 1 if found without exec. rights
+static char	try_run_path(char **path, char file_exists, t_data *data)
+{
+	char	*tmp;
+
 	while (*path)
 	{
 		tmp = ft_strjoin(*path, "/");
@@ -126,11 +137,5 @@ int	run_from_bin_path(t_data *data)
 			exit(ft_free(data, execve(*path, data->argv, data->list_envs)));
 		path++;
 	}
-	if (file_exists)
-	{
-		error_message(data->argv[0], NULL, "Permission denied");
-		exit(ft_free(data, 126));
-	}
-	error_message(data->argv[0], NULL, "command not found");
-	exit(ft_free(data, 127));
+	return (file_exists);
 }

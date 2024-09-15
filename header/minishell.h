@@ -44,12 +44,6 @@ struct s_ast
 	t_ast	*right;
 };
 
-// typedef struct s_env_vars
-// {
-// 	char **keys;
-// 	char **values;
-// }	t_env_vars;
-
 typedef struct s_vars	t_vars;
 
 // struct for linked variables list to be replaced:
@@ -66,11 +60,11 @@ typedef struct s_vars
 typedef struct s_data
 {
 	char	*shell_name;
+	int		stdin;
+	int		stdout;
 	char	*input;
 	char	**tokens;
 	t_ast	*ast_root;
-	int		stdin;
-	int		stdout;
 	int		status;
 	char	*status_str;
 	char	**list_envs;
@@ -138,7 +132,6 @@ char	expand_variables(t_list *linked_args, t_data *data);
 char	replace_vars(t_list *arg, t_vars *vars, char *content_ptr);
 void	free_vars(t_vars *vars);
 // WILDCARD:
-// char	add_wildcards(t_list *linked_args);
 char	add_wildcards(t_data *data, t_list *linked_args);
 
 //VARIABLES
@@ -155,7 +148,6 @@ void	bubble_sort(char *arr[], int n);
 char	**create_list(char **list);
 char	*search(char *variable, char **list, t_list *head);
 
-char	**envs_list(char **envp);
 int		expand_list(char **argv, t_list *head);
 
 //LINKED LIST UTILS
