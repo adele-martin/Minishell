@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 // run a built-in command if it is one of the following:
 char	run_builtin(t_data *data)

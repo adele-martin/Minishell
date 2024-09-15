@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static t_vars	*var_val(char *str, t_data *data, char in_sgl, char in_dbl);
 static void		append_replace(char *str, t_vars **list, t_data *data);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 // Util function for the export built-in. Sorts the list in alphabetical order.
 // TO DO: also do the difference between 'H' and 'h'

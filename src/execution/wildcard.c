@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 // * (asterisk) this can represent any number of characters (including zero,
 	// in other words, zero or more characters). If you specified a "cd*" it

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 // prints out the arguments passed to it
 // includes the option -n, which suppresses the trailing newline

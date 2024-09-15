@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 // Initializes all the struct data
 int	initialize_data(t_data *data, int argc, char **envp)

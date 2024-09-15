@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static char	init_execution(char *input, t_data *data);
 static int	run_extern(t_data *data);

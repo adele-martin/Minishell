@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static int	parse_and_or(t_ast *node, t_data *data);
 static int	create_pipe_child(t_ast *node, t_data *data);

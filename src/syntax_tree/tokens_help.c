@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static size_t	cmd_len(char *str, char in_sgl, char in_dbl);
 static char		*token_write(char const *str, size_t len);

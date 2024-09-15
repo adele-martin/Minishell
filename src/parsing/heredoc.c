@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static char	*heredoc_child(char *delimiter, t_data *data);
 static char	combine_lines(char **out, char *new_line);

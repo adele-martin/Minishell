@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 //This function deletes variables from our env list.
 char	**delete_env(char *variable, char **list)

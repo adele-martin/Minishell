@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 // removes quotations from a string (but no quotes inside quotes) 
 void	clean_quotations(char *str, char *writer, char in_sgl, char in_dbl)

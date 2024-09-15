@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static size_t	count_tokens(char *str);
 static void		move_to_next_token(char **str, char in_sgl, char in_dbl);

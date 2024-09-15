@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 // not really sure what this function does and not right!
 int	redirect(char *operator, char *word, t_data *data)

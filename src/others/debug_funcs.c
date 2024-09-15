@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 // helper function to print out the elements of a linked list
 void	print_args(char *str, t_list *linked_args)

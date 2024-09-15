@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 //Helper for cd built-in to update PWD and OLDPWD
 int	update_env_var(const char *key, const char *value, char **list_envs)
