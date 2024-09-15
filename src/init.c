@@ -20,8 +20,18 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->list_envs = envs_list(envp);
 	data->export_list = array_to_linkedlist(data->list_envs);
 	data->shell_name = ft_strdup("minishell");
+	data->stdin = dup(STDIN_FILENO);
+	data->stdout = dup(STDOUT_FILENO);
+	handle_signals(0);
+	null_data_struct(data);
+	return (1);
+}
+
+// Resets all data vars for a new prompt
+void	null_data_struct(t_data *data)
+{
 	data->status = 0;
-	data->status_str = ft_itoa(0);
+	data->status_str = NULL;
 	data->input = NULL;
 	data->tokens = NULL;
 	data->ast_root = NULL;
@@ -34,10 +44,6 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->linked_args = NULL;
 	data->files_list = NULL;
 	data->bin_paths = NULL;
-	data->stdin = dup(STDIN_FILENO);
-	data->stdout = dup(STDOUT_FILENO);
-	handle_signals(0);
-	return (1);
 }
 
 // Restore original STDIN and STDOUT

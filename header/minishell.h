@@ -117,6 +117,7 @@ void	print_args(char *str, t_list *linked_args);
 void	print_ast(t_ast *root);
 // INIT:
 int		initialize_data(t_data *data, int argc, char **envp);
+void	null_data_struct(t_data *data);
 int		restore_stdin_stdout(t_data *data, char option);
 // PARSING:
 int		parse_ast(t_ast *node, t_data *data);
@@ -134,7 +135,8 @@ char	write_all_tokens(char *str, char **tokens_out, size_t tokens);
 // VAR_EXPAND:
 char	expand_variables(t_list *linked_args, t_data *data);
 // VAR_HELPERS:
-char	replace_vars(t_list *arg, t_vars *vars);
+char	replace_vars(t_list *arg, t_vars *vars, char *content_ptr);
+void	free_vars(t_vars *vars);
 // WILDCARD:
 // char	add_wildcards(t_list *linked_args);
 char	add_wildcards(t_data *data, t_list *linked_args);

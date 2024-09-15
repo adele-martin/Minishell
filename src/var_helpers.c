@@ -14,29 +14,27 @@
 
 static size_t	len_after_replace(char *original, t_vars *vars);
 
-char	replace_vars(t_list *arg, t_vars *vars)
+char	replace_vars(t_list *arg, t_vars *vars, char *content_ptr)
 {
 	char	*new;
-	char	*old_ptr;
 	char	*cpy;
 
 	new = (char *)malloc(len_after_replace(arg->content, vars) * sizeof(char));
 	if (!new)
 		return (0);
 	cpy = new;
-	old_ptr = arg->content;
-	while (*old_ptr)
+	while (*content_ptr)
 	{
-		if (vars && old_ptr == vars->key_start)
+		if (vars && content_ptr == vars->key_start)
 		{
 			if (vars->value_start)
 				while (*vars->value_start)
 					*(cpy++) = *(vars->value_start++);
-			old_ptr += vars->key_len;
+			content_ptr += vars->key_len;
 			vars = vars->next;
 		}
 		else
-			*(cpy++) = *(old_ptr++);
+			*(cpy++) = *(content_ptr++);
 	}
 	*cpy = '\0';
 	free(arg->content);
@@ -55,4 +53,17 @@ static size_t	len_after_replace(char *original, t_vars *vars)
 		vars = vars->next;
 	}
 	return (len + 1);
+}
+
+// Frees the linked vars list, but not the content, which is extern 
+void	free_vars(t_vars *vars)
+{
+	t_vars	*tmp;
+
+	while (vars)
+	{
+		tmp = vars;
+		vars = vars->next;
+		free(tmp);
+	}
 }

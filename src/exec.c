@@ -12,30 +12,19 @@
 
 #include "../header/minishell.h"
 
+static char	init_execution(char *input, t_data *data);
 static int	run_extern(t_data *data);
 static int	action_in_child(t_data *data);
 
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
-	if (data->signal_fd)
-	{
-		write(data->signal_fd, &data->stdin, sizeof(int));
-		close(data->signal_fd);
-	}
-	if (!input || !*input)
+	if (!init_execution(input, data))
 		return (0);
-	data->linked_args = get_args(input);
 	if (!add_wildcards(data, data->linked_args))
-	{
-		ft_lstclear(&data->linked_args, free);
 		return (error_message(NULL, NULL, "Error in wildcards"), 1);
-	}
 	if (!expand_variables(data->linked_args, data))
-	{
-		ft_lstclear(&data->linked_args, free);
 		return (error_message(NULL, NULL, "Error in expanding variables"), 1);
-	}
 	if (!clean_args(&data->linked_args))
 		return (0);
 	if (!create_argv_argc(data, data->linked_args))
@@ -48,6 +37,22 @@ int	execute(char *input, t_data *data)
 	if (WIFEXITED(data->status))
 		data->status = WEXITSTATUS(data->status);
 	return (data->status);
+}
+
+// Initializes the linked_args list for execution
+static char	init_execution(char *input, t_data *data)
+{
+	if (data->signal_fd)
+	{
+		write(data->signal_fd, &data->stdin, sizeof(int));
+		close(data->signal_fd);
+	}
+	if (!input || !*input)
+		return (0);
+	data->linked_args = get_args(input);
+	if (!data->linked_args)
+		return (0);
+	return (1);
 }
 
 static int	run_extern(t_data *data)

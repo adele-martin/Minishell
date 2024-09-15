@@ -50,6 +50,7 @@ t_list	*create_nodeexport(const char *str)
 	return (node);
 }
 
+// TODO: Maybe do it larger!?!
 char	**create_list(char **list)
 {
 	list = malloc(sizeof(char *) * 400);
