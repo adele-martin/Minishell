@@ -16,7 +16,7 @@
 char	**envs_list(char **envp)
 {
 	char	**list_envs;
-	int	i;
+	int		i;
 
 	list_envs = malloc(sizeof(char *) * 400);
 	if (!list_envs)
@@ -40,11 +40,12 @@ char	**envs_list(char **envp)
 //TODO: protect malloc in this function
 int expand_list(char **argv, t_list *head)
 {
-	t_list *temp;
+	t_list	*temp;
+	char	*str;
+	int		len;
+	int		found;
+
 	temp = head;
-	char *str;
-	int len;
-	int found;
 	while (temp != NULL)
 	{
 		str = (char *)temp->content;

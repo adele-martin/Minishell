@@ -12,14 +12,11 @@
 
 #include "../header/minishell.h"
 
-// for getting key-value: char	*expanding(char *variable, char **list, t_list *head)
+// Initializes all the struct data
 int	initialize_data(t_data *data, int argc, char **envp)
 {
 	if (argc != 1)
-	{
-		error_message(NULL, "main", "Too many arguments");
-		exit(EXIT_FAILURE);
-	}
+		return (error_message(NULL, "main", "Too many arguments"), 0);
 	data->list_envs = envs_list(envp);
 	data->export_list = array_to_linkedlist(data->list_envs);
 	data->shell_name = ft_strdup("minishell");
@@ -40,7 +37,7 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->stdin = dup(STDIN_FILENO);
 	data->stdout = dup(STDOUT_FILENO);
 	handle_signals(0);
-	return (EXIT_SUCCESS);
+	return (1);
 }
 
 // Restore original STDIN and STDOUT
@@ -49,8 +46,8 @@ int	initialize_data(t_data *data, int argc, char **envp)
 int	restore_stdin_stdout(t_data *data, char option)
 {
 	if (option == 0 || option == 2)
-		dup2(data->stdin, STDIN_FILENO);  // Restore STDIN
+		dup2(data->stdin, STDIN_FILENO);
 	if (option == 1 || option == 2)
-		dup2(data->stdout, STDOUT_FILENO); // Restore STDOUT
+		dup2(data->stdout, STDOUT_FILENO);
 	return (1);
 }

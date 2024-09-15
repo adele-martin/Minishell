@@ -23,8 +23,8 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 
 	(void)argv;
-	if (initialize_data(&data, argc, envp))
-		exit (ft_free(&data, 1));
+	if (!initialize_data(&data, argc, envp))
+		exit (1);
 	while (1)
 	{
 		handle_signals(1);
@@ -49,35 +49,23 @@ static void	free_prompt_data(t_data *data)
 {
 	(void)data;
 	if (data->input)
-	{
 		free(data->input);
-		data->input = NULL;
-	}
+	data->input = NULL;
 	if (data->tokens)
-	{
 		ft_split_free(data->tokens);
-		data->tokens = NULL;
-	}
+	data->tokens = NULL;
 	if (data->bin_paths)
-	{
 		ft_split_free(data->bin_paths);
-		data->bin_paths = NULL;
-	}
+	data->bin_paths = NULL;
 	if (data->linked_args)
-	{
 		ft_lstclear(&data->linked_args, free);
-		data->linked_args = NULL;
-	}
+	data->linked_args = NULL;
 	if (data->files_list)
-	{
 		ft_lstclear(&data->files_list, free);
-		data->files_list = NULL;
-	}
+	data->files_list = NULL;
 	if (data->argv)
-	{
 		free_array(&data->argv);
-		data->argv = NULL;
-	}
+	data->argv = NULL;
 }
 
 // splits the input into tokens and builds the AST

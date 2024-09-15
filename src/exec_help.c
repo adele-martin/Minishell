@@ -94,9 +94,9 @@ t_list	*clean_args(t_list **args)
 int	run_from_bin_path(t_data *data)
 {
 	char	*path_str;
-	char	*filepath;
 	char	file_exists;
-	char	**tmp;
+	char	**path;
+	char	*tmp;
 
 	path_str = search_env("PATH", data->list_envs);
 	if (!path_str)
@@ -105,17 +105,26 @@ int	run_from_bin_path(t_data *data)
 		return (127);
 	}
 	data->bin_paths = ft_split(path_str, ':');
-	tmp = data->bin_paths;
+	if (!data->bin_paths)
+		return (1);
+	path = data->bin_paths;
 	file_exists = 0;
-	while (tmp && *tmp)
+	while (*path)
 	{
-		filepath = ft_strjoin(*tmp, "/");
-		filepath = ft_strjoin(filepath, data->argv[0]);
-		if (access(filepath, F_OK) == 0)
+		tmp = ft_strjoin(*path, "/");
+		if (!tmp)
+			exit(ft_free(data, 1));
+		free(*path);
+		*path = ft_strjoin(tmp, data->argv[0]);
+		if (!*path)
+			*path = tmp;
+		else
+			free(tmp);
+		if (access(*path, F_OK) == 0)
 			file_exists = 1;
-		if (access(filepath, X_OK) == 0)
-			exit(ft_free(data, execve(filepath, data->argv, data->list_envs)));
-		tmp++;
+		if (access(*path, X_OK) == 0)
+			exit(ft_free(data, execve(*path, data->argv, data->list_envs)));
+		path++;
 	}
 	if (file_exists)
 	{
