@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 11:55:03 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:19:09 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@ void	error_message(char *cmd, char *arg, char *message)
 void	free_ast(t_ast *node)
 {
 	if (node == NULL)
-		return;
+		return ;
 	if (node->left != NULL)
 		free_ast(node->left);
 	if (node->right != NULL)
 		free_ast(node->right);
 	free(node);
+	node = NULL;
 }
 
 // TODO: Implement function to free the AST and linked_args
@@ -68,10 +69,19 @@ int	ft_free(t_data *data, int exit)
 		free(data->status_str);
 	if (data->input)
 		free(data->input);
+	if (data->files_list)
+		ft_lstclear(&data->files_list, free);
+	if (data->linked_args)
+		ft_lstclear(&data->linked_args, free);
 	if (data->tokens)
-		free_array(&data->tokens);
+		ft_split_free(data->tokens);
+	if (data->bin_paths)
+		ft_split_free(data->bin_paths);
+	if (data->argv)
+		free_array(&data->argv);
 	close(data->stdin);
 	close(data->stdout);
+	free_ast(data->ast_root);
 	rl_clear_history();
 	return (exit);
 }

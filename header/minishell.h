@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 22:17:33 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:28:08 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@
 # include <sys/stat.h>
 # include <sys/ioctl.h>
 
-typedef struct s_ast	t_ast;
+// global var for received signals
+// extern int	g_signal;
+extern volatile __sig_atomic_t	g_signal;
+
+typedef struct s_ast			t_ast;
 
 // struct for the Abstract syntax tree nodes
 struct s_ast
@@ -44,7 +48,7 @@ struct s_ast
 	t_ast	*right;
 };
 
-typedef struct s_vars	t_vars;
+typedef struct s_vars			t_vars;
 
 // struct for linked variables list to be replaced:
 typedef struct s_vars
@@ -56,7 +60,7 @@ typedef struct s_vars
 	t_vars	*next;
 }	t_vars;
 
-// struct for the information
+// struct for the information				
 typedef struct s_data
 {
 	char	*shell_name;
@@ -75,14 +79,10 @@ typedef struct s_data
 	pid_t	id;
 	int		argc;
 	char	**argv;
-	t_list	*linked_args;	// function arguments
+	t_list	*linked_args;
 	t_list	*files_list;
 	char	**bin_paths;
-}	t_data;
-
-// global var for received signals
-// extern int	g_signal;
-extern volatile __sig_atomic_t	g_signal;
+}								t_data;
 
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);
@@ -113,6 +113,8 @@ void	print_ast(t_ast *root);
 int		initialize_data(t_data *data, int argc, char **envp);
 void	null_data_struct(t_data *data);
 int		restore_stdin_stdout(t_data *data, char option);
+void	free_prompt_data(t_data *data);
+char	build_ast(t_data *data);
 // PARSING:
 int		parse_ast(t_ast *node, t_data *data);
 // UTILS:
@@ -173,6 +175,7 @@ int		exit_error(t_data *data);
 //ERROR HANDLING
 void	free_array(char ***array);
 void	error_message(char *cmd, char *arg, char *message);
+void	free_ast(t_ast *node);
 
 //UTILS
 char	*ft_strcat(char *dst, const char *src);

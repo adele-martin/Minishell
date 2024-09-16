@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 21:20:50 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:05:23 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	redirect_output(char *filename, t_data *data)
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0755);
 	if (fd < 0)
 	{
-		perror("open");
+		error_message(NULL, filename, "No such file or directory");
 		if (data->in_child)
 			exit(ft_free(data, 1));
 		return (1);
@@ -60,7 +60,7 @@ int	append_output(char *filename, t_data *data)
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		perror("open");
+		error_message(NULL, filename, "No such file or directory");
 		if (data->in_child)
 			exit(ft_free(data, 1));
 		return (1);
@@ -85,7 +85,7 @@ int	redirect_input(char *filename, t_data *data)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("open");
+		error_message(NULL, filename, "No such file or directory");
 		if (data->in_child)
 			exit(ft_free(data, 1));
 		return (1);
