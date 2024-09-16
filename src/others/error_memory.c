@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 10:02:13 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:55:03 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,6 @@ void	error_message(char *cmd, char *arg, char *message)
 	ft_putstr_fd(message, 2);
 	ft_putstr_fd("\n", 2);
 }
-
-// struct for the Abstract syntax tree nodes
-struct s_ast
-{
-	char	*value;
-	t_ast	*left;
-	t_ast	*right;
-};
-
 
 // This function recursively frees the left and right nodes
 void	free_ast(t_ast *node)
