@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 10:46:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:28:08 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ void	print_ast(t_ast *root);
 int		initialize_data(t_data *data, int argc, char **envp);
 void	null_data_struct(t_data *data);
 int		restore_stdin_stdout(t_data *data, char option);
+void	free_prompt_data(t_data *data);
+char	build_ast(t_data *data);
 // PARSING:
 int		parse_ast(t_ast *node, t_data *data);
 // UTILS:
@@ -173,6 +175,7 @@ int		exit_error(t_data *data);
 //ERROR HANDLING
 void	free_array(char ***array);
 void	error_message(char *cmd, char *arg, char *message);
+void	free_ast(t_ast *node);
 
 //UTILS
 char	*ft_strcat(char *dst, const char *src);
