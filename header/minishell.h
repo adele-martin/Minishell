@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 11:28:08 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:59:25 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_data
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);
 // REDIRECTIONS:
-int		redirect(char *operator, char *word, t_data *data);
+int		redirect(char *operator, char **word, t_data *data);
 int		redirect_output(char *filename, t_data *data);
 int		append_output(char *filename, t_data *data);
 int		redirect_input(char *filename, t_data *data);
@@ -134,7 +134,9 @@ char	expand_variables(t_list *linked_args, t_data *data);
 char	replace_vars(t_list *arg, t_vars *vars, char *content_ptr);
 void	free_vars(t_vars *vars);
 // WILDCARD:
-char	add_wildcards(t_data *data, t_list *linked_args);
+char	add_wildcards(t_data *data, t_list **linked_args);
+// PROOF:
+char	check_input(char *str, char needs_string);
 
 //VARIABLES
 // void store_envs(char **envp);
