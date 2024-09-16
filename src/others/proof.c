@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:40:18 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 16:26:34 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:58:52 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	check_input(char *str, char needs_string)
 		return (error_message(0, 0, "syntax error near unexpected token `&&'"), 0);
 	if (!ft_strncmp(str, "||", 2))
 		return (error_message(0, 0, "syntax error near unexpected token `||'"), 0);
-	if (!ft_strncmp(str, "&", 2))
+	if (!ft_strncmp(str, "&", 1))
 		return (error_message(0, 0, "syntax error near unexpected token `&'"), 0);
 	if (!ft_strncmp(str, "|&", 2))
 		return (error_message(0, 0, "syntax error near unexpected token `|&'"), 0);
@@ -43,7 +43,7 @@ char	check_input(char *str, char needs_string)
 		return (error_message(0, 0, "syntax error near unexpected token `<<'"), 0);
 	
 	if (!needs_string && (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1)))
-		return (check_input(str + 2, 1));
+		return (check_input(str + 1, 1));
 	if (!ft_strncmp(str, ">", 1))
 		return (error_message(0, 0, "syntax error near unexpected token `>'"), 0);
 	if (!ft_strncmp(str, "<", 1))
@@ -82,8 +82,17 @@ static char	valid_string(char *str, char in_sgl, char in_dbl)
 		else if (!ft_strncmp(str, "&&", 2) || !ft_strncmp(str, "||", 2) ||
 					!ft_strncmp(str, ">>", 2) || !ft_strncmp(str, "<<", 2))
 			return (check_input(str + 2, 1));
-		else if (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1) || !ft_strncmp(str, "|", 1))
+		else if (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1))
 			return (check_input(str + 1, 1));
+		else if (!ft_strncmp(str, "|", 1))
+		{
+			str++;
+			while (*str == ' ')
+				str++;
+			if (!*str)
+				return (error_message(NULL, "Syntax error", "pipe at end of input"), 0);
+			return (check_input(str, 0));
+		}
 		else if (!ft_strncmp(str, "(", 1))
 			return (check_input(str + 1, 0));
 		else if (!ft_strncmp(str, ")", 1))

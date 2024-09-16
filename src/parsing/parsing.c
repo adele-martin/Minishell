@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 12:40:08 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:56:01 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ static int	handle_redirection(t_ast *node, t_data *data)
 	tmp = node;
 	while (is_redirection(tmp->right->value))
 	{
-		data->status = redirect(tmp->value, tmp->right->left->value, data);
+		data->status = redirect(tmp->value, &tmp->right->left->value, data);
 		if (data->status)
 			return (data->status);
 		tmp = tmp->right;
 	}
-	data->status = redirect(tmp->value, tmp->right->value, data);
+	data->status = redirect(tmp->value, &tmp->right->value, data);
 	if (data->status)
 		return (data->status);
 	return (parse_ast(node->left, data));

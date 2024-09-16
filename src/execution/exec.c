@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 21:53:40 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:17:27 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	execute(char *input, t_data *data)
 {
 	if (!init_execution(input, data))
 		return (0);
-	if (!add_wildcards(data, data->linked_args))
+	if (!add_wildcards(data, &data->linked_args))
 		return (error_message(NULL, NULL, "Error in wildcards"), 1);
 	if (!expand_variables(data->linked_args, data))
 		return (error_message(NULL, NULL, "Error in expanding variables"), 1);

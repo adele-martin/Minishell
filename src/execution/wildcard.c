@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <adelemartin@student.42.fr>       +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:16:24 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 11:24:10 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:20:37 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,17 @@ static char		replace_wildcards(t_list ***writer, t_list *files_list);
 static char		hits_wc(char *wc, char *str, char in_sgl, char in_dbl);
 
 // appends the arguments-linked-list through wildcard-hits
-char	add_wildcards(t_data *data, t_list *linked_args)
+// It dont have to be the linked_args list from data-struct
+char	add_wildcards(t_data *data, t_list **linked_args)
 {
 	t_list	*tmp;
 	t_list	**writer;
 
-	if (!linked_args)
+	if (!*linked_args)
 		return (0);
-	if (!get_files_list(data))
+	if (!data->files_list && !get_files_list(data))
 		return (1);
-	writer = &(linked_args->next);
+	writer = linked_args;
 	while (*writer)
 	{
 		if (has_wildcards((*writer)->content))
