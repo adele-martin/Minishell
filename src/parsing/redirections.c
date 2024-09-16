@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 22:38:24 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 22:53:45 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int	redirect(char *operator, char **word, t_data *data)
 	clean_quotations(*word, *word, 0, 0);
 	if (!ft_strncmp(operator, "<<", 3))
 		return (heredoc(*word, data));
-	
 	wordlist = ft_lstnew(ft_strdup(*word));
-
 	if (!add_wildcards(data, &wordlist))
 		return (error_message(NULL, NULL, "Error in wildcards"), 1);
 	if (wordlist->next)
@@ -52,7 +50,6 @@ int	redirect_output(char *filename, t_data *data)
 	if (fd < 0)
 	{
 		perror("open");
-		// error_message(NULL, filename, "No such file or directory");
 		if (data->in_child)
 			exit(ft_free(data, 1));
 		return (1);
@@ -78,7 +75,6 @@ int	append_output(char *filename, t_data *data)
 	if (fd < 0)
 	{
 		perror("open");
-		// error_message(NULL, filename, "No such file or directory");
 		if (data->in_child)
 			exit(ft_free(data, 1));
 		return (1);
@@ -104,7 +100,6 @@ int	redirect_input(char *filename, t_data *data)
 	if (fd < 0)
 	{
 		perror("open");
-		// error_message(NULL, filename, "No such file or directory");
 		if (data->in_child)
 			exit(ft_free(data, 1));
 		return (1);

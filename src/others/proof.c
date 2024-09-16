@@ -6,12 +6,13 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:40:18 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 17:58:52 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:12:12 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
+static void	spec_error(char *token);
 static char	valid_string(char *str, char in_sgl, char in_dbl);
 
 // needs_string: 0 = no, 1 = yes (string must follow !)
@@ -22,37 +23,40 @@ char	check_input(char *str, char needs_string)
 	if (!*str && !needs_string)
 		return (1);
 	else if (!*str)
-		return (error_message(0, 0, "syntax error near unexpected token `newline'"), 0);
+		return (spec_error("newline"), 0);
 	
 	if (!ft_strncmp(str, "&&", 2))
-		return (error_message(0, 0, "syntax error near unexpected token `&&'"), 0);
+		return (spec_error("&&"), 0);
 	if (!ft_strncmp(str, "||", 2))
-		return (error_message(0, 0, "syntax error near unexpected token `||'"), 0);
+		return (spec_error("||"), 0);
 	if (!ft_strncmp(str, "&", 1))
-		return (error_message(0, 0, "syntax error near unexpected token `&'"), 0);
+		return (spec_error("&"), 0);
 	if (!ft_strncmp(str, "|&", 2))
-		return (error_message(0, 0, "syntax error near unexpected token `|&'"), 0);
+		return (spec_error("|&"), 0);
 	if (!ft_strncmp(str, "|", 1))
-		return (error_message(0, 0, "syntax error near unexpected token `|'"), 0);
+		return (spec_error("|"), 0);
 	
 	if (!needs_string && (!ft_strncmp(str, ">>", 2) || !ft_strncmp(str, "<<", 2)))
 		return (check_input(str + 2, 1));
 	if (!ft_strncmp(str, ">>", 2))
-		return (error_message(0, 0, "syntax error near unexpected token `>>'"), 0);
+		return (spec_error(">>"), 0);
 	if (!ft_strncmp(str, "<<", 2))
-		return (error_message(0, 0, "syntax error near unexpected token `<<'"), 0);
+		return (spec_error("<<"), 0);
 	
 	if (!needs_string && (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1)))
 		return (check_input(str + 1, 1));
 	if (!ft_strncmp(str, ">", 1))
-		return (error_message(0, 0, "syntax error near unexpected token `>'"), 0);
+		return (spec_error(">"), 0);
 	if (!ft_strncmp(str, "<", 1))
-		return (error_message(0, 0, "syntax error near unexpected token `<'"), 0);
+		return (spec_error("<"), 0);
 	
-	// if (!ft_strncmp(str, "(", 1))
 	return (valid_string(str, 0, 0));
 }
 
+static void	spec_error(char *token)
+{
+	error_message("syntax error", "unexpected token", token);
+}
 
 static char	valid_string(char *str, char in_sgl, char in_dbl)
 {
@@ -90,7 +94,7 @@ static char	valid_string(char *str, char in_sgl, char in_dbl)
 			while (*str == ' ')
 				str++;
 			if (!*str)
-				return (error_message(NULL, "Syntax error", "pipe at end of input"), 0);
+				return (error_message(NULL, "syntax error", "pipe at end of input"), 0);
 			return (check_input(str, 0));
 		}
 		else if (!ft_strncmp(str, "(", 1))
@@ -100,25 +104,6 @@ static char	valid_string(char *str, char in_sgl, char in_dbl)
 		str++;
 	}
 	if (in_sgl || in_dbl)
-		return (error_message(NULL, NULL, "Syntax error: unclosed quotation mark"), 0);
+		return (error_message(NULL, NULL, "syntax error: unclosed quotation mark"), 0);
 	return (1);
 }
-
-
-// 0 : no operator
-// 1 : ( ) | < >
-// 2 : && || << >>
-// char	is_operator(char *str)
-// {
-// 	if (!ft_strncmp(str, "&&", 2) || !ft_strncmp(str, "||", 2))
-// 		return (2);
-// 	else if (!ft_strncmp(str, ">>", 2) || !ft_strncmp(str, "<<", 2))
-// 		return (2);
-// 	else if (!ft_strncmp(str, "(", 1) || !ft_strncmp(str, ")", 1))
-// 		return (1);
-// 	else if (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1))
-// 		return (1);
-// 	else if (!ft_strncmp(str, "|", 1))
-// 		return (1);
-// 	return (0);
-// }

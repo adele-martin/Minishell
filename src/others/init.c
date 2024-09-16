@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 12:52:43 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 22:52:57 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	restore_stdin_stdout(t_data *data, char option)
 		dup2(data->stdout, STDOUT_FILENO);
 	return (1);
 }
-
 
 // TODO: Implement function to free the AST and linked_args
 // build specific functions for freeing the data in each while loop
