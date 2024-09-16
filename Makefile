@@ -6,7 +6,7 @@
 #    By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/09/13 22:13:19 by bschneid         ###   ########.fr        #
+#    Updated: 2024/09/16 14:07:25 by bschneid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SOURCES = $(BI)/cd.c $(BI)/echo.c $(BI)/env.c $(BI)/exit.c\
 	$(EX)/var_expand.c $(EX)/var_helpers.c $(EX)/wildcard.c\
 	$(ST)/ast.c $(ST)/tokens_help.c $(ST)/tokens.c\
 	$(OT)/debug_funcs.c $(OT)/error_memory.c $(OT)/init.c $(OT)/signals.c\
-	$(OT)/utils.c\
+	$(OT)/utils.c $(OT)/proof.c\
 	$(PA)/helpers.c $(PA)/heredoc.c $(PA)/parsing.c $(PA)/redirections.c\
 	src/linkedlist_utils.c src/main.c src/var_init.c src/variables.c
 	 

@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 21:03:15 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:40:08 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	parse_ast(t_ast *node, t_data *data)
 static int	parse_and_or(t_ast *node, t_data *data)
 {
 	g_signal = parse_ast(node->left, data);
+	if (!restore_stdin_stdout(data, 2))
+		exit (ft_free(data, 1));
 	if (ft_strncmp(node->value, "&&", 3) == 0)
 	{
 		if (!g_signal)

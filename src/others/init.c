@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 11:27:21 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:52:43 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ void	free_prompt_data(t_data *data)
 		free_array(&data->argv);
 	free_ast(data->ast_root);
 	null_data_struct(data);
+	if (!restore_stdin_stdout(data, 2))
+		exit (ft_free(data, 1));
+	handle_signals(1);
 }
 
 // splits the input into tokens and builds the AST

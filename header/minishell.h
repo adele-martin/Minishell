@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 11:28:08 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:24:13 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ char	replace_vars(t_list *arg, t_vars *vars, char *content_ptr);
 void	free_vars(t_vars *vars);
 // WILDCARD:
 char	add_wildcards(t_data *data, t_list *linked_args);
+// PROOF:
+char	check_input(char *str, char needs_string);
 
 //VARIABLES
 // void store_envs(char **envp);
