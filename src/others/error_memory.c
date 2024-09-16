@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 10:02:13 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/16 10:48:38 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,11 @@ void	error_message(char *cmd, char *arg, char *message)
 	ft_putstr_fd("\n", 2);
 }
 
-// struct for the Abstract syntax tree nodes
-struct s_ast
-{
-	char	*value;
-	t_ast	*left;
-	t_ast	*right;
-};
-
-
 // This function recursively frees the left and right nodes
 void	free_ast(t_ast *node)
 {
 	if (node == NULL)
-		return;
+		return ;
 	if (node->left != NULL)
 		free_ast(node->left);
 	if (node->right != NULL)
