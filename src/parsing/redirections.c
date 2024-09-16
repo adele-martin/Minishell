@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 20:12:41 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/16 22:38:24 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ int	redirect(char *operator, char **word, t_data *data)
 	}
 	if (!expand_variables(wordlist, data))
 		return (error_message(NULL, NULL, "Error in expanding variables"), 1);
-	// free(*word);
 	*word = ft_strdup(wordlist->content);
 	free(wordlist);
-	// ft_printf("word: %s\n", *word);
 	if (!ft_strncmp(operator, ">", 2))
 		return (redirect_output(*word, data));
 	else if (!ft_strncmp(operator, ">>", 3))

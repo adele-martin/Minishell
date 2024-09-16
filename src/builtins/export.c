@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:43:42 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 16:22:46 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/16 22:44:01 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,45 +78,30 @@ int	is_valid_identifier(const char *arg)
 	return (1);
 }
 
-int	is_wrong_syntax(char **arg)
-{
-	int	arg_idx;
-
-	arg_idx = 1;
-	while (arg[arg_idx])
-	{
-		if (!is_valid_identifier(arg[arg_idx]))
-		{
-			error_message("export", arg[arg_idx], "not a valid identifier");
-			return (1);
-		}
-		arg_idx++;
-	}
-	return (0);
-}
-
 int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 {
 	int	i;
+	int	invalid;
 
-	i = 1;
-	if (is_wrong_syntax(argv))
-		return (1);
-	if (argc >= 2)
-	{
-		while (argv[i])
-		{
-			if (with_value(argv[i]))
-			{
-				update_list(argv[i], list_envs);
-				fill_exportlist(argv[i], export_list);
-			}
-			else if (!(with_value(argv[i])))
-				fill_exportlist(argv[i], export_list);
-			i++;
-		}
-	}
-	else
+	invalid = 0;
+	if (argc == 1)
 		print_list(export_list);
-	return (0);
+	i = 1;
+	while (argv[i])
+	{
+		if (!is_valid_identifier(argv[i]))
+		{
+			error_message("export", argv[i], "not a valid identifier");
+			invalid = 1;
+		}
+		else if (with_value(argv[i]))
+		{
+			update_list(argv[i], list_envs);
+			fill_exportlist(argv[i], export_list);
+		}
+		else
+			fill_exportlist(argv[i], export_list);
+		i++;
+	}
+	return (invalid);
 }
