@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:25:57 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 20:04:55 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 23:02:19 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	change_to_home(char **list_envs)
 	home_dir = search_env("HOME", list_envs);
 	if (!home_dir)
 	{
-		error_message("cd", "", ": HOME not set\n");
+		error_message("cd", NULL, "HOME not set");
 		return (1);
 	}
 	if (chdir(home_dir) == -1)
 	{
-		error_message("cd", "", ": error changing to HOME directory\n");
+		error_message("cd", NULL, "error changing to HOME directory");
 		return (1);
 	}
 	return (0);
@@ -49,9 +49,9 @@ int	builtin_cd(t_data *data)
 	char	*current_dir;
 	char	*previous_pwd;
 
-	if (data->argc >= 3)
+	if (data->argc > 2)
 	{
-		error_message("cd", "", ": too many arguments\n");
+		error_message("cd", NULL, "too many arguments");
 		return (1);
 	}
 	previous_pwd = search_env("PWD", data->list_envs);
@@ -61,7 +61,7 @@ int	builtin_cd(t_data *data)
 		update_home(data, &data->argv[1]);
 	if (data->argc == 2 && chdir(data->argv[1]) == -1)
 	{
-		error_message("cd", data->argv[1], ": No such file or directory\n");
+		error_message("cd", data->argv[1], "No such file or directory");
 		return (1);
 	}
 	current_dir = getcwd(cwd, sizeof(cwd));

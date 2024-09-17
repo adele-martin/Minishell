@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 21:26:25 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 23:19:38 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	action_in_child(t_data *data);
 // 	return (run_buildin(cmd_argv));
 int	execute(char *input, t_data *data)
 {
+	if (g_signal)
+		return (130);
 	if (!init_execution(input, data))
 		return (0);
 	if (!add_wildcards(data, &data->linked_args))

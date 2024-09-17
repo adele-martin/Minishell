@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:43:12 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:43:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 22:43:48 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**update_list(char *variable, char **list)
 	{
 		equal_sign = ft_strchr(*current, '=');
 		if (equal_sign && !ft_strncmp(*current, variable,
-				equal_sign - *current))
+				equal_sign - *current) && !variable[equal_sign - *current])
 		{
 			free(*current);
 			*current = ft_strdup(variable);

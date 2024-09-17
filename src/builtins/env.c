@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:41:45 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 21:09:03 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 23:09:25 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**delete_env(char *variable, char **list)
 		j = 0;
 		while (list[i][j] != '=')
 			j++;
-		if (!(ft_strncmp(list[i], variable, j)))
+		if (!(ft_strncmp(list[i], variable, j)) && !variable[j])
 		{
 			free(list[i]);
 			while (list[i + 1])

@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 20:00:26 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 22:31:28 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,10 @@ void	print_list(t_list *head)
 
 int	with_value(char *string)
 {
-	int	i;
-
-	i = 0;
-	while (string[i])
+	while (*string)
 	{
-		if (string[i] == '=')
+		if (*(string++) == '=')
 			return (1);
-		i++;
 	}
 	return (0);
 }
