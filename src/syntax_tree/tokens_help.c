@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 21:56:31 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 22:31:48 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:38:50 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static size_t	cmd_len(char *str, char in_sgl, char in_dbl)
 	return (len);
 }
 
+// Writes one token into a new string with length len
 static char	*token_write(char const *str, size_t len)
 {
 	char	*out;

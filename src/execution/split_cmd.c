@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:24:16 by bschneid          #+#    #+#             */
-/*   Updated: 2024/08/09 22:33:36 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:22:14 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_list	*get_args(char *str)
 
 	if (!str)
 		return (NULL);
+	args_out = NULL;
 	writer = &args_out;
 	while (*str)
 	{

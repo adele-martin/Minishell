@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:25:39 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:25:41 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:16:44 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	builtin_exit(char **argv, int argc, t_data *data)
 
 	i = 0;
 	if (argc == 1)
-		exit(0);
+		exit(ft_free(data, 0));
 	if (handle_plus_or_minus(argv[1][i]))
 		i++;
 	ft_printf("exit\n");
