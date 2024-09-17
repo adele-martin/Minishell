@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 22:52:57 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:49:58 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	null_data_struct(t_data *data)
 	data->linked_args = NULL;
 	data->files_list = NULL;
 	data->bin_paths = NULL;
+	data->child_pids = NULL;
 }
 
 // Restore original STDIN and STDOUT

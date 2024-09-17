@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:40:18 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 23:12:12 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:07:20 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ char	check_input(char *str, char needs_string)
 
 static void	spec_error(char *token)
 {
-	error_message("syntax error", "unexpected token", token);
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(token, 2);
+	ft_putstr_fd("'\n", 2);
 }
 
 static char	valid_string(char *str, char in_sgl, char in_dbl)

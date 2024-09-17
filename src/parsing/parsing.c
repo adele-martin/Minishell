@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 19:56:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:31:03 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static int	create_pipe_child(t_ast *node, t_data *data)
 		dup2(data->fd[1], STDOUT_FILENO);
 		exit(ft_free(data, parse_ast(node->left, data)));
 	}
+	if (!fill_child_pid(&data->child_pids, data->id))
+		return (1);
 	close(data->fd[1]);
 	dup2(data->fd[0], STDIN_FILENO);
 	read(data->fd[0], &data->stdin, sizeof(int));

@@ -6,7 +6,7 @@
 #    By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 17:25:14 by bschneid          #+#    #+#              #
-#    Updated: 2024/09/16 14:07:25 by bschneid         ###   ########.fr        #
+#    Updated: 2024/09/17 16:32:13 by bschneid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJ_DIR = obj
 SOURCES = $(BI)/cd.c $(BI)/echo.c $(BI)/env.c $(BI)/exit.c\
 	$(BI)/export.c $(BI)/pwd.c $(BI)/unset.c\
 	$(EX)/exec_help.c $(EX)/exec.c $(EX)/split_cmd.c \
-	$(EX)/var_expand.c $(EX)/var_helpers.c $(EX)/wildcard.c\
+	$(EX)/var_expand.c $(EX)/var_helpers.c $(EX)/waiting.c $(EX)/wildcard.c\
 	$(ST)/ast.c $(ST)/tokens_help.c $(ST)/tokens.c\
 	$(OT)/debug_funcs.c $(OT)/error_memory.c $(OT)/init.c $(OT)/signals.c\
 	$(OT)/utils.c $(OT)/proof.c\

@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 12:30:11 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:33:02 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ struct s_ast
 	t_ast	*right;
 };
 
+typedef struct s_pid			t_pid;
+
+// struct for the Abstract syntax tree nodes
+struct s_pid
+{
+	pid_t	id;
+	t_pid	*next;
+};
+
 typedef struct s_vars			t_vars;
 
 // struct for linked variables list to be replaced:
@@ -82,6 +91,7 @@ typedef struct s_data
 	t_list	*linked_args;
 	t_list	*files_list;
 	char	**bin_paths;
+	t_pid	*child_pids;
 }								t_data;
 
 // AST:
@@ -137,6 +147,9 @@ void	free_vars(t_vars *vars);
 char	add_wildcards(t_data *data, t_list **linked_args);
 // PROOF:
 char	check_input(char *str, char needs_string);
+// WAITING:
+int		fill_child_pid(t_pid **child_pids, pid_t id);
+int		wait_for_children(t_pid *child_pids);
 
 //VARIABLES
 // void store_envs(char **envp);
