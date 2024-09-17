@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 16:33:02 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:54:14 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ char	check_input(char *str, char needs_string);
 // WAITING:
 int		fill_child_pid(t_pid **child_pids, pid_t id);
 int		wait_for_children(t_pid *child_pids);
+void	free_waitlist(t_pid **child_pids);
 
 //VARIABLES
 // void store_envs(char **envp);

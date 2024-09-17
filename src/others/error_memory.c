@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 12:30:12 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:57:08 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ int	ft_free(t_data *data, int exit)
 		free(data->status_str);
 	if (data->list_envs)
 		free_array(&data->list_envs);
+	free_waitlist(&data->child_pids);
 	free(data->shell_name);
-	close(data->stdin);
-	close(data->stdout);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	rl_clear_history();
 	return (exit);
 }

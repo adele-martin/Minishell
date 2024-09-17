@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 16:42:02 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:47:22 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,9 @@ int	execute(char *input, t_data *data)
 		return (1);
 	if (!run_builtin(data))
 		data->status = run_extern(data);
-	// else if (!data->in_child)
-	// 	return (data->status);
-	close(0);
-	close(1);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	wait_for_children(data->child_pids);
-	
 	if (WIFEXITED(data->status))
 		data->status = WEXITSTATUS(data->status);
 	return (data->status);
