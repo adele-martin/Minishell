@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 17:29:39 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:12:40 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_data
 	char	**list_envs;
 	t_list	*export_list;
 	char	in_child;
+	char	ran_builtin;
 	int		fd[2];
 	int		signal_fd;
 	pid_t	id;

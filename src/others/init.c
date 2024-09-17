@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 17:53:34 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:38:31 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->shell_name = ft_strdup("minishell");
 	data->stdin = dup(STDIN_FILENO);
 	data->stdout = dup(STDOUT_FILENO);
+	data->status = 0;
 	data->status_str = ft_itoa(0);
 	handle_signals(0);
 	null_data_struct(data);
@@ -31,7 +32,7 @@ int	initialize_data(t_data *data, int argc, char **envp)
 // Resets all data vars for a new prompt
 void	null_data_struct(t_data *data)
 {
-	data->status = 0;
+	// data->status = 0;
 	// data->status_str = NULL;
 	data->input = NULL;
 	data->tokens = NULL;
@@ -40,6 +41,7 @@ void	null_data_struct(t_data *data)
 	data->id = 1;
 	data->signal_fd = 0;
 	data->in_child = 0;
+	data->ran_builtin = 0;
 	data->argc = 0;
 	data->argv = NULL;
 	data->linked_args = NULL;
@@ -53,6 +55,8 @@ void	null_data_struct(t_data *data)
 // Returns 1 on success, 0 on failure
 int	restore_stdin_stdout(t_data *data, char option)
 {
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	if (option == 0 || option == 2)
 		dup2(data->stdin, STDIN_FILENO);
 	if (option == 1 || option == 2)

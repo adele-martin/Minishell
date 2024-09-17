@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 18:02:03 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:32:52 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	main(int argc, char **argv, char **envp)
 		{
 			free(data.input);
 			data.status = 2;
+			data.status_str = ft_itoa(data.status);
 			continue ;
 		}
 		if (build_ast(&data))
 			data.status = parse_ast(data.ast_root, &data);
-		if (!restore_stdin_stdout(&data, 2))
-			exit (ft_free(&data, 1));
-		ft_printf("status: %d\n", data.status);
+		// if (!restore_stdin_stdout(&data, 2))
+		// 	exit (ft_free(&data, 1));
 		free_prompt_data(&data);
 	}
 	ft_printf("exit\n");

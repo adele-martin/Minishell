@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:46:53 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 21:56:06 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:26:37 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ char	run_builtin(t_data *data)
 		data->status = builtin_exit(data->argv, data->argc, data);
 	else
 		return (0);
+	if (data->in_child)
+		exit(ft_free(data, data->status));
+	data->ran_builtin = 1;
 	return (1);
 }
 

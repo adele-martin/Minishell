@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 18:22:04 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:26:25 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,10 @@ int	execute(char *input, t_data *data)
 		return (0);
 	if (!create_argv_argc(data, data->linked_args))
 		return (1);
-	if (!run_builtin(data))
-		data->status = run_extern(data);
-	// close(STDIN_FILENO);
-	// close(STDOUT_FILENO);
-	if (data->in_child)
-		exit (data->status);
-	data->status = wait_for_children(data->child_pids);
-	// if (WIFEXITED(data->status))
-	// 	data->status = WEXITSTATUS(data->status);
+	if (!run_builtin(data) && !run_extern(data))
+		return (0);
+	if (!data->ran_builtin)
+		data->status = wait_for_children(data->child_pids);
 	return (data->status);
 }
 
@@ -62,25 +57,21 @@ static int	run_extern(t_data *data)
 	if (!data->in_child)
 		data->id = fork();
 	if (data->id == -1)
-		return (1);
-	else if (data->id)
-	{
-		if (!fill_child_pid(&data->child_pids, data->id))
-		return (1);
-	}
-	if (!data->id)
+		return (0);
+	if (!data->id || data->in_child)
 	{
 		handle_signals(3);
 		data->status = action_in_child(data);
-		ft_printf("Status: %d\n", data->status);
 		if (WIFEXITED(data->status))
 			data->status = WEXITSTATUS(data->status);
 		exit (ft_free(data, data->status));
 	}
-	// waitpid(data->id, &data->status, 0);
-	// if (WIFEXITED(data->status))
-	// 	data->status = WEXITSTATUS(data->status);
-	return (data->status);
+	if (!data->in_child)
+	{
+		if (!fill_child_pid(&data->child_pids, data->id))
+			return (0);
+	}
+	return (1);
 }
 
 static int	action_in_child(t_data *data)
