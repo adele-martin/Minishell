@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 20:08:13 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 19:22:32 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:54:48 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ static void	append_replace(char *str, t_vars **li, t_data *data)
 		(*li)->value_start = NULL;
 	else if (*str == '?')
 	{
-		if (data->status_str)
-			free(data->status_str);
-		data->status_str = ft_itoa(g_signal);
+		// if (data->status_str)
+		// 	free(data->status_str);
+		// data->status_str = ft_itoa(data->status);
 		(*li)->value_start = data->status_str;
 	}
 	else if (!get_alphaval(ft_strdup(str), li, data))

@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 16:52:10 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:53:34 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	initialize_data(t_data *data, int argc, char **envp)
 	data->shell_name = ft_strdup("minishell");
 	data->stdin = dup(STDIN_FILENO);
 	data->stdout = dup(STDOUT_FILENO);
+	data->status_str = ft_itoa(0);
 	handle_signals(0);
 	null_data_struct(data);
 	return (1);
@@ -31,7 +32,7 @@ int	initialize_data(t_data *data, int argc, char **envp)
 void	null_data_struct(t_data *data)
 {
 	data->status = 0;
-	data->status_str = NULL;
+	// data->status_str = NULL;
 	data->input = NULL;
 	data->tokens = NULL;
 	data->ast_root = NULL;
@@ -70,17 +71,21 @@ void	free_prompt_data(t_data *data)
 		ft_split_free(data->tokens);
 	if (data->bin_paths)
 		ft_split_free(data->bin_paths);
-	if (data->linked_args)
-		ft_lstclear(&data->linked_args, free);
-	if (data->files_list)
-		ft_lstclear(&data->files_list, free);
+	ft_lstclear(&data->linked_args, free);
+	ft_lstclear(&data->files_list, free);
 	if (data->argv)
 		free_array(&data->argv);
 	free_waitlist(&data->child_pids);
-	free_ast(data->ast_root);
+	free_ast(&data->ast_root);
 	null_data_struct(data);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
+	if (g_signal)
+		data->status = 130;
+	g_signal = 0;
+	if (data->status_str)
+		free(data->status_str);
+	data->status_str = ft_itoa(data->status);
 	if (!restore_stdin_stdout(data, 2))
 		exit (ft_free(data, 1));
 	handle_signals(1);

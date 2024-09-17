@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 18:29:35 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:02:03 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@ int	main(int argc, char **argv, char **envp)
 		if (!check_input(data.input, 0))
 		{
 			free(data.input);
-			g_signal = 2;
+			data.status = 2;
 			continue ;
 		}
 		if (build_ast(&data))
-			g_signal = parse_ast(data.ast_root, &data);
+			data.status = parse_ast(data.ast_root, &data);
+		if (!restore_stdin_stdout(&data, 2))
+			exit (ft_free(&data, 1));
+		ft_printf("status: %d\n", data.status);
 		free_prompt_data(&data);
 	}
 	ft_printf("exit\n");
 	ft_free(&data, 0);
-	return (g_signal);
+	return (data.status);
 }

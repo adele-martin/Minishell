@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:28:47 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 16:57:17 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:22:01 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int	wait_for_children(t_pid *child_pids)
 	while (child_pids)
 	{
 		waitpid(child_pids->id, &status, 0);
+		ft_printf("Status: %d\n", status);
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
 		child_pids = child_pids->next;
 	}
 	return (status);

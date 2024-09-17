@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 16:57:08 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:31:10 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ void	error_message(char *cmd, char *arg, char *message)
 }
 
 // This function recursively frees the left and right nodes
-void	free_ast(t_ast *node)
+void	free_ast(t_ast **node)
 {
-	if (node == NULL)
+	if (!node || !*node)
 		return ;
-	if (node->left != NULL)
-		free_ast(node->left);
-	if (node->right != NULL)
-		free_ast(node->right);
-	free(node);
-	node = NULL;
+	if ((*node)->left)
+		free_ast(&(*node)->left);
+	if ((*node)->right)
+		free_ast(&(*node)->right);
+	free(*node);
+	*node = NULL;
 }
 
-// TODO: Implement function to free the AST and linked_args
+// Free function for the data struct
 int	ft_free(t_data *data, int exit)
 {
 	if (data->input)
@@ -66,15 +66,12 @@ int	ft_free(t_data *data, int exit)
 		ft_split_free(data->tokens);
 	if (data->bin_paths)
 		ft_split_free(data->bin_paths);
-	if (data->linked_args)
-		ft_lstclear(&data->linked_args, free);
-	if (data->files_list)
-		ft_lstclear(&data->files_list, free);
+	ft_lstclear(&data->linked_args, free);
+	ft_lstclear(&data->files_list, free);
 	if (data->argv)
 		free_array(&data->argv);
-	free_ast(data->ast_root);
-	if (data->export_list)
-		ft_lstclear(&data->export_list, free);
+	free_ast(&data->ast_root);
+	ft_lstclear(&data->export_list, free);
 	if (data->status_str)
 		free(data->status_str);
 	if (data->list_envs)

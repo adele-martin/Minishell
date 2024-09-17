@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:14:40 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 20:03:33 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:20:01 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Handles signals in main loop while reading input
 void	signal_in_newline(int sig)
 {
-	g_signal = 130;
+	g_signal = sig;
 	write(2, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -26,7 +26,7 @@ void	signal_in_newline(int sig)
 // Handles signals in main loop while executing commands
 void	signal_out_newline(int sig)
 {
-	g_signal = 130;
+	g_signal = sig;
 	write(2, "\n", 1);
 	(void)sig;
 }
@@ -35,7 +35,7 @@ void	signal_out_newline(int sig)
 void	signal_child(int sig)
 {
 	(void)sig;
-	g_signal = 130;
+	g_signal = sig;
 	exit (130);
 }
 
