@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 13:58:26 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:07:59 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	redirect(char *operator, char *word, t_data *data)
 		return (heredoc(word, data));
 	ft_lstclear(&data->redir_wordlist, free);
 	data->redir_wordlist = ft_lstnew(ft_strdup(word));
+	if (!data->redir_wordlist || !data->redir_wordlist->content)
+		return (error_message(NULL, NULL, "Error in malloc"), 1);
 	if (!add_wildcards(data, &data->redir_wordlist))
 		return (error_message(NULL, NULL, "Error in wildcards"), 1);
 	if (data->redir_wordlist->next)

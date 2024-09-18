@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 13:20:59 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:09:30 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ int	main(int argc, char **argv, char **envp)
 		free_prompt_data(&data);
 	}
 	ft_printf("exit\n");
-	ft_free(&data, 0);
-	return (data.status);
+	return (ft_free(&data, data.status));
 }

@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 13:47:24 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:58:01 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,12 @@ int	ft_free(t_data *data, int exit)
 	close(STDOUT_FILENO);
 	rl_clear_history();
 	return (exit);
+}
+
+// Error message for wrong syntax
+void	spec_error(char *token)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(token, 2);
+	ft_putstr_fd("'\n", 2);
 }

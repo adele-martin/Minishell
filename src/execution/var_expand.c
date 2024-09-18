@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 20:08:13 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 17:54:48 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:49:27 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static t_vars	*var_val(char *str, t_data *data, char in_sgl, char in_dbl);
 static void		append_replace(char *str, t_vars **list, t_data *data);
-static void		set_len_diff(t_vars **li);
 static char		get_alphaval(char *str, t_vars **list, t_data *data);
 
 char	expand_variables(t_list *linked_args, t_data *data)
@@ -80,20 +79,9 @@ static void	append_replace(char *str, t_vars **li, t_data *data)
 	else if (ft_isdigit(*str))
 		(*li)->value_start = NULL;
 	else if (*str == '?')
-	{
-		// if (data->status_str)
-		// 	free(data->status_str);
-		// data->status_str = ft_itoa(data->status);
 		(*li)->value_start = data->status_str;
-	}
 	else if (!get_alphaval(ft_strdup(str), li, data))
 		return ;
-	set_len_diff(li);
-}
-
-// Sets the len_dif in a vars link
-static void	set_len_diff(t_vars **li)
-{
 	if (!(*li)->value_start)
 		(*li)->len_diff = 0 - (*li)->key_len;
 	else

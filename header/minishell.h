@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 13:57:38 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:00:49 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,17 +189,18 @@ int		builtin_exit(char **argv, int argc, t_data *data);
 //MEMORY
 int		exit_error(t_data *data);
 
-//ERROR HANDLING
-void	free_array(char ***array);
-void	error_message(char *cmd, char *arg, char *message);
-void	free_ast(t_ast **node);
-
 //UTILS
 char	*ft_strcat(char *dst, const char *src);
 int		with_value(char *string);
-int		ft_free(t_data *data, int exit);
 int		handle_plus_or_minus(char c);
-int		isalnum_space(int c);
-int		isalpha_space(int c);
+// int		isalnum_space(int c);
+// int		isalpha_space(int c);
+
+// ERROR_MEMORY:
+void	free_array(char ***array);
+void	error_message(char *cmd, char *arg, char *message);
+void	free_ast(t_ast **node);
+int		ft_free(t_data *data, int exit);
+void	spec_error(char *token);
 
 #endif
