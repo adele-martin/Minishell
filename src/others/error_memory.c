@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 09:50:50 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 17:31:10 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:47:24 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	free_array(char ***array)
 {
 	size_t	i;
 
-	if (!*array)
+	if (!array || !*array)
 		return ;
 	i = 0;
-	while (array[0][i])
-		free(array[0][i++]);
+	while ((*array)[i])
+		free((*array)[i++]);
 	free(*array);
 	*array = NULL;
 }
@@ -68,14 +68,13 @@ int	ft_free(t_data *data, int exit)
 		ft_split_free(data->bin_paths);
 	ft_lstclear(&data->linked_args, free);
 	ft_lstclear(&data->files_list, free);
-	if (data->argv)
-		free_array(&data->argv);
+	free_array(&data->argv);
 	free_ast(&data->ast_root);
 	ft_lstclear(&data->export_list, free);
+	ft_lstclear(&data->redir_wordlist, free);
 	if (data->status_str)
 		free(data->status_str);
-	if (data->list_envs)
-		free_array(&data->list_envs);
+	free_array(&data->list_envs);
 	free_waitlist(&data->child_pids);
 	free(data->shell_name);
 	close(STDIN_FILENO);

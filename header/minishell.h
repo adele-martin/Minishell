@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 21:12:40 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:57:38 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_data
 	char	**argv;
 	t_list	*linked_args;
 	t_list	*files_list;
+	t_list	*redir_wordlist;
 	char	**bin_paths;
 	t_pid	*child_pids;
 }								t_data;
@@ -97,7 +98,7 @@ typedef struct s_data
 // AST:
 t_ast	*create_ast(char **token_start, char **token_end);
 // REDIRECTIONS:
-int		redirect(char *operator, char **word, t_data *data);
+int		redirect(char *operator, char *word, t_data *data);
 int		redirect_output(char *filename, t_data *data);
 int		append_output(char *filename, t_data *data);
 int		redirect_input(char *filename, t_data *data);

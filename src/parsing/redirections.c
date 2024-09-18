@@ -6,38 +6,33 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:14 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 22:53:45 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:58:26 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
 // not really sure what this function does and not right!
-int	redirect(char *operator, char **word, t_data *data)
+int	redirect(char *operator, char *word, t_data *data)
 {
-	t_list	*wordlist;
-
-	clean_quotations(*word, *word, 0, 0);
+	clean_quotations(word, word, 0, 0);
 	if (!ft_strncmp(operator, "<<", 3))
-		return (heredoc(*word, data));
-	wordlist = ft_lstnew(ft_strdup(*word));
-	if (!add_wildcards(data, &wordlist))
+		return (heredoc(word, data));
+	ft_lstclear(&data->redir_wordlist, free);
+	data->redir_wordlist = ft_lstnew(ft_strdup(word));
+	if (!add_wildcards(data, &data->redir_wordlist))
 		return (error_message(NULL, NULL, "Error in wildcards"), 1);
-	if (wordlist->next)
-	{
-		ft_lstclear(&wordlist, free);
+	if (data->redir_wordlist->next)
 		return (error_message(NULL, NULL, "ambiguous redirect"), 1);
-	}
-	if (!expand_variables(wordlist, data))
+	if (!expand_variables(data->redir_wordlist, data))
 		return (error_message(NULL, NULL, "Error in expanding variables"), 1);
-	*word = ft_strdup(wordlist->content);
-	free(wordlist);
+	word = data->redir_wordlist->content;
 	if (!ft_strncmp(operator, ">", 2))
-		return (redirect_output(*word, data));
+		return (redirect_output(word, data));
 	else if (!ft_strncmp(operator, ">>", 3))
-		return (append_output(*word, data));
+		return (append_output(word, data));
 	else if (!ft_strncmp(operator, "<", 2))
-		return (redirect_input(*word, data));
+		return (redirect_input(word, data));
 	return (1);
 }
 

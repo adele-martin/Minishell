@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 21:38:31 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:47:08 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ int	initialize_data(t_data *data, int argc, char **envp)
 // Resets all data vars for a new prompt
 void	null_data_struct(t_data *data)
 {
-	// data->status = 0;
-	// data->status_str = NULL;
 	data->input = NULL;
 	data->tokens = NULL;
 	data->ast_root = NULL;
 	data->linked_args = NULL;
+	data->redir_wordlist = NULL;
 	data->id = 1;
 	data->signal_fd = 0;
 	data->in_child = 0;
@@ -68,7 +67,6 @@ int	restore_stdin_stdout(t_data *data, char option)
 // build specific functions for freeing the data in each while loop
 void	free_prompt_data(t_data *data)
 {
-	(void)data;
 	if (data->input)
 		free(data->input);
 	if (data->tokens)
@@ -77,19 +75,19 @@ void	free_prompt_data(t_data *data)
 		ft_split_free(data->bin_paths);
 	ft_lstclear(&data->linked_args, free);
 	ft_lstclear(&data->files_list, free);
-	if (data->argv)
-		free_array(&data->argv);
+	free_array(&data->argv);
 	free_waitlist(&data->child_pids);
 	free_ast(&data->ast_root);
+	ft_lstclear(&data->redir_wordlist, free);
 	null_data_struct(data);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	if (g_signal)
 		data->status = 130;
 	g_signal = 0;
 	if (data->status_str)
 		free(data->status_str);
 	data->status_str = ft_itoa(data->status);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	if (!restore_stdin_stdout(data, 2))
 		exit (ft_free(data, 1));
 	handle_signals(1);

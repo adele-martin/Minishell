@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 21:32:52 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:20:59 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (build_ast(&data))
 			data.status = parse_ast(data.ast_root, &data);
-		// if (!restore_stdin_stdout(&data, 2))
-		// 	exit (ft_free(&data, 1));
 		free_prompt_data(&data);
 	}
 	ft_printf("exit\n");
