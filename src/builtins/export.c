@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:43:42 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/16 22:44:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:26:11 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_list	*update_exportlist(char *variable, t_list *head)
 	return (head);
 }
 
-// Second export list util
+// Gets a new string (arg) and adds it to the export list
 void	fill_exportlist(char *arg, t_list *export_list)
 {
 	size_t	len;
@@ -54,6 +54,7 @@ void	fill_exportlist(char *arg, t_list *export_list)
 	ft_strlcpy(str, "declare -x ", len);
 	ft_strcat(str, arg);
 	update_exportlist(str, export_list);
+	free(str);
 }
 
 int	is_valid_identifier(const char *arg)
@@ -61,11 +62,11 @@ int	is_valid_identifier(const char *arg)
 	int	i;
 
 	i = 0;
-	if (arg[0] == '=')
+	if (!ft_isalpha(arg[0]))
 		return (0);
 	while (arg[i] && arg[i] != '=')
 	{
-		if (!(isalpha(arg[i])) && arg[i] != ' ')
+		if (!(ft_isalnum(arg[i])) && arg[i] != ' ')
 			return (0);
 		i++;
 	}

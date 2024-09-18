@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 16:00:49 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:24:39 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,8 +193,6 @@ int		exit_error(t_data *data);
 char	*ft_strcat(char *dst, const char *src);
 int		with_value(char *string);
 int		handle_plus_or_minus(char c);
-// int		isalnum_space(int c);
-// int		isalpha_space(int c);
 
 // ERROR_MEMORY:
 void	free_array(char ***array);
