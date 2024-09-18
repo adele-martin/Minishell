@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 15:37:13 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:02:38 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ void	free_prompt_data(t_data *data)
 	ft_lstclear(&data->redir_wordlist, free);
 	if (data->status_str)
 		free(data->status_str);
-	data->status_str = ft_itoa(data->status);
 	if (g_signal)
 		data->status = 130;
 	g_signal = 0;
+	data->status_str = ft_itoa(data->status);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	if (!restore_stdin_stdout(data, 2))

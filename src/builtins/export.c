@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:43:42 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 17:26:11 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:09:16 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_list	*update_exportlist(char *variable, t_list *head)
 		i = 0;
 		while (variable[i] && variable[i] != '=')
 			i++;
-		if (!(ft_strncmp(str, variable, i)))
+		if (!ft_strncmp(str, variable, i)) // Prob here? || (variable[i] == '=' && !ft_strncmp(str, variable, i + 1)))
 		{
 			prev->next = temp->next;
 			free(temp->content);

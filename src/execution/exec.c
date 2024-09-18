@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 23:19:38 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:40:09 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	run_extern(t_data *data)
 		data->status = action_in_child(data);
 		if (WIFEXITED(data->status))
 			data->status = WEXITSTATUS(data->status);
-		exit (ft_free(data, data->status));
+		exit(ft_free(data, data->status));
 	}
 	if (!data->in_child)
 	{
@@ -96,7 +96,7 @@ static int	action_in_child(t_data *data)
 					execve(data->argv[0], data->argv, data->list_envs)));
 		return (error_message(data->argv[0], NULL, "Permission denied"), 126);
 	}
-	return (ft_free(data, run_from_bin_path(data)));
+	return (run_from_bin_path(data));
 }
 
 void	update_home(t_data *data, char **argv)
