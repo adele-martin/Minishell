@@ -23,7 +23,7 @@ char	**update_list(char *variable, char **list)
 	{
 		equal_sign = ft_strchr(*current, '=');
 		if (equal_sign && !ft_strncmp(*current, variable,
-				equal_sign - *current) && !variable[equal_sign - *current])
+				equal_sign - *current) && variable[equal_sign - *current] == '=')
 		{
 			free(*current);
 			*current = ft_strdup(variable);

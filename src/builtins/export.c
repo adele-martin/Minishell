@@ -15,11 +15,11 @@
 t_list	*update_exportlist(char *variable, t_list *head)
 {
 	t_list	*temp;
-	t_list	*prev;
+	// t_list	*prev;
 	char	*str;
 	int		i;
 
-	prev = NULL;
+	// prev = NULL;
 	temp = head;
 	while (temp != NULL)
 	{
@@ -27,14 +27,17 @@ t_list	*update_exportlist(char *variable, t_list *head)
 		i = 0;
 		while (variable[i] && variable[i] != '=')
 			i++;
-		if (!ft_strncmp(str, variable, i)) // Prob here? || (variable[i] == '=' && !ft_strncmp(str, variable, i + 1)))
+		if (!ft_strncmp(str, variable, i) && (!str[i] || str[i] == '='))
 		{
-			prev->next = temp->next;
-			free(temp->content);
-			append_node(&head, variable);
+			// prev->next = temp->next;
+			ft_printf("Test1");
+			// free(str);
+			ft_printf("Test2");
+			temp->content = variable;
+			// append_node(&head, variable);
 			return (head);
 		}
-		prev = temp;
+		// prev = temp;
 		temp = temp->next;
 	}
 	append_node(&head, variable);
@@ -54,27 +57,21 @@ void	fill_exportlist(char *arg, t_list *export_list)
 	ft_strlcpy(str, "declare -x ", len);
 	ft_strcat(str, arg);
 	update_exportlist(str, export_list);
-	free(str);
+	// free(str);
 }
 
 int	is_valid_identifier(const char *arg)
 {
 	int	i;
 
-	i = 0;
-	if (!ft_isalpha(arg[0]))
+	if (!ft_isalpha(arg[0]) && arg[0] != '_')
 		return (0);
+	i = 1;
 	while (arg[i] && arg[i] != '=')
 	{
-		if (!(ft_isalnum(arg[i])) && arg[i] != ' ')
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			return (0);
 		i++;
-	}
-	if (arg[i] == '=')
-	{
-		i++;
-		if (arg[i] && (!(isalnum(arg[i])) && arg[i] != ' '))
-			return (0);
 	}
 	return (1);
 }
