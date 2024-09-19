@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_help.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:46:53 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 21:26:37 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:39:20 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	run_builtin(t_data *data)
 		data->status = builtin_export(data->argv,
 				data->argc, data->list_envs, data->export_list);
 	else if (!ft_strncmp(*data->argv, "unset", 6))
-		data->status = builtin_unset(data->argv, data->list_envs, NULL);
+		data->status = builtin_unset(data);
 	else if (!ft_strncmp(*data->argv, "env", 4))
 		data->status = builtin_env(data->list_envs);
 	else if (!ft_strncmp(*data->argv, "exit", 5))

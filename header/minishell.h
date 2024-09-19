@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 17:24:39 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:41:08 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_vars
 	t_vars	*next;
 }	t_vars;
 
-// struct for the information				
+// struct for the information
 typedef struct s_data
 {
 	char	*shell_name;
@@ -160,7 +160,7 @@ char	**update_list(char *variable, char **list_envs);
 char	*return_value_env(char *variable, char **list);
 char	*return_value_var(char *variable, t_list *head);
 char	**delete_env(char *variable, char **list);
-t_list	*delete_var(char *variable, t_list *head);
+void	delete_var(char *var, t_data *data);
 char	*search_var(char *variable, t_list *head);
 char	*search_env(char *variable, char **list);
 void	bubble_sort(char *arr[], int n);
@@ -181,7 +181,7 @@ int		builtin_export(char **argv, int argc,
 t_list	*array_to_linkedlist(char *arr[]);
 int		builtin_echo(char **argv, int argc);
 int		builtin_env(char **list_envs);
-int		builtin_unset(char **argv, char **list_envs, t_list *head);
+int		builtin_unset(t_data *data);
 int		builtin_cd(t_data *data);
 int		builtin_pwd(void);
 int		builtin_exit(char **argv, int argc, t_data *data);

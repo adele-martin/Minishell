@@ -3,29 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:44:00 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 18:44:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:16:59 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-t_list	*create_node(const char *data)
+t_list	*create_node(const char *str)
 {
 	t_list	*new_node;
 
 	new_node = (t_list *)malloc(sizeof(t_list));
 	if (!new_node)
-	{
-		exit(EXIT_FAILURE);
-	}
-	new_node->content = strdup(data);
+		return (NULL);
+	new_node->content = strdup(str);
 	if (!new_node->content)
 	{
 		free(new_node);
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 	new_node->next = NULL;
 	return (new_node);
@@ -38,14 +36,13 @@ t_list	*create_nodeexport(const char *str)
 	node = (t_list *)malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	node->content = (char *)malloc(strlen("declare -x ") + strlen(str) + 1);
+	node->content = (char *)malloc(strlen(str) + 1);
 	if (!node->content)
 	{
 		free(node);
 		return (NULL);
 	}
-	strcpy(node->content, "declare -x ");
-	strcat(node->content, str);
+	strcpy(node->content, str);
 	node->next = NULL;
 	return (node);
 }
@@ -59,42 +56,42 @@ char	**create_list(char **list)
 	return (list);
 }
 
-void	append_node(t_list **head, const char *data)
+void	append_node(t_list **head, const char *str)
 {
 	t_list	*new_node;
-	t_list	*temp;
+	t_list	**temp;
 
-	new_node = create_node(data);
-	if (*head == NULL)
-	{
+	new_node = create_node(str);
+	if (!new_node)
+		return ;
+	if (!*head)
 		*head = new_node;
-	}
 	else
 	{
-		temp = *head;
-		while (temp->next != NULL)
-		{
-			temp = temp->next;
-		}
-		temp->next = new_node;
+		temp = head;
+		while (*temp)
+			temp = &(*temp)->next;
+		*temp = new_node;
 	}
 }
 
 //Function to create the second "export" list
-t_list	*array_to_linkedlist(char *arr[])
+// Uses the env list to create
+// Node and content is new malloced
+t_list	*array_to_linkedlist(char **env)
 {
 	t_list	*head;
 	t_list	*current;
 	int		i;
 
-	if (arr[0] == NULL)
+	if (env[0] == NULL)
 		return (NULL);
-	head = create_nodeexport(arr[0]);
+	head = create_nodeexport(env[0]);
 	current = head;
 	i = 1;
-	while (arr[i] != NULL)
+	while (env[i] != NULL)
 	{
-		current->next = create_nodeexport(arr[i]);
+		current->next = create_nodeexport(env[i]);
 		current = current->next;
 		i++;
 	}

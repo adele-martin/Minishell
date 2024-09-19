@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:42:33 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 21:08:17 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:11:34 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-int	builtin_unset(char **argv, char **list_envs, t_list *head)
+int	builtin_unset(t_data *data)
 {
 	int	i;
 
 	i = 1;
-	while (argv[i])
+	while (data->argv[i])
 	{
-		delete_env(argv[i], list_envs);
+		delete_env(data->argv[i], data->list_envs);
 		i++;
 	}
-	i = 0;
-	while (argv[i])
+	i = 1;
+	while (data->argv[i])
 	{
-		if (search_var(argv[i], head) != NULL)
-			delete_var(argv[i], head);
+		if (return_value_var(data->argv[i], data->export_list))
+			delete_var(data->argv[i], data);
 		i++;
 	}
 	return (0);

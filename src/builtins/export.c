@@ -3,61 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 11:43:42 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 20:09:16 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:20:36 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-t_list	*update_exportlist(char *variable, t_list *head)
+// export list is linked list
+t_list	*update_exportlist(char *new_var, t_list *exp_list)
 {
 	t_list	*temp;
-	// t_list	*prev;
 	char	*str;
 	int		i;
 
-	// prev = NULL;
-	temp = head;
+	i = 0;
+	while (new_var[i] && new_var[i] != '=')
+		i++;
+	temp = exp_list;
 	while (temp != NULL)
 	{
 		str = (char *)temp->content;
-		i = 0;
-		while (variable[i] && variable[i] != '=')
-			i++;
-		if (!ft_strncmp(str, variable, i) && (!str[i] || str[i] == '='))
+		if (!ft_strncmp(str, new_var, i) && (!str[i] || str[i] == '='))
 		{
-			// prev->next = temp->next;
-			ft_printf("Test1");
-			// free(str);
-			ft_printf("Test2");
-			temp->content = variable;
-			// append_node(&head, variable);
-			return (head);
+			if (!new_var[i])
+				return (exp_list);
+			free (temp->content);
+			temp->content = ft_strdup(new_var);
+			return (exp_list);
 		}
-		// prev = temp;
 		temp = temp->next;
 	}
-	append_node(&head, variable);
-	return (head);
-}
-
-// Gets a new string (arg) and adds it to the export list
-void	fill_exportlist(char *arg, t_list *export_list)
-{
-	size_t	len;
-	char	*str;
-
-	len = strlen("declare -x ") + strlen(arg) + 1;
-	str = (char *)malloc(len);
-	if (!str)
-		return ;
-	ft_strlcpy(str, "declare -x ", len);
-	ft_strcat(str, arg);
-	update_exportlist(str, export_list);
-	// free(str);
+	append_node(&exp_list, new_var);
+	return (exp_list);
 }
 
 int	is_valid_identifier(const char *arg)
@@ -95,10 +75,10 @@ int	builtin_export(char **argv, int argc, char **list_envs, t_list *export_list)
 		else if (with_value(argv[i]))
 		{
 			update_list(argv[i], list_envs);
-			fill_exportlist(argv[i], export_list);
+			update_exportlist(argv[i], export_list);
 		}
 		else
-			fill_exportlist(argv[i], export_list);
+			update_exportlist(argv[i], export_list);
 		i++;
 	}
 	return (invalid);

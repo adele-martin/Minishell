@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 22:31:28 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:15:27 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	print_list(t_list *head)
 
 	temp = head;
 	sort_list(head);
-	while (temp != NULL)
+	while (temp)
 	{
-		ft_printf("%s\n", (char *)temp->content);
+		ft_printf("declare -x %s\n", (char *)temp->content);
 		temp = temp->next;
 	}
 }
