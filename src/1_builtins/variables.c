@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:43:12 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/19 16:22:01 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:56:15 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 //This function apprends new variables to our env list.
 char	**update_list(char *variable, char **envs)

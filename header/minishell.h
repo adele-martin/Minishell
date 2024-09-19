@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:23:35 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/19 13:41:08 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:52:45 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define _GNU_SOURCE
 
-# include "../src/Libft_extended/include/libft.h"
+# include "../src/0_Libft_extended/include/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>

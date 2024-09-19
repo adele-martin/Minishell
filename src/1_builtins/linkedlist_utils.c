@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:44:00 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/19 14:16:59 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:56:05 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 t_list	*create_node(const char *str)
 {

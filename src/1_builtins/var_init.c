@@ -6,11 +6,11 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 20:43:06 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 13:31:02 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:56:13 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 //This function creates the initial env array of strings from the main.
 char	**envs_list(char **envp)
