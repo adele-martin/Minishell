@@ -6,14 +6,13 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:04:25 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/19 16:56:10 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:39:22 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
 // Util function for the export built-in. Sorts the list in alphabetical order.
-// TO DO: also do the difference between 'H' and 'h'
 void	sort_list(t_list *head)
 {
 	t_list	*i;
@@ -30,7 +29,8 @@ void	sort_list(t_list *head)
 		j = i->next;
 		while (j != NULL)
 		{
-			if (strcmp(i->content, j->content) > 0)
+			if (ft_strncmp(i->content, j->content,
+					ft_strlen(i->content) + 1) > 0)
 			{
 				temp = i->content;
 				i->content = j->content;

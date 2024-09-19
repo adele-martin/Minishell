@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 21:16:28 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/13 21:23:01 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:44:29 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	print_ast_level(t_ast *node, int level)
 	if (node)
 	{
 		while (i++ < level)
-			printf("    ");
-		printf("%s\n", node->value);
+			ft_printf("    ");
+		ft_printf("%s\n", node->value);
 		print_ast_level(node->left, level + 1);
 		print_ast_level(node->right, level + 1);
 	}
@@ -44,7 +44,7 @@ void	print_ast(t_ast *root)
 {
 	if (!root)
 		return ;
-	printf("%s\n", root->value);
+	ft_printf("%s\n", root->value);
 	print_ast_level(root->left, 1);
 	print_ast_level(root->right, 1);
 }

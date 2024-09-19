@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:44:00 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/19 16:56:05 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:34:32 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list	*create_node(const char *str)
 	new_node = (t_list *)malloc(sizeof(t_list));
 	if (!new_node)
 		return (NULL);
-	new_node->content = strdup(str);
+	new_node->content = ft_strdup(str);
 	if (!new_node->content)
 	{
 		free(new_node);
@@ -36,13 +36,12 @@ t_list	*create_nodeexport(const char *str)
 	node = (t_list *)malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	node->content = (char *)malloc(strlen(str) + 1);
+	node->content = ft_strdup(str);
 	if (!node->content)
 	{
 		free(node);
 		return (NULL);
 	}
-	strcpy(node->content, str);
 	node->next = NULL;
 	return (node);
 }
