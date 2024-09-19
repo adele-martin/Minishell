@@ -3,81 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:34:05 by bschneid          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/26 17:58:46 by ademarti         ###   ########.fr       */
+=======
+/*   Updated: 2024/09/18 20:17:02 by bschneid         ###   ########.fr       */
+>>>>>>> 4de1a48c57877ee56e3188a678e161edcca60f82
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	initialize_data(t_data *data, int argc, char **argv, char **envp);
+volatile __sig_atomic_t	g_signal;
 
-// TODO: Why is there the function getenv if we get it through the envp ? Is there a difference? --> cd-build-in !
+static void	check_for_signals(t_data *data);
+static char	handle_input(t_data *data);
+
 int	main(int argc, char **argv, char **envp)
 {
-	char	**tokens;
-	char	**end_tokens;
-	t_ast	*astRoot;
 	t_data	data;
 
-	if (initialize_data(&data, argc, argv, envp))
-		return (EXIT_FAILURE);
+	(void)argv;
+	if (!initialize_data(&data, argc, envp))
+		exit (1);
 	while (1)
 	{
 		data.input = readline("minishell > ");
+		check_for_signals(&data);
 		if (!data.input)
 			break ;
-		else
-		{
-			add_history(data.input);
-			data.id = fork();
-			if (data.id == -1)
-				return (1);
-			if (data.id == 0)
-			{
-				// tokenize_parse(&data);
-				tokens = split_tokens(data.input);
-				end_tokens = tokens;
-				while (*end_tokens)
-					end_tokens++;
-				end_tokens--;
-				astRoot = create_ast(tokens, end_tokens);
-				parse_ast(astRoot, &data);
-			}
-			else
-			{
-				waitpid(data.id, NULL, 0);
-				free(data.input);
-			}
-		}
+		handle_signals(2);
+		add_history(data.input);
+		if (!handle_input(&data))
+			continue ;
+		if (build_ast(&data))
+			data.status = parse_ast(data.ast_root, &data);
+		free_prompt_data(&data);
 	}
+<<<<<<< HEAD
 	//Return (exit code)
 	printf("Shell ended!\n");
 	return (data.cm_stat);
 	// return (EXIT_SUCCESS);
+=======
+	ft_printf("exit\n");
+	return (ft_free(&data, data.status));
+>>>>>>> 4de1a48c57877ee56e3188a678e161edcca60f82
 }
 
-// for getting key-value: char	*expanding(char *variable, char **list, t_list *head)
-int	initialize_data(t_data *data, int argc, char **argv, char **envp)
+// Checks for signals and updates the status accordingly
+static void	check_for_signals(t_data *data)
 {
-	(void)argv;
-	if (argc != 1)
+	if (g_signal)
 	{
-		errno = EINVAL;
-		perror("main");
-		exit (EXIT_FAILURE);
+		data->status = 130;
+		if (data->status_str)
+			free(data->status_str);
+		data->status_str = ft_itoa(data->status);
+		g_signal = 0;
 	}
-	data->list_envs = envs_list(envp);
-	data->tty_name = ttyname(STDIN_FILENO);
-	data->shell_name = ft_strdup("minishell");
-	data->status_str = ft_itoa(123);
-	data->in_pipe = 0;
-	data->id = 0;
-	data->signal_fd = 0;
-	data->cmd_argc = 0;
-	// ft_printf("TEST-EXPAND: %s\n", search("PWDasdf", data->list_envs, NULL));
-	handle_signals();
-	return (EXIT_SUCCESS);
+}
+
+static char	handle_input(t_data *data)
+{
+	if (!check_input(data->input, 0))
+	{
+		free(data->input);
+		data->status = 2;
+		if (data->status_str)
+			free(data->status_str);
+		data->status_str = ft_itoa(data->status);
+		return (0);
+	}
+	return (1);
 }

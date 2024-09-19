@@ -87,12 +87,12 @@ char	**ft_split(char const *s, char c)
 	size_t	words;
 
 	if (!s)
-		return (0);
+		return (NULL);
 	words = wordcount(s, c);
 	split = (char **)malloc((words + 1) * sizeof(char *));
 	if (!split)
-		return (0);
+		return (NULL);
 	if (!write_all(s, c, split, words))
-		return (0);
+		return (NULL);
 	return (split);
 }

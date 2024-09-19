@@ -6,16 +6,17 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:38:58 by bschneid          #+#    #+#             */
-/*   Updated: 2024/05/27 15:41:37 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:53:01 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// Returns 1 if a string is a valid integer, 0 otherwise.
 char	ft_isai(const char *string)
 {
+	if (!string || !*string)
+		return (0);
 	if (*string == '-' || *string == '+')
 		string++;
-	if (!*string)
-		return (0);
 	while (*string)
 	{
 		if (*string < '0' || *string > '9')

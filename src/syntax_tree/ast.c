@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static t_ast	*create_node(char *value);
 static t_ast	*and_or_node(char **token_start, char **token_end, char par);

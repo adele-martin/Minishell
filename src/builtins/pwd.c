@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 15:56:23 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/12 09:58:20 by bschneid         ###   ########.fr       */
+/*   Created: 2024/09/13 18:43:34 by bschneid          #+#    #+#             */
+/*   Updated: 2024/09/17 23:03:58 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include "../../header/minishell.h"
 
-int	ft_isalnum(int c)
+// prints out the current working directory
+int	builtin_pwd(void)
 {
-	return (ft_isalpha(c) || ft_isdigit(c));
+	char	cwd[1024];
+
+	getcwd(cwd, sizeof(cwd));
+	ft_printf("%s\n", cwd);
+	return (0);
 }
