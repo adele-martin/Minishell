@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:45:17 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 20:02:38 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:25:11 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	free_prompt_data(t_data *data)
 	ft_lstclear(&data->files_list, free);
 	free_array(&data->argv);
 	free_waitlist(&data->child_pids);
-	free_ast(&data->ast_root);
 	ft_lstclear(&data->redir_wordlist, free);
+	free_ast(&data->ast_root);
 	if (data->status_str)
 		free(data->status_str);
 	if (g_signal)

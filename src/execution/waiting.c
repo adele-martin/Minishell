@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:28:47 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/17 21:30:36 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:28:47 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ int	wait_for_children(t_pid *child_pids)
 void	free_waitlist(t_pid **child_pids)
 {
 	t_pid	*tmp;
+	t_pid	**begin;
 
+	begin = child_pids;
 	while (*child_pids)
 	{
 		tmp = *child_pids;
 		*child_pids = (*child_pids)->next;
 		free(tmp);
 	}
-	*child_pids = NULL;
+	*begin = NULL;
 }

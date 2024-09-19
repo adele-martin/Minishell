@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:40:18 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 16:28:29 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:51:38 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	check_input_cont(char *str, char needs_string);
 static char	valid_string(char *str, char in_sgl, char in_dbl);
 static char	car_sgl_dbl(char **str, char *in_sgl, char *in_dbl);
+static char	after_pipe(char *str);
 
 // needs_string: 0 = no, 1 = yes (string must follow !)
 char	check_input(char *str, char needs_string)
@@ -72,15 +73,7 @@ static char	valid_string(char *str, char in_sgl, char in_dbl)
 		else if (!ft_strncmp(str, ">", 1) || !ft_strncmp(str, "<", 1))
 			return (check_input(str + 1, 1));
 		else if (!ft_strncmp(str, "|", 1))
-		{
-			str++;
-			while (*str == ' ')
-				str++;
-			if (!*str)
-				return (error_message(NULL, "syntax error",
-						"pipe at end of input"), 0);
-			return (check_input(str, 0));
-		}
+			return (after_pipe(str + 1));
 		else if (!ft_strncmp(str, "(", 1))
 			return (check_input(str + 1, 0));
 		else if (!ft_strncmp(str++, ")", 1))
@@ -100,9 +93,9 @@ static char	car_sgl_dbl(char **str, char *in_sgl, char *in_dbl)
 		{
 			*in_sgl = 0;
 			*in_dbl = 0;
-			(*str)++;
-			return (0);
 		}
+		(*str)++;
+		return (0);
 	}
 	else if (**str == '\'' || **str == '"')
 	{
@@ -114,4 +107,14 @@ static char	car_sgl_dbl(char **str, char *in_sgl, char *in_dbl)
 		return (0);
 	}
 	return (1);
+}
+
+static char	after_pipe(char *str)
+{
+	while (*str == ' ')
+		str++;
+	if (!*str)
+		return (error_message(NULL, "syntax error",
+				"pipe at end of input"), 0);
+	return (check_input(str, 0));
 }
