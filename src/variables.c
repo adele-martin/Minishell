@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:43:12 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/19 14:20:52 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:43:09 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	**update_list(char *variable, char **envs)
 	while (*current)
 	{
 		equal_sign = ft_strchr(*current, '=');
-		if (equal_sign && !ft_strncmp(*current, variable,
-				equal_sign - *current) && variable[equal_sign - *current] == '=')
+		if (equal_sign && !ft_strncmp(*current, variable, equal_sign - *current)
+			&& variable[equal_sign - *current] == '=')
 		{
 			free(*current);
 			*current = ft_strdup(variable);
@@ -54,7 +54,6 @@ void	delete_var(char *var, t_data *data)
 	temp = data->export_list;
 	while (temp != NULL)
 	{
-		// ft_printf("data: %s", temp->content);
 		str = (char *)temp->content;
 		if (!ft_strncmp(str, var, i) && (!str[i] || str[i] == '='))
 		{

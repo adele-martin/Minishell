@@ -6,13 +6,14 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 12:11:30 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 20:10:27 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:34:35 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
 static int	parse_and_or(t_ast *node, t_data *data);
+static char	free_and_or_data(t_data *data);
 static int	create_pipe_child(t_ast *node, t_data *data);
 static int	handle_redirection(t_ast *node, t_data *data);
 
@@ -33,6 +34,8 @@ int	parse_ast(t_ast *node, t_data *data)
 static int	parse_and_or(t_ast *node, t_data *data)
 {
 	data->status = parse_ast(node->left, data);
+	if (!free_and_or_data(data))
+		return (1);
 	if (ft_strncmp(node->value, "&&", 3) == 0)
 	{
 		if (!data->status)
@@ -48,6 +51,29 @@ static int	parse_and_or(t_ast *node, t_data *data)
 			return (data->status);
 	}
 	return (0);
+}
+
+static char	free_and_or_data(t_data *data)
+{
+	if (g_signal)
+		return (0);
+	if (data->bin_paths)
+		ft_split_free(data->bin_paths);
+	ft_lstclear(&data->linked_args, free);
+	ft_lstclear(&data->files_list, free);
+	free_array(&data->argv);
+	free_waitlist(&data->child_pids);
+	ft_lstclear(&data->redir_wordlist, free);
+	data->ran_builtin = 0;
+	data->argc = 0;
+	if (data->status_str)
+		free(data->status_str);
+	data->status_str = ft_itoa(data->status);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	if (!restore_stdin_stdout(data, 2))
+		exit (ft_free(data, 1));
+	return (1);
 }
 
 static int	create_pipe_child(t_ast *node, t_data *data)
