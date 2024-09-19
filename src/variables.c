@@ -6,7 +6,7 @@
 /*   By: ademarti <ademarti@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 18:43:12 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/19 16:15:55 by ademarti         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:22:01 by ademarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ char	**update_list(char *variable, char **envs)
 	return (envs);
 }
 
+void	free_node(t_list *temp)
+{
+	free(temp->content);
+	free(temp);
+}
+
 //This function deletes variables from our variables list (expanding).
 void	delete_var(char *var, t_data *data)
 {
@@ -61,8 +67,7 @@ void	delete_var(char *var, t_data *data)
 				prev->next = temp->next;
 			else
 				data->export_list = temp->next;
-			free(temp->content);
-			free(temp);
+			free_node(temp);
 			return ;
 		}
 		prev = temp;
