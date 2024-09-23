@@ -6,7 +6,7 @@
 /*   By: bschneid <bschneid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 18:11:03 by bschneid          #+#    #+#             */
-/*   Updated: 2024/09/18 19:40:09 by bschneid         ###   ########.fr       */
+/*   Updated: 2024/09/23 09:20:21 by bschneid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	execute(char *input, t_data *data)
 		return (1);
 	if (!run_builtin(data) && !run_extern(data))
 		return (0);
+	restore_stdin_stdout(data, 2);
 	if (!data->ran_builtin)
 		data->status = wait_for_children(data->child_pids);
 	return (data->status);
